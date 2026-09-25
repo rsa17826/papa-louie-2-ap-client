@@ -481,20 +481,7 @@
         pmax()
         saveGame(sd)
       })
-      const allMoves = [
-        "bounce",
-        "cannon",
-        "kick",
-        "lever",
-        "polejump",
-        "portal",
-        "pulley",
-        "slide",
-        "swim",
-        "walljump",
-        "key",
-        "lightswitch",
-      ]
+      const allMoves = []
 
       const container = document.getElementById("moves")
       window.iHateCheckpoints ??= false
@@ -505,7 +492,7 @@
         container.replaceChildren(
           newelem("div", { class: "h" }, [
             newelem("div", { class: "v" }, [
-              new Array(11).fill().map((_, i) =>
+              new Array(0).fill().map((_, i) =>
                 newelem(
                   "div",
                   {

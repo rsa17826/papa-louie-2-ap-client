@@ -26,3 +26,8 @@ images
 .modded_hashes
 pl3.swf
 symbolClass/symbols.csv
+!scripts/splashScreenMC.as
+!scripts/loadingMC.as
+!scripts/papaGame/screens/SplashScreen.as
+!scripts/Preloader.as
+!scripts/papaGame/screens/class_2.as

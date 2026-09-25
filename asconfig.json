@@ -1,0 +1,9 @@
+{
+  "config": "flex",
+  "compilerOptions": {
+    "source-path": ["scripts"],
+    "library-path": [],
+    "output": "papa-louie-archipelago.swf"
+  },
+  "mainClass": "Main"
+}

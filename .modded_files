@@ -4,3 +4,8 @@ loadingMC.as
 papaGame/screens/SplashScreen.as
 Preloader.as
 papaGame/screens/class_2.as
+papaGame/screens/LicenseLogoScreen.as
+papaGame/screens/SponsorLogoScreen.as
+papaGame/screens/FliplineLogoScreen.as
+package_4/class_5.as
+papaGame/screens/SlotSelectScreen.as

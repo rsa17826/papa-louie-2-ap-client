@@ -54,7 +54,7 @@ package papaGame.screens
         _loc1_.gameObj.var_105.playTrack("TitleTrack", 1, 0, "crossfade");
         _loc1_.gameObj.var_105.hasShownTitleScreen = true;
       }
-      // _loc1_.clip.addEventListener(Event.ENTER_FRAME, _loc1_.animateScreen);
+      _loc1_.clip.addEventListener(Event.ENTER_FRAME, _loc1_.animateScreen);
       var _loc2_:SplashScreen = this;
       _loc2_.closeSplashScreen();
       if (_loc2_.isShowingCredits)

@@ -26,9 +26,9 @@ package
       class_1.init(loaderInfo);
       loaderInfo.addEventListener(IOErrorEvent.IO_ERROR, this.ioError);
       stop();
-      // this.graphics.beginFill(0);
-      // this.graphics.drawRect(0, 0, 1024, 768);
-      // this.graphics.endFill();
+      this.graphics.beginFill(0);
+      this.graphics.drawRect(0, 0, 1024, 768);
+      this.graphics.endFill();
       // this.loadingFinished();
       this.loadingScreen = new class_2(this, this.loadingFinished);
     }

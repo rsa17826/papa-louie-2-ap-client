@@ -13,7 +13,7 @@ package papaGame.screens
 
     public var clip:MovieClip;
 
-    public var maxSpeed:Number = 60;
+    public var maxSpeed:Number = 10000;
 
     public var var_67:Number = 10;
 
@@ -75,6 +75,7 @@ package papaGame.screens
       var _loc2_:class_2 = this;
       _loc2_.clip = new loadingMC();
       _loc2_.container.addChild(_loc2_.clip);
+      _loc2_.clip.gotoAndStop(28);
       _loc2_.clip.addEventListener(Event.ENTER_FRAME, _loc2_.updateScreen);
       _loc2_.clip.loader_bar.percent_txt.text = "0%";
       _loc2_.playButton = new MovieClip();
@@ -161,20 +162,26 @@ package papaGame.screens
         if (_loc2_.clip.loader_bar.x >= _loc2_.var_67 + _loc2_.var_38)
         {
           _loc2_.clip.loader_bar.x = 2000;
-          _loc2_.clip.gotoAndPlay("animout");
+          _loc2_.var_97 = true;
+          _loc2_.clip.visible = false;
+          _loc2_.completeFunction();
         }
       }
       else if (_loc2_.clip.currentFrame == _loc2_.clip.totalFrames)
       {
-        _loc2_.showPlayButton();
+        if (!_loc2_.var_97)
+        {
+          _loc2_.var_97 = true;
+          _loc2_.clip.visible = false;
+          _loc2_.completeFunction();
+        }
       }
     }
 
     public function destroy():void
     {
       var _loc1_:class_2 = this;
-      // _loc1_.playButton.removeEventListener("clickPlayBtn", _loc1_.clickPlayButton);
-      _loc1_.clickPlayButton();
+      _loc1_.playButton.removeEventListener("clickPlayBtn", _loc1_.clickPlayButton);
       _loc1_.playButton = null;
       _loc1_.clip.removeEventListener(Event.ENTER_FRAME, _loc1_.updateScreen);
       _loc1_.container.removeChild(_loc1_.clip);

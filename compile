@@ -4,7 +4,7 @@ set -euo pipefail
 # Config
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SCRIPTS_DIR="$PROJECT_DIR/scripts"
-BASE_SWF="$PROJECT_DIR/papa-louie-2.swf"
+BASE_SWF="$PROJECT_DIR/papa-louie-2-deobf.swf"
 OUT_SWF="$PROJECT_DIR/papa-louie-archipelago.swf"
 TRACKED_FILE="$PROJECT_DIR/.modded_files"
 HASH_FILE="$PROJECT_DIR/.modded_hashes"

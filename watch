@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Watches every file listed in .modded_files (under scripts/) plus everything in
+# asasm/, and runs ./compile whenever one of them is saved.
+# Requires inotify-tools (inotifywait).
+
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPTS_DIR="$PROJECT_DIR/scripts"
+ASASM_DIR="$PROJECT_DIR/asasm"
+TRACKED_FILE="$PROJECT_DIR/.modded_files"
+
+command -v inotifywait >/dev/null || {
+  echo "inotifywait not found, install inotify-tools" >&2
+  exit 1
+}
+
+[[ -s "$TRACKED_FILE" ]] || {
+  echo "No tracked files yet. Run ./compile <file.as> once first." >&2
+  exit 1
+}
+
+mkdir -p "$ASASM_DIR"
+
+echo "Watching $SCRIPTS_DIR and $ASASM_DIR (Ctrl+C to stop)"
+
+inotifywait -m -r -q \
+  -e close_write -e moved_to -e create \
+  --format '%w%f' \
+  "$SCRIPTS_DIR" "$ASASM_DIR" |
+  while IFS= read -r path; do
+    if [[ "$path" == "$ASASM_DIR"/* ]]; then
+      echo "Changed: ${path#"$PROJECT_DIR"/}"
+    else
+      rel="${path#"$SCRIPTS_DIR"/}"
+      # re-read the list every time so newly tracked files are picked up
+      grep -qxF "$rel" "$TRACKED_FILE" || continue
+      echo "Changed: scripts/$rel"
+    fi
+
+    # debounce: editors fire several events per save, wait until quiet
+    while IFS= read -r -t 0.5 _; do :; done
+
+    if "$PROJECT_DIR/compile"; then
+      echo "[$(date +%T)] build ok"
+    else
+      echo "[$(date +%T)] build FAILED, still watching" >&2
+    fi
+    echo "Waiting for changes..."
+  done

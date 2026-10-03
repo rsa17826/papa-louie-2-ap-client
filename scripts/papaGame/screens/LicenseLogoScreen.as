@@ -47,7 +47,7 @@ package papaGame.screens
     public function method_99(param1:MouseEvent):void
     {
       var _loc2_:LicenseLogoScreen = this;
-      _loc2_.gameObj.var_107.api.method_83(class_1.method_73(), "LicensePreroll", "LogoLinks");
+      // _loc2_.gameObj.var_107.api.method_83(class_1.method_73(), "LicensePreroll", "LogoLinks");
     }
 
     public function destroy():void

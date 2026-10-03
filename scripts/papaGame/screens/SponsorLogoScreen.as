@@ -46,7 +46,7 @@ package papaGame.screens
     public function method_99(param1:MouseEvent):void
     {
       var _loc2_:SponsorLogoScreen = this;
-      _loc2_.gameObj.var_107.api.method_83(class_1.method_82(), "SponsorPreroll", "LogoLinks");
+      // _loc2_.gameObj.var_107.api.method_83(class_1.method_82(), "SponsorPreroll", "LogoLinks");
     }
 
     public function destroy():void

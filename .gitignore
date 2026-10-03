@@ -40,3 +40,6 @@ symbolClass/symbols.csv
 !scripts/flipline/api/class_14.as
 !scripts/package_1/class_6.as
 !scripts/package_3/class_21.as
+!scripts/papaGame/models/GameHUD.as
+!scripts/papaGame/screens/MainMenuScreen.as
+!scripts/papaGame/screens/LoadingLevelsScreen.as

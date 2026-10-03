@@ -173,19 +173,19 @@ package papaGame.screens
     public function clickPromo(param1:MouseEvent):void
     {
       var _loc2_:SplashScreen = this;
-      _loc2_.gameObj.var_107.api.method_83("http://itunes.apple.com/us/app/papas-burgeria/id514634235?ls=1&mt=8", "iPadPromoSplash", "Links");
+      // _loc2_.gameObj.var_107.api.method_83("http://itunes.apple.com/us/app/papas-burgeria/id514634235?ls=1&mt=8", "iPadPromoSplash", "Links");
     }
 
     public function clickPromoThree(param1:MouseEvent):void
     {
       var _loc2_:SplashScreen = this;
-      _loc2_.gameObj.var_107.api.method_83("https://itunes.apple.com/us/app/papas-burgeria-to-go!/id600626116?ls=1&mt=8", "ToGoPromoSplash", "Links");
+      // _loc2_.gameObj.var_107.api.method_83("https://itunes.apple.com/us/app/papas-burgeria-to-go!/id600626116?ls=1&mt=8", "ToGoPromoSplash", "Links");
     }
 
     public function clickPromoTwo(param1:MouseEvent):void
     {
       var _loc2_:SplashScreen = this;
-      _loc2_.gameObj.var_107.api.method_83("http://www.flipline.com/games/papashotdoggeria/index.html?utm_source=newgame_promo&utm_medium=papaswingeria&utm_campaign=papashotdoggeria", "PromoHotDoggeria", "Links");
+      // _loc2_.gameObj.var_107.api.method_83("http://www.flipline.com/games/papashotdoggeria/index.html?utm_source=newgame_promo&utm_medium=papaswingeria&utm_campaign=papashotdoggeria", "PromoHotDoggeria", "Links");
     }
   }
 }

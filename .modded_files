@@ -10,6 +10,8 @@ papaGame/screens/FliplineLogoScreen.as
 package_4/class_5.as
 papaGame/screens/SlotSelectScreen.as
 package_3/class_11.as
-flipline/api/class_14.as
 package_1/class_6.as
 package_3/class_21.as
+papaGame/models/GameHUD.as
+papaGame/screens/MainMenuScreen.as
+papaGame/screens/LoadingLevelsScreen.as

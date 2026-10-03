@@ -766,7 +766,7 @@ package package_3
       var _loc2_:class_21 = this;
       if (Boolean(_loc2_.data.var_171) && _loc2_.data.var_171 != "")
       {
-        _loc2_.api.method_83(_loc2_.data.var_171, "FliplineLogo", "LogoLinks");
+        // _loc2_.api.method_83(_loc2_.data.var_171, "FliplineLogo", "LogoLinks");
       }
     }
 
@@ -775,7 +775,7 @@ package package_3
       var _loc2_:class_21 = this;
       if (Boolean(_loc2_.data.var_168) && _loc2_.data.var_168 != "")
       {
-        _loc2_.api.method_83(_loc2_.data.var_168, "SponsorLogo", "LogoLinks");
+        // _loc2_.api.method_83(_loc2_.data.var_168, "SponsorLogo", "LogoLinks");
       }
     }
 
@@ -784,7 +784,7 @@ package package_3
       var _loc2_:class_21 = this;
       if (Boolean(_loc2_.data.var_169) && _loc2_.data.var_169 != "")
       {
-        _loc2_.api.method_83(_loc2_.data.var_169, "LicenseLogo", "LogoLinks");
+        // _loc2_.api.method_83(_loc2_.data.var_169, "LicenseLogo", "LogoLinks");
       }
     }
 
@@ -793,7 +793,7 @@ package package_3
       var _loc2_:class_21 = this;
       if (Boolean(_loc2_.data.var_187) && _loc2_.data.var_187 != "")
       {
-        _loc2_.api.method_83(_loc2_.data.var_187, "GetThisGame", "LogoLinks");
+        // _loc2_.api.method_83(_loc2_.data.var_187, "GetThisGame", "LogoLinks");
       }
     }
 
@@ -826,7 +826,7 @@ package package_3
         {
           _loc3_ = "PromoFacebookLicense";
         }
-        _loc2_.api.method_83(_loc2_.data.var_124.var_206, _loc3_, "PromoLinks");
+        // _loc2_.api.method_83(_loc2_.data.var_124.var_206, _loc3_, "PromoLinks");
       }
     }
 
@@ -841,7 +841,7 @@ package package_3
         {
           _loc3_ = "PromoTwitterLicense";
         }
-        _loc2_.api.method_83(_loc2_.data.var_124.var_199, _loc3_, "PromoLinks");
+        // _loc2_.api.method_83(_loc2_.data.var_124.var_199, _loc3_, "PromoLinks");
       }
     }
 
@@ -868,7 +868,7 @@ package package_3
           }
           if (_loc5_ != null && _loc5_ != "")
           {
-            _loc2_.api.method_83(_loc5_, _loc6_, "PromoLinks");
+            // _loc2_.api.method_83(_loc5_, _loc6_, "PromoLinks");
           }
         }
       }

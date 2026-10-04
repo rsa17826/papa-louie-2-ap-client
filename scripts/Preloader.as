@@ -7,9 +7,14 @@ package
   import flash.utils.getDefinitionByName;
   import package_1.class_1;
   import papaGame.screens.class_2;
+  import package_3.class_4;
+  import flash.system.ApplicationDomain;
+  import Main;
+  import main;
 
   public dynamic class Preloader extends MovieClip
   {
+    private var framesWaited:int = 0;
 
     private var loadingScreen:class_2;
 
@@ -26,11 +31,14 @@ package
       class_1.init(loaderInfo);
       loaderInfo.addEventListener(IOErrorEvent.IO_ERROR, this.ioError);
       stop();
-      this.graphics.beginFill(0);
-      this.graphics.drawRect(0, 0, 1024, 768);
-      this.graphics.endFill();
-      // this.loadingFinished();
-      this.loadingScreen = new class_2(this, this.loadingFinished);
+      class_4.method_50(loaderInfo, "papalouie2", "2.1", 700, 416, this);
+      this.addEventListener(Event.ENTER_FRAME, this.gotoGame);
+    }
+
+    private function gotoGame(param1:Event):void
+    {
+      this.removeEventListener(Event.ENTER_FRAME, this.gotoGame);
+      this.loadingFinished();
     }
 
     private function ioError(param1:IOErrorEvent):void
@@ -42,12 +50,21 @@ package
     {
       loaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, this.ioError);
       gotoAndStop(2);
-      this.addEventListener(Event.ENTER_FRAME, this.onFrame2);
+      this.addEventListener(Event.ENTER_FRAME, this.waitForMain);
     }
 
-    private function onFrame2(param1:Event):void
+    private function waitForMain(param1:Event):void
     {
-      this.removeEventListener(Event.ENTER_FRAME, this.onFrame2);
+      if (!ApplicationDomain.currentDomain.hasDefinition("Main"))
+      {
+        gotoAndStop(2);
+        if (++this.framesWaited > 60)
+        {
+          throw new Error("Main still not defined after " + this.framesWaited + " frames; currentFrame=" + currentFrame + " framesLoaded=" + framesLoaded + " totalFrames=" + totalFrames);
+        }
+        return;
+      }
+      this.removeEventListener(Event.ENTER_FRAME, this.waitForMain);
       this.startup();
     }
 

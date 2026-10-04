@@ -32,6 +32,7 @@
     <script src="aplog.js"></script>
     <script src="any.js"></script>
     <script src="indexeddbProxy.js"></script>
+    <script src="swf-reload.js"></script>
     <div id="game" style="width: 800px; height: 600px"></div>
     <div id="movesList">
       <div id="moves"></div>
@@ -364,11 +365,14 @@
         player.style.pointerEvents = "all"
         player.play()
       })
-      player.load({
-        url: "papa-louie-archipelago.swf",
-        allowScriptAccess: true,
-        autoplay: "off",
-      })
+      ;(async () => {
+        const v = await watchSwf("papa-louie-archipelago.swf")
+        player.load({
+          url: `papa-louie-archipelago.swf`,
+          allowScriptAccess: true,
+          // autoplay: "off",
+        })
+      })()
       window.checksInFlight = new Set()
       function newItem(name) {
         console.log("New Item Received:", name)

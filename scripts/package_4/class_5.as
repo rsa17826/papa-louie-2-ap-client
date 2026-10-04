@@ -1,5 +1,6 @@
 package package_4
 {
+  import flash.external.ExternalInterface;
   import flash.display.*;
   import flash.events.*;
   import flash.utils.getTimer;
@@ -105,6 +106,7 @@ package package_4
 
     public function method_172(param1:Event = null):void
     {
+      ExternalInterface.call("log","start " + getTimer());
       var _loc2_:class_5 = this;
       _loc2_.method_202();
       _loc2_.var_128 = new MovieClip();
@@ -401,6 +403,7 @@ package package_4
 
     public function method_224():void
     {
+      ExternalInterface.call("log", "ready " + getTimer());
       var _loc1_:class_5 = this;
       class_7.method_1("Level data is ready.");
       if (_loc1_.var_165)

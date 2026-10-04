@@ -15,3 +15,4 @@ package_3/class_21.as
 papaGame/models/GameHUD.as
 papaGame/screens/MainMenuScreen.as
 papaGame/screens/LoadingLevelsScreen.as
+papaGame/data/LevelData.as

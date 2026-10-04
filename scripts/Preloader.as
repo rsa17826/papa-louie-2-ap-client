@@ -9,8 +9,6 @@ package
   import papaGame.screens.class_2;
   import package_3.class_4;
   import flash.system.ApplicationDomain;
-  import Main;
-  import main;
 
   public dynamic class Preloader extends MovieClip
   {

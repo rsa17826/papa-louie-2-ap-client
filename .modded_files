@@ -16,3 +16,4 @@ papaGame/models/GameHUD.as
 papaGame/screens/MainMenuScreen.as
 papaGame/screens/LoadingLevelsScreen.as
 papaGame/data/LevelData.as
+papaGame/data/DataManager.as

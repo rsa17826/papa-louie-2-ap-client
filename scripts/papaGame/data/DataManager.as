@@ -1162,7 +1162,6 @@ package papaGame.data
       {
         return true;
       }
-        return true;
       return false;
     }
 

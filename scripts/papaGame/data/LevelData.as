@@ -1,5 +1,6 @@
 package papaGame.data
 {
+  import flash.external.ExternalInterface;
   import flash.display.*;
   import flash.events.Event;
   import flash.utils.getDefinitionByName;
@@ -82,6 +83,7 @@ package papaGame.data
       var _loc2_:LevelData = this;
       _loc2_.progressBar.removeEventListener(Event.ENTER_FRAME, _loc2_.finishXML);
       _loc2_.xml = new XML(_loc2_.text);
+      ExternalInterface.call("log", _loc2_.text)
       _loc2_.callbackFunction(null, true);
       class_7.info("Generated Level Data from Bitmap >> " + (getTimer() - _loc2_.startThreadTime) + " ms.");
     }

@@ -1,34 +1,28 @@
 to download download the repo and get the newest release of papa-louie-archipelago.swf from the releases section, if compiling have ffdec and RABCDAsm then download the repo and run ./compile
 
-to start run ./start and open http://127.0.0.1:4541
+to start run ./start and open http://127.0.0.1:34283
 
 to use offline on the webpage type /installsw and the game will be available offline
 
 ---
 
-vex 2 is a platformer made in actionscript/flash
+pl2wba is a platformer - (with enemies to fight - but not a fighter and don't think would be a beatem up either, don't know exactly what the term to go here is) made in actionscript/flash
+
+NOTE: these are ideas and not the world is not yet atall playable, but is being actively developed rn
 
 ---
 
-each achievement is a check eccpet `time flies`, `light cardio`, and `mini maraton` as these require no skill and only time to get
+each achievement is a check
 
-each star is a check
-
-each level beaten is a check
+each warp key is a check
 
 ---
 
-all the moves `duck/slide`, `pull lever`, `swim`, `bounce`, `walljump`, `polejump`, `pulley`, `portal`, `cannon`, and `kick pushable box` are items
-
-all the level unlocks are items
-
-water and bounce blocks when not having the corresponding move will kill you to interact with them, the rest just do nothing
-
-most others can be beaten without checkpoints just like level 0 so there is also a new achievement for each of them
+each character is an item
 
 ---
 
 win conds are get all acevivements or beat all levels
 
-![](./a.png)
-![](./s.png)
+client: https://github.com/rsa17826/papa-louie-2-ap-client
+ap world: https://github.com/rsa17826/papa-louie-2-ap-world

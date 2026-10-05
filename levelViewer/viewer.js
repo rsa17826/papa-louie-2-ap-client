@@ -453,6 +453,7 @@ $("colY").onchange = e => { localStorage.lv_colY = e.target.value; render(); };
 
 $("file").onchange = async e => { loadText(await e.target.files[0].text()); };
 $("loadPaste").onclick = () => loadText($("paste").value);
+;(async ()=>loadText(await (await fetch("/levelViewer/full.xml")).text()))()
 window.addEventListener("dragover", e => e.preventDefault());
 window.addEventListener("drop", async e => { e.preventDefault(); loadText(await e.dataTransfer.files[0].text()); });
 new ResizeObserver(render).observe($("cv"));

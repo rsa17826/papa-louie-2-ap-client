@@ -21,29 +21,20 @@ package package_1
   {
 
     public var gameObj:class_5;
-
     public var api:class_14;
 
     private var var_323:String = "11f74a49f8884728";
 
     public var var_35:String = "2.1";
-
     public var var_322:Boolean = false;
-
     public var var_324:Boolean = false;
-
     public var agi:*;
 
     private var var_240:String = "http://agi.armorgames.com/assets/agi/AGI.swf";
-
     private var var_278:String = "b9365840087d7a22e59e3ab63810af79";
-
     private var var_280:String = "papas-freezeria";
-
     private var var_188:Loader;
-
     private var kongregate:*;
-
     private var var_193:Loader;
 
     public var var_237:Boolean = false;
@@ -295,7 +286,7 @@ package package_1
       _loc1_.method_214();
     }
 
-    public function method_124():Boolean
+    public function method_124(param1:* = null):Boolean
     {
       if (class_3.method_64())
       {

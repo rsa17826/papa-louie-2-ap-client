@@ -48,4 +48,5 @@ symbolClass/symbols.csv
 !scripts/papaGame/data/UserData.as
 
 .direnv
-!levelViewer/images/*
+!levelViewer/images/
+!levelViewer/images/*.png

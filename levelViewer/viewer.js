@@ -3,7 +3,7 @@
 localStorage.lv_ts ??= "32"
 localStorage.lv_cols ??= "62"
 localStorage.lv_place ??=
-  '{"tile_1583.png":{"col":0,"row":0,"padX":0,"padY":0},"tile_4235.png":{"col":0,"row":31,"padX":0,"padY":0},"tile_6259.png":{"col":0,"row":12,"padX":0,"padY":0},"tile_1827.png":{"col":0,"row":24,"padX":0,"padY":0},"tile_5871.png":{"col":0,"row":28,"padX":0,"padY":0}}'
+  '{"0":{"tile_1583.png":{"col":0,"row":0,"padX":0,"padY":0},"tile_4235.png":{"col":0,"row":31,"padX":0,"padY":0},"tile_6259.png":{"col":0,"row":12,"padX":0,"padY":0},"tile_1827.png":{"col":0,"row":24,"padX":0,"padY":0},"tile_5871.png":{"col":0,"row":28,"padX":0,"padY":0},"tile_734.png":{"col":9,"row":15,"padX":0,"padY":0}},"9":{"tile_4862.png":{"col":0,"row":28,"padX":0,"padY":0},"tile_4064.png":{"col":0,"row":12,"padX":0,"padY":0},"tile_734.png":{"col":0,"row":31,"padX":0,"padY":0},"tile_4567.png":{"col":0,"row":0,"padX":0,"padY":0},"tile_1733.png":{"col":0,"row":24,"padX":0,"padY":0}},"tile_4862.png":{"col":0,"row":28,"padX":0,"padY":0},"tile_4064.png":{"col":0,"row":12,"padX":0,"padY":0},"tile_734.png":{"col":9,"row":15,"padX":0,"padY":0},"tile_4567.png":{"col":0,"row":0,"padX":0,"padY":0}}'
 localStorage.lv_unit ??= "tiles"
 localStorage.lv_colId ??= "0"
 localStorage.lv_colX ??= "1"
@@ -189,8 +189,11 @@ function rebuildAtlas() {
   atlas = new Map()
   const T = ts(),
     C = mcols()
+  const tset = cur.world ? cur.world.tileset : "default"
+  const worldPlace = place[tset] || {}
+
   for (const f of SHEETS) {
-    const p = place[f]
+    const p = worldPlace[f]
     if (!p || !images[f]) continue
     const im = images[f]
     const cw = Math.floor((im.width - p.padX) / T),
@@ -249,6 +252,10 @@ function loadText(text) {
 function selectWorld(i) {
   cur.world = data.worlds[i]
   $("world").value = i
+
+  rebuildAtlas() // Rebuild atlas for this world's tileset
+  buildSheetList() // Refresh sheet UI for this tileset
+
   const box = $("rooms")
   box.innerHTML = ""
   cur.world.rooms.forEach((row, ri) => {
@@ -607,22 +614,78 @@ let selSheet = SHEETS[0],
 function buildSheetList() {
   const s = $("sheetSel")
   s.innerHTML = ""
+  const tset = cur.world ? cur.world.tileset : "default"
+  const worldPlace = place[tset] || {}
+
   for (const f of SHEETS) {
     const im = images[f]
     s.add(
       new Option(
-        `${f}  ${im ? im.width + "x" + im.height : "(not loaded)"}  ${place[f] ? "placed" : "unplaced"}`,
+        `${f}  ${im ? im.width + "x" + im.height : "(not loaded)"}  ${worldPlace[f] ? "placed" : "unplaced"}`,
         f,
       ),
     )
   }
   s.value = selSheet
-  const p = place[selSheet]
+  const p = worldPlace[selSheet]
   $("fCol").value = p ? p.col : ""
   $("fRow").value = p ? p.row : ""
   $("fPadX").value = p ? p.padX : 0
   $("fPadY").value = p ? p.padY : 0
   drawSheet()
+}
+
+$("fApply").onclick = () => {
+  const tset = cur.world ? cur.world.tileset : "default"
+  place[tset] ??= {}
+  place[tset][selSheet] = {
+    col: readIntField("fCol", "col"),
+    row: readIntField("fRow", "row"),
+    padX: readIntField("fPadX", "padX"),
+    padY: readIntField("fPadY", "padY"),
+  }
+  savePlace()
+  rebuildAtlas()
+  buildSheetList()
+  renderAll()
+}
+
+$("fRemove").onclick = () => {
+  const tset = cur.world ? cur.world.tileset : "default"
+  if (place[tset]) {
+    delete place[tset][selSheet]
+    savePlace()
+    rebuildAtlas()
+    buildSheetList()
+    renderAll()
+  }
+}
+
+$("anchorBtn").onclick = () => {
+  if (!selCell) throw new Error("click a cell in the sheet first")
+  if (selCell.c < 0 || selCell.r < 0)
+    throw new Error("selected cell is outside the grid")
+  const id = readIntField("anchorId", "tile id"),
+    C = mcols()
+  const col = (id % C) - selCell.c,
+    row = Math.floor(id / C) - selCell.r
+  if (col < 0 || row < 0)
+    throw new Error(
+      `anchoring cell (${selCell.c},${selCell.r}) to id ${id} puts the sheet at col ${col}, row ${row}`,
+    )
+
+  const tset = cur.world ? cur.world.tileset : "default"
+  place[tset] ??= {}
+  place[tset][selSheet] = {
+    col,
+    row,
+    padX: readIntField("fPadX", "padX"),
+    padY: readIntField("fPadY", "padY"),
+  }
+  savePlace()
+  rebuildAtlas()
+  buildSheetList()
+  renderAll()
 }
 function drawSheet() {
   const im = images[selSheet],
@@ -725,29 +788,6 @@ $("fApply").onclick = () => {
 }
 $("fRemove").onclick = () => {
   delete place[selSheet]
-  savePlace()
-  rebuildAtlas()
-  buildSheetList()
-  renderAll()
-}
-$("anchorBtn").onclick = () => {
-  if (!selCell) throw new Error("click a cell in the sheet first")
-  if (selCell.c < 0 || selCell.r < 0)
-    throw new Error("selected cell is outside the grid")
-  const id = readIntField("anchorId", "tile id"),
-    C = mcols()
-  const col = (id % C) - selCell.c,
-    row = Math.floor(id / C) - selCell.r
-  if (col < 0 || row < 0)
-    throw new Error(
-      `anchoring cell (${selCell.c},${selCell.r}) to id ${id} puts the sheet at col ${col}, row ${row}`,
-    )
-  place[selSheet] = {
-    col,
-    row,
-    padX: readIntField("fPadX", "padX"),
-    padY: readIntField("fPadY", "padY"),
-  }
   savePlace()
   rebuildAtlas()
   buildSheetList()

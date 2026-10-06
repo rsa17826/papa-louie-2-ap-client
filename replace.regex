@@ -4,150 +4,256 @@
 $3
 @untilfail
 @endregex
-! @js
-! const tokens = [];
-! let i = 0;
-! const len = text.length;
+@js
+const tokens = []
+let i = 0
+const len = text.length
 
-! // 1. Lexical Scanner / Tokenizer (Safely handles strings and comments)
-! while (i < len) {
-!   let char = text[i];
-!   let nextChar = text[i + 1];
+// 1. Lexical Scanner / Tokenizer
+while (i < len) {
+  let char = text[i]
+  let nextChar = text[i + 1]
 
-!   // Comments
-!   if (char === '/' && nextChar === '/') {
-!     let start = i;
-!     i += 2;
-!     while (i < len && text[i] !== '\n' && text[i] !== '\r') i++;
-!     tokens.push({type: 'COMMENT', start, end: i});
-!     continue;
-!   }
-!   if (char === '/' && nextChar === '*') {
-!     let start = i;
-!     i += 2;
-!     while (i < len && !(text[i] === '*' && text[i + 1] === '/')) i++;
-!     if (i < len) i += 2;
-!     tokens.push({type: 'COMMENT', start, end: i});
-!     continue;
-!   }
+  // Comments
+  if (char === "/" && nextChar === "/") {
+    let start = i
+    i += 2
+    while (i < len && text[i] !== "\n" && text[i] !== "\r") i++
+    tokens.push({
+      type: "COMMENT",
+      start,
+      end: i,
+      value: text.slice(start, i),
+    })
+    continue
+  }
+  if (char === "/" && nextChar === "*") {
+    let start = i
+    i += 2
+    while (i < len && !(text[i] === "*" && text[i + 1] === "/")) i++
+    if (i < len) i += 2
+    tokens.push({
+      type: "COMMENT",
+      start,
+      end: i,
+      value: text.slice(start, i),
+    })
+    continue
+  }
 
-!   // Strings ('...' or "...")
-!   if (char === '"' || char === '\'') {
-!     let start = i;
-!     let quote = char;
-!     i++;
-!     while (i < len) {
-!       if (text[i] === '\\') {
-!         i += 2;
-!         continue;
-!       }
-!       if (text[i] === quote) {
-!         i++;
-!         break;
-!       }
-!       i++;
-!     }
-!     tokens.push({type: 'STRING', start, end: i});
-!     continue;
-!   }
+  // Strings ('...' or "...")
+  if (char === '"' || char === "'") {
+    let start = i
+    let quote = char
+    i++
+    while (i < len) {
+      if (text[i] === "\\") {
+        i += 2
+        continue
+      }
+      if (text[i] === quote) {
+        i++
+        break
+      }
+      i++
+    }
+    tokens.push({
+      type: "STRING",
+      start,
+      end: i,
+      value: text.slice(start, i),
+    })
+    continue
+  }
 
-!   // Braces
-!   if (char === '{' || char === '}') {
-!     tokens.push({type: 'PUNCTUATION', start: i, end: i + 1, value: char});
-!     i++;
-!     continue;
-!   }
+  // Whitespace
+  if (/\s/.test(char)) {
+    let start = i
+    while (i < len && /\s/.test(text[i])) i++
+    tokens.push({
+      type: "WHITESPACE",
+      start,
+      end: i,
+      value: text.slice(start, i),
+    })
+    continue
+  }
 
-!   // Identifiers & Keywords
-!   if (/[a-zA-Z_$]/.test(char)) {
-!     let start = i;
-!     while (i < len && /[a-zA-Z0-9_$]/.test(text[i])) {
-!       i++;
-!     }
-!     tokens.push(
-!         {type: 'IDENTIFIER', start, end: i, value: text.slice(start, i)});
-!     continue;
-!   }
+  // Punctuation & Braces
+  if ("{}()[];:=,".includes(char)) {
+    tokens.push({
+      type: "PUNCTUATION",
+      start: i,
+      end: i + 1,
+      value: char,
+    })
+    i++
+    continue
+  }
 
-!   // Other characters / Whitespace
-!   tokens.push({type: 'OTHER', start: i, end: i + 1, value: char});
-!   i++;
-! }
+  // Identifiers & Keywords (support dots and generics like package_2.class_7 or Vector.<uint>)
+  if (/[a-zA-Z_$]/.test(char)) {
+    let start = i
+    while (i < len) {
+      let c = text[i]
+      if (/[a-zA-Z0-9_$]/.test(c)) {
+        i++
+      } else if (
+        c === "." &&
+        i + 1 < len &&
+        /[a-zA-Z_$]/.test(text[i + 1])
+      ) {
+        i++ // allow dotted identifiers
+      } else if (
+        c === "<" ||
+        c === ">" ||
+        (c === "." && text[i - 1] === ".")
+      ) {
+        // allow generic brackets or dots if part of type definition
+        i++
+      } else {
+        break
+      }
+    }
+    tokens.push({
+      type: "IDENTIFIER",
+      start,
+      end: i,
+      value: text.slice(start, i),
+    })
+    continue
+  }
 
-! // 2. Build Brace Map for Scope Matching
-! const braceMap =
-!     new Map();  // maps closing '}' token index to opening '{' token index
-! const openBraces = [];
+  // Other characters
+  tokens.push({ type: "OTHER", start: i, end: i + 1, value: char })
+  i++
+}
 
-! tokens.forEach((t, idx) => {
-!   if (t.value === '{') {
-!     openBraces.push(idx);
-!   } else if (t.value === '}') {
-!     if (openBraces.length > 0) {
-!       let openIdx = openBraces.pop();
-!       braceMap.set(idx, openIdx);
-!     }
-!   }
-! });
+// Filter out whitespace and comments for structural analysis while keeping offsets
+const meaningfulTokens = []
+tokens.forEach((t) => {
+  if (t.type !== "WHITESPACE" && t.type !== "COMMENT") {
+    meaningfulTokens.push(t)
+  }
+})
 
-! const replacements = [];
+// 2. Build Brace Map for Scope Matching
+const braceMap = new Map() // closing index -> opening index
+const openBraces = []
 
-! // 3. Scan for declarations like: var _loc1_:Type = this;
-! for (let idx = 0; idx < tokens.length - 6; idx++) {
-!   if (tokens[idx].value === 'var' && tokens[idx + 1].type === 'IDENTIFIER' &&
-!       /^_loc\d+$/.test(tokens[idx + 1].value) &&
-!       tokens[idx + 2].value === ':' && tokens[idx + 3].type === 'IDENTIFIER' &&
-!       tokens[idx + 4].value === '=' && tokens[idx + 5].value === 'this' &&
-!       tokens[idx + 6].value === ';') {
-!     let varName = tokens[idx + 1].value;
-!     let declStart = tokens[idx].start;
-!     let declEnd = tokens[idx + 6].end;
+meaningfulTokens.forEach((t, idx) => {
+  if (t.value === "{") {
+    openBraces.push(idx)
+  } else if (t.value === "}") {
+    if (openBraces.length > 0) {
+      let openIdx = openBraces.pop()
+      braceMap.set(idx, openIdx)
+    }
+  }
+})
 
-!     // Include trailing newline if present to clean up blank lines
-!     if (text[declEnd] === '\r' && text[declEnd + 1] === '\n')
-!       declEnd += 2;
-!     else if (text[declEnd] === '\n' || text[declEnd] === '\r')
-!       declEnd += 1;
+const replacements = []
 
-!     // Find enclosing function/block scope
-!     let enclosingOpenBraceIdx = -1;
-!     for (let bIdx = idx; bIdx >= 0; bIdx--) {
-!       if (tokens[bIdx].value === '{') {
-!         for (let [closeIdx, openIdx] of braceMap.entries()) {
-!           if (openIdx === bIdx && closeIdx > idx) {
-!             enclosingOpenBraceIdx = bIdx;
-!             break;
-!           }
-!         }
-!         if (enclosingOpenBraceIdx !== -1) break;
-!       }
-!     }
+// 3. Scan meaningful tokens for `var _locN_ [ : Type ] = this ;`
+for (let mIdx = 0; mIdx < meaningfulTokens.length; mIdx++) {
+  let t = meaningfulTokens[mIdx]
+  if (t.value === "var" && mIdx + 1 < meaningfulTokens.length) {
+    let nextT = meaningfulTokens[mIdx + 1]
+    if (
+      nextT.type === "IDENTIFIER" &&
+      /^_loc\d+$/.test(nextT.value)
+    ) {
+      let varName = nextT.value
+      let declStart = t.start
+      let lookAhead = mIdx + 2
 
-!     if (enclosingOpenBraceIdx !== -1) {
-!       let enclosingCloseIdx = -1;
-!       for (let [closeIdx, openIdx] of braceMap.entries()) {
-!         if (openIdx === enclosingOpenBraceIdx) {
-!           enclosingCloseIdx = closeIdx;
-!           break;
-!         }
-!       }
+      // Handle optional type annotation `: Type` (can be simple, dotted, or generic like Vector.<uint>)
+      if (
+        lookAhead < meaningfulTokens.length &&
+        meaningfulTokens[lookAhead].value === ":"
+      ) {
+        lookAhead++ // skip ':'
+        if (
+          lookAhead < meaningfulTokens.length &&
+          meaningfulTokens[lookAhead].type === "IDENTIFIER"
+        ) {
+          lookAhead++ // skip type name
+        }
+      }
 
-!       // Add replacement to remove the declaration statement
-!       replacements.push({start: declStart, end: declEnd, text: ''});
+      // Check `=` `this` `;`
+      if (
+        lookAhead + 2 < meaningfulTokens.length &&
+        meaningfulTokens[lookAhead].value === "=" &&
+        meaningfulTokens[lookAhead + 1].value === "this" &&
+        meaningfulTokens[lookAhead + 2].value === ";"
+      ) {
+        let declEnd = meaningfulTokens[lookAhead + 2].end
 
-!       // Replace all occurrences of `_loc1_` inside this scope with `this`
-!       for (let tIdx = enclosingOpenBraceIdx + 1; tIdx < enclosingCloseIdx;
-!            tIdx++) {
-!         let tok = tokens[tIdx];
-!         if (tok.type === 'IDENTIFIER' && tok.value === varName) {
-!           replacements.push({start: tok.start, end: tok.end, text: 'this'});
-!         }
-!       }
-!     }
-!   }
-! }
+        // Clean up trailing newline if present
+        let nextOriginalIdx = tokens.findIndex(
+          (tok) => tok.start >= declEnd,
+        )
+        if (
+          nextOriginalIdx !== -1 &&
+          tokens[nextOriginalIdx].type === "WHITESPACE" &&
+          tokens[nextOriginalIdx].value.includes("\n")
+        ) {
+          declEnd = tokens[nextOriginalIdx].end
+        }
 
-! // Sort replacements by start index ascending
-! replacements.sort((a, b) => a.start - b.start);
-! return replacements;
-! @endjs
+        // Find enclosing function/block scope using brace map
+        let enclosingOpenMeaningfulIdx = -1
+        for (let bIdx = mIdx; bIdx >= 0; bIdx--) {
+          if (meaningfulTokens[bIdx].value === "{") {
+            for (let [closeIdx, openIdx] of braceMap.entries()) {
+              if (openIdx === bIdx && closeIdx > mIdx) {
+                enclosingOpenMeaningfulIdx = bIdx
+                break
+              }
+            }
+            if (enclosingOpenMeaningfulIdx !== -1) break
+          }
+        }
+
+        if (enclosingOpenMeaningfulIdx !== -1) {
+          let enclosingCloseMeaningfulIdx = -1
+          for (let [closeIdx, openIdx] of braceMap.entries()) {
+            if (openIdx === enclosingOpenMeaningfulIdx) {
+              enclosingCloseMeaningfulIdx = closeIdx
+              break
+            }
+          }
+
+          // 1. Remove declaration statement
+          replacements.push({
+            start: declStart,
+            end: declEnd,
+            text: "",
+          })
+
+          // 2. Replace all scoped references of `_locN_` with `this`
+          for (
+            let scanIdx = enclosingOpenMeaningfulIdx + 1;
+            scanIdx < enclosingCloseMeaningfulIdx;
+            scanIdx++
+          ) {
+            let mt = meaningfulTokens[scanIdx]
+            if (mt.type === "IDENTIFIER" && mt.value === varName) {
+              replacements.push({
+                start: mt.start,
+                end: mt.end,
+                text: "this",
+              })
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Sort replacements by start index ascending
+replacements.sort((a, b) => a.start - b.start)
+return replacements
+@endjs

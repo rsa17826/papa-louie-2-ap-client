@@ -14,6 +14,22 @@ const savePlace = () => {
 }
 const ts = () => Number(localStorage.lv_ts)
 const mcols = () => Number(localStorage.lv_cols)
+
+// Entity names + sprites, stored per tileset like the tile placements:
+// ents[tileset][kind][id] = { name, src, sx, sy, sw, sh, ox, oy, scale }
+localStorage.lv_ents ??=
+  '{"0":{"item":{"1":{"name":"coin","src":"coin.png","sx":0,"sy":0,"sw":15,"sh":18,"ox":8.5,"oy":14,"scale":1},"2":{"name":"red coin","src":"redCoin.png","sx":0,"sy":0,"sw":23,"sh":20,"ox":4.5,"oy":12,"scale":1}}},"1":{"item":{"1":{"name":"coin","src":"coin.png","sx":0,"sy":0,"sw":15,"sh":18,"ox":8.5,"oy":14,"scale":1}}}}'
+localStorage.lv_uploads ??= "{}" // key "upload:<filename>" -> data URL
+const ents = JSON.parse(localStorage.lv_ents)
+const uploads = JSON.parse(localStorage.lv_uploads)
+const saveEnts = () => {
+  localStorage.lv_ents = JSON.stringify(ents)
+}
+const KINDS = ["enemy", "item", "object"]
+const curTset = () => (cur.world ? cur.world.tileset : "default")
+const tilePlace = () => place[curTset()] || {}
+let sheetsLoaded = false
+const uploadImgs = {}
 const $ = (id) => document.getElementById(id)
 
 // Errors are not swallowed: anything thrown ends up in the red box.
@@ -228,6 +244,7 @@ Promise.all(
       }),
   ),
 ).then(() => {
+  sheetsLoaded = true
   rebuildAtlas()
   buildSheetList()
   renderAll()
@@ -237,6 +254,7 @@ Promise.all(
 let data = null
 const cur = { world: null, roomIdx: 0, level: null, hiDoor: -1 }
 const view = { x: 0, y: 0, z: 1 }
+let needFit = false // fit() was requested while the Level tab was hidden
 const vis = {}
 
 function loadText(text) {
@@ -270,6 +288,7 @@ function selectWorld(i) {
     box.appendChild(b)
   })
   selectRoom(cur.world.start)
+  if ($("tab-entities").classList.contains("active")) buildEntities()
 }
 function selectRoom(i, hiDoor = -1) {
   const w = cur.world,
@@ -316,6 +335,10 @@ function selectRoom(i, hiDoor = -1) {
   render()
 }
 function fit() {
+  if (!$("cv").clientWidth) {
+    needFit = true
+    return
+  }
   const cv = $("cv"),
     L = cur.level,
     T = ts()
@@ -349,11 +372,48 @@ const entPos = (row) => {
     id: row[ci],
   }
 }
-function entLabel(kind, id) {
+const entDef = (kind, id) => ents[curTset()]?.[kind]?.[id]
+function defaultName(kind, id) {
   if (kind === "enemy")
     return ENEMY_NAMES.get(Number(id)) ?? `enemy ${id}`
   return `${kind} ${id}`
 }
+function entLabel(kind, id) {
+  const d = entDef(kind, id)
+  return d && d.name ? d.name : defaultName(kind, id)
+}
+function setEntDef(kind, id, patch) {
+  const t = curTset()
+  ents[t] ??= {}
+  ents[t][kind] ??= {}
+  ents[t][kind][id] = { ...ents[t][kind][id], ...patch }
+  saveEnts()
+}
+// image for a sprite source; null only while it is still loading
+function srcImage(src) {
+  if (src.startsWith("upload:")) {
+    const im = uploadImgs[src]
+    if (!im)
+      throw new Error(`uploaded image ${src} is missing from storage`)
+    return im.complete ? im : null
+  }
+  if (!sheetsLoaded) return null
+  const im = images[src]
+  if (!im)
+    throw new Error(`sprite uses images/${src} which did not load`)
+  return im
+}
+function addUploadImage(key, url) {
+  const im = new Image()
+  im.onload = () => {
+    if (!$("entPicker").hidden && pk.src === key) pkDraw()
+    renderAll()
+  }
+  im.src = url
+  uploadImgs[key] = im
+}
+for (const [key, url] of Object.entries(uploads))
+  addUploadImage(key, url)
 
 function render() {
   const cv = $("cv"),
@@ -363,6 +423,10 @@ function render() {
   ctx.fillStyle = "#18181b"
   ctx.fillRect(0, 0, cv.width, cv.height)
   if (!cur.level) return
+  if (needFit && cv.clientWidth) {
+    needFit = false
+    fit()
+  }
   const L = cur.level,
     T = ts()
   ctx.setTransform(view.z, 0, 0, view.z, view.x, view.y)
@@ -436,10 +500,26 @@ function render() {
     ctx.lineWidth = 1 / view.z
     for (const r of rows_) {
       const p = entPos(r)
-      ctx.beginPath()
-      ctx.arc(p.x + half, p.y + half, T / 3, 0, 7)
-      ctx.fill()
-      ctx.stroke()
+      const d = entDef(kind, p.id)
+      const im = d && d.src ? srcImage(d.src) : null
+      if (im) {
+        ctx.drawImage(
+          im,
+          d.sx,
+          d.sy,
+          d.sw,
+          d.sh,
+          p.x + d.ox,
+          p.y + d.oy,
+          d.sw * d.scale,
+          d.sh * d.scale,
+        )
+      } else {
+        ctx.beginPath()
+        ctx.arc(p.x + half, p.y + half, T / 3, 0, 7)
+        ctx.fill()
+        ctx.stroke()
+      }
       ctx.fillStyle = "#fff"
       ctx.fillText(
         entLabel(kind, p.id),
@@ -589,7 +669,7 @@ function hover(e) {
         )
       })
       .forEach((r) => {
-        t += `\n${kind}: [${r.join(",")}]`
+        t += `\n${kind} "${entLabel(kind, entPos(r).id)}": [${r.join(",")}]`
       })
   near(L.enemies, "enemy")
   near(L.items, "item")
@@ -697,7 +777,7 @@ function drawSheet() {
   }
   const z = Number($("sheetZoom").value),
     T = ts()
-  const p = place[selSheet]
+  const p = tilePlace()[selSheet]
   const padX = p ? p.padX : Number($("fPadX").value),
     padY = p ? p.padY : Number($("fPadY").value)
   cv.width = im.width * z
@@ -736,7 +816,7 @@ function sheetCellAt(e) {
   const r = $("sheetCv").getBoundingClientRect(),
     z = Number($("sheetZoom").value),
     T = ts()
-  const p = place[selSheet]
+  const p = tilePlace()[selSheet]
   const padX = p ? p.padX : Number($("fPadX").value),
     padY = p ? p.padY : Number($("fPadY").value)
   return {
@@ -759,7 +839,7 @@ $("sheetCv").addEventListener("click", (e) => {
 })
 $("sheetCv").addEventListener("mousemove", (e) => {
   const { c, r } = sheetCellAt(e),
-    p = place[selSheet]
+    p = tilePlace()[selSheet]
   $("sheetStatus").textContent =
     `cell col ${c}, row ${r}` +
     (p ?
@@ -773,25 +853,6 @@ function readIntField(id, name) {
   const v = $(id).value
   if (v === "") throw new Error(`${name} is empty`)
   return num(v, name)
-}
-$("fApply").onclick = () => {
-  place[selSheet] = {
-    col: readIntField("fCol", "col"),
-    row: readIntField("fRow", "row"),
-    padX: readIntField("fPadX", "padX"),
-    padY: readIntField("fPadY", "padY"),
-  }
-  savePlace()
-  rebuildAtlas()
-  buildSheetList()
-  renderAll()
-}
-$("fRemove").onclick = () => {
-  delete place[selSheet]
-  savePlace()
-  rebuildAtlas()
-  buildSheetList()
-  renderAll()
 }
 
 // ================= atlas tab =================
@@ -854,6 +915,297 @@ $("atlasCv").addEventListener("mousemove", (e) => {
     `tile id ${id} (col ${c}, row ${row})  ${atlas.has(id) ? "" : "unmapped"}`
 })
 
+// ================= entities tab (names + sprites, per tileset) =================
+{
+  const btn = document.createElement("button")
+  btn.dataset.tab = "entities"
+  btn.textContent = "Entities (names & sprites)"
+  $("tabs").appendChild(btn)
+  const tab = document.createElement("div")
+  tab.className = "tab"
+  tab.id = "tab-entities"
+  tab.innerHTML = `
+    <div class="row"><span id="entInfo"></span><button id="entExport">Copy settings JSON</button></div>
+    <div id="entPicker" hidden style="border-bottom:1px solid #111;background:#222228;padding:4px">
+      <div class="row">
+        <b id="pkTitle"></b>
+        <select id="pkSrc"></select>
+        <label>zoom <select id="pkZoom"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>6</option></select></label>
+        <button id="pkUpload">Upload image...</button><input type="file" id="pkFile" accept="image/*" hidden>
+        <button id="pkWhole">Whole image</button>
+        <label>offX <input type="number" id="pkOx"></label>
+        <label>offY <input type="number" id="pkOy"></label>
+        <label>scale <input type="number" id="pkScale" step="0.25" value="1"></label>
+        <button id="pkSave">Save sprite</button>
+        <button id="pkClear">Remove sprite</button>
+        <button id="pkClose">Close</button>
+      </div>
+      <div style="max-height:320px;overflow:auto"><canvas id="pkCv"></canvas></div>
+      <div class="status" id="pkStatus">Drag a rectangle on the image to choose the sprite. offX/offY = where the sprite's top-left sits relative to the entity's tile top-left (px).</div>
+    </div>
+    <div class="scroll" id="entList" style="padding:6px"></div>`
+  $("tabs").parentElement.appendChild(tab)
+}
+
+const pk = { kind: null, id: null, src: null, rect: null, drag: null }
+const pkCv = $("pkCv")
+function pkFillSources() {
+  const s = $("pkSrc")
+  s.innerHTML = ""
+  for (const f of [...SHEETS, ...Object.keys(uploads)])
+    s.add(new Option(f, f))
+  s.value = pk.src
+}
+function openPicker(kind, id) {
+  const d = entDef(kind, id)
+  const has = d && d.src
+  pk.kind = kind
+  pk.id = id
+  pk.src = has ? d.src : SHEETS[0]
+  pk.rect = has ? { x: d.sx, y: d.sy, w: d.sw, h: d.sh } : null
+  $("pkOx").value = has ? d.ox : ""
+  $("pkOy").value = has ? d.oy : ""
+  $("pkScale").value = has ? d.scale : 1
+  $("pkTitle").textContent =
+    `${kind} ${id}: ${entLabel(kind, id)} (tileset ${curTset()})`
+  $("entPicker").hidden = false
+  pkFillSources()
+  pkDraw()
+}
+function pkDraw() {
+  const im = srcImage(pk.src)
+  if (!im) {
+    pkCv.width = 1
+    pkCv.height = 1
+    return
+  }
+  const z = Number($("pkZoom").value)
+  pkCv.width = im.width * z
+  pkCv.height = im.height * z
+  const ctx = pkCv.getContext("2d")
+  ctx.imageSmoothingEnabled = false
+  ctx.fillStyle = "#444"
+  ctx.fillRect(0, 0, pkCv.width, pkCv.height)
+  ctx.drawImage(im, 0, 0, pkCv.width, pkCv.height)
+  if (pk.rect) {
+    ctx.strokeStyle = "#ff0"
+    ctx.lineWidth = 2
+    ctx.strokeRect(
+      pk.rect.x * z,
+      pk.rect.y * z,
+      pk.rect.w * z,
+      pk.rect.h * z,
+    )
+  }
+}
+function pkPt(e) {
+  const im = srcImage(pk.src),
+    r = pkCv.getBoundingClientRect(),
+    z = Number($("pkZoom").value)
+  return {
+    x: Math.max(
+      0,
+      Math.min(im.width - 1, Math.floor((e.clientX - r.left) / z)),
+    ),
+    y: Math.max(
+      0,
+      Math.min(im.height - 1, Math.floor((e.clientY - r.top) / z)),
+    ),
+  }
+}
+const pkRectFrom = (a, b) => ({
+  x: Math.min(a.x, b.x),
+  y: Math.min(a.y, b.y),
+  w: Math.abs(a.x - b.x) + 1,
+  h: Math.abs(a.y - b.y) + 1,
+})
+function pkRectChanged() {
+  // a new selection resets the offsets to "bottom-centred on the tile"
+  $("pkOx").value = (ts() - pk.rect.w) / 2
+  $("pkOy").value = ts() - pk.rect.h
+  $("pkStatus").textContent =
+    `selected ${pk.rect.w}x${pk.rect.h} at ${pk.rect.x},${pk.rect.y}`
+}
+pkCv.addEventListener("mousedown", (e) => {
+  pk.drag = pkPt(e)
+  pk.rect = pkRectFrom(pk.drag, pk.drag)
+  pkDraw()
+})
+pkCv.addEventListener("mousemove", (e) => {
+  if (!pk.drag) return
+  pk.rect = pkRectFrom(pk.drag, pkPt(e))
+  pkDraw()
+})
+window.addEventListener("mouseup", () => {
+  if (!pk.drag) return
+  pk.drag = null
+  pkRectChanged()
+})
+$("pkWhole").onclick = () => {
+  const im = srcImage(pk.src)
+  if (!im) throw new Error("image is still loading")
+  pk.rect = { x: 0, y: 0, w: im.width, h: im.height }
+  pkDraw()
+  pkRectChanged()
+}
+$("pkSrc").onchange = (e) => {
+  pk.src = e.target.value
+  pk.rect = null
+  pkDraw()
+}
+$("pkZoom").onchange = pkDraw
+$("pkUpload").onclick = () => $("pkFile").click()
+$("pkFile").onchange = async (e) => {
+  const f = e.target.files[0]
+  const url = await new Promise((res, rej) => {
+    const fr = new FileReader()
+    fr.onload = () => res(fr.result)
+    fr.onerror = () => rej(fr.error)
+    fr.readAsDataURL(f)
+  })
+  const key = `upload:${f.name}`
+  uploads[key] = url
+  localStorage.lv_uploads = JSON.stringify(uploads) // throws if over the storage quota
+  addUploadImage(key, url)
+  pk.src = key
+  pk.rect = null
+  pkFillSources()
+  e.target.value = ""
+}
+$("pkSave").onclick = () => {
+  if (!pk.rect)
+    throw new Error(
+      "drag a rectangle on the image (or press Whole image) first",
+    )
+  const scale = readIntField("pkScale", "scale")
+  if (scale <= 0) throw new Error("scale must be above 0")
+  setEntDef(pk.kind, pk.id, {
+    src: pk.src,
+    sx: pk.rect.x,
+    sy: pk.rect.y,
+    sw: pk.rect.w,
+    sh: pk.rect.h,
+    ox: readIntField("pkOx", "offX"),
+    oy: readIntField("pkOy", "offY"),
+    scale,
+  })
+  buildEntities()
+  render()
+}
+$("pkClear").onclick = () => {
+  setEntDef(pk.kind, pk.id, {
+    src: undefined,
+    sx: undefined,
+    sy: undefined,
+    sw: undefined,
+    sh: undefined,
+    ox: undefined,
+    oy: undefined,
+    scale: undefined,
+  })
+  pk.rect = null
+  pkDraw()
+  buildEntities()
+  render()
+}
+$("pkClose").onclick = () => {
+  $("entPicker").hidden = true
+}
+$("entExport").onclick = () =>
+  navigator.clipboard.writeText(localStorage.lv_ents)
+
+// every id used by any room of any world sharing the current tileset
+function entityUsage() {
+  const use = { enemy: new Map(), item: new Map(), object: new Map() }
+  const ci = Number(localStorage.lv_colId)
+  for (const w of data.worlds) {
+    if (w.tileset !== curTset()) continue
+    for (const row of w.rooms) {
+      const lv = data.levels.get(String(row[6]))
+      if (!lv)
+        throw new Error(
+          `world "${w.title}" uses roomID ${row[6]} but no <level> has it`,
+        )
+      for (const [kind, list] of [
+        ["enemy", lv.enemies],
+        ["item", lv.items],
+        ["object", lv.objects],
+      ])
+        for (const r of list) {
+          if (r[ci] === undefined)
+            throw new Error(
+              `${kind} row [${r}] has no id column ${ci}`,
+            )
+          const id = String(r[ci])
+          use[kind].set(id, (use[kind].get(id) || 0) + 1)
+        }
+    }
+  }
+  return use
+}
+function buildEntities() {
+  const box = $("entList")
+  box.innerHTML = ""
+  if (!data) {
+    box.textContent = "Load a level XML first."
+    return
+  }
+  $("entInfo").textContent =
+    `Stored for tileset ${curTset()} (applies to every world using it). Currently: "${cur.world.title}".`
+  const use = entityUsage()
+  for (const kind of KINDS) {
+    const h = document.createElement("h2")
+    h.textContent = `${kind}s (${use[kind].size} ids)`
+    box.appendChild(h)
+    const ids = [...use[kind].keys()].sort(
+      (a, b) => Number(a) - Number(b),
+    )
+    for (const id of ids) {
+      const d = entDef(kind, id)
+      const row = document.createElement("div")
+      row.style.cssText =
+        "display:flex;gap:8px;align-items:center;margin:2px 0"
+      const th = document.createElement("canvas")
+      th.width = th.height = 48
+      const ctx = th.getContext("2d")
+      ctx.fillStyle = "#33353c"
+      ctx.fillRect(0, 0, 48, 48)
+      const im = d && d.src ? srcImage(d.src) : null
+      if (im) {
+        const k = Math.min(48 / d.sw, 48 / d.sh)
+        ctx.imageSmoothingEnabled = false
+        ctx.drawImage(
+          im,
+          d.sx,
+          d.sy,
+          d.sw,
+          d.sh,
+          (48 - d.sw * k) / 2,
+          (48 - d.sh * k) / 2,
+          d.sw * k,
+          d.sh * k,
+        )
+      }
+      const lab = document.createElement("span")
+      lab.style.cssText = "width:90px"
+      lab.textContent = `id ${id} x${use[kind].get(id)}`
+      const inp = document.createElement("input")
+      inp.type = "text"
+      inp.value = d && d.name ? d.name : ""
+      inp.placeholder = defaultName(kind, id)
+      inp.onchange = () => {
+        setEntDef(kind, id, { name: inp.value.trim() || undefined })
+        render()
+      }
+      const b = document.createElement("button")
+      b.textContent = im ? "Change sprite..." : "Assign sprite..."
+      b.onclick = () => openPicker(kind, id)
+      row.append(th, lab, inp, b)
+      box.appendChild(row)
+    }
+  }
+}
+
 // ================= wiring =================
 function renderAll() {
   render()
@@ -876,6 +1228,7 @@ document.querySelectorAll("#tabs button").forEach(
       if (b.dataset.tab === "level") render()
       if (b.dataset.tab === "sheets") drawSheet()
       if (b.dataset.tab === "atlas") drawAtlas()
+      if (b.dataset.tab === "entities") buildEntities()
     }),
 )
 ;[

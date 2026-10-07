@@ -111,17 +111,18 @@
         if (cif.length) {
           window.ap.sendLocationChecks(cif)
         }
-        for (var i of sd.unlockedActs) {
-          player[`setActLocked_${i}`]?.(false)
-          unlockedActs.add(Number(i))
-        }
-      })
-      function markPlayerLoaded() {
-        window.playerLoaded = true
-        onPlayerLoaded.forEach((e) => e())
         updateCharLockState()
         updateAreaLockState()
-        newItem("hub - level:stage0")
+        newItem("menu - level:level0")
+        newItem("menu - char:rita")
+        newItem("menu - char:marty")
+        // TODO put correct place later
+        newItem("menu - char:xandra")
+      })
+      function markPlayerLoaded() {
+        if (window.playerLoaded) return
+        window.playerLoaded = true
+        onPlayerLoaded.forEach((e) => e())
       }
       HTMLElement.prototype.getElementById = function (a) {
         return this.querySelector("#" + a)
@@ -408,6 +409,7 @@
         return window.iHateCheckpoints
       }
       function renderMovesList() {
+        return
         container.replaceChildren(
           newelem("div", { class: "h" }, [
             newelem("div", { class: "v" }, [

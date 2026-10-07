@@ -158,8 +158,8 @@ package papaGame.data
     {
       class_7.method_1("EARN A WARP COIN!");
       this.gameObj.var_112.recordTag("warpCoin");
-      // this.warpCoins.addValue(1);
-      // this.warpCoinsEarned.addValue(1);
+      this.warpCoins.addValue(1);
+      this.warpCoinsEarned.addValue(1);
     }
 
     public function unlockCustomer(param1:Number):void

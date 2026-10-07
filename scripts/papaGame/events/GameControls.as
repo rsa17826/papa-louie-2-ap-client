@@ -284,13 +284,13 @@ package papaGame.events
     {
       var _loc6_:GameCam = this.camObj;
       class_7.method_1("SET CAMERA PAN: " + param1 + ", " + param2 + ", " + param3 + ", " + param4);
-      // this.cameraPanTargetX = param1;
-      // this.cameraPanTargetY = param2;
-      // this.cameraPanID = param4;
-      // this.cameraPanType = param3;
-      // this.cameraPan = true;
-      // this.stopCycle = false;
-      // this.stopControls = false;
+      this.cameraPanTargetX = param1;
+      this.cameraPanTargetY = param2;
+      this.cameraPanID = param4;
+      this.cameraPanType = param3;
+      this.cameraPan = true;
+      this.stopCycle = true;
+      this.stopControls = true;
       _loc6_.currstartdelay = 0;
       _loc6_.currenddelay = 0;
       if (param3 != "player" && _loc6_.prepanx == 0 && _loc6_.prepany == 0)

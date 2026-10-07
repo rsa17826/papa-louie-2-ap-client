@@ -59,3 +59,5 @@ symbolClass/symbols.csv
 !scripts/papaGame/screens/ParadeScreen.as
 !scripts/papaGame/screens/ScoreTallyScreen.as
 !scripts/papaGame/events/GameControls.as
+!scripts/papaGame/events/GameControls.as
+!scripts/papaGame/display/GameCam.as

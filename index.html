@@ -39,40 +39,71 @@
     </div>
     <script>
       // TODO rerender tab overlay when getting new item
-      const customerMap = {
-        "0-3": "clover",
-        "1-2": "mindy",
-        "1-1": "big pauly",
-        "2-3": "professor fitz",
-        "2-2": "kahuna",
-        "2-1": "boomer",
-        "3-3": "yippy",
-        "3-2": "foodini",
-        "3-1": "georgito",
-        "4-3": "connor",
-        "4-2": "kingsley",
-        "4-1": "scooter",
-        "5-3": "captain cori",
-        "5-2": "greg",
-        "5-1": "james",
-        // 0: "prudence",
-        // 1: "taylor",
-        "1-3": "akari",
-        "7-3": "zoe",
-        "6-1": "ninjoy",
-        "6-3": "penny",
-        "7-1": "sarge fan",
-        "6-2": "peggy",
-        "7-2": "rico",
-        "8-1": "papa louie",
-        // 25: "xandra",
-        // "marty",
-        // "rita",
-      }
+      const customerNameToId = [
+        "marty",
+        "rita",
+        "prudence",
+        "taylor",
+        "clover",
+        "mindy",
+        "akari",
+        "zoe",
+        "big pauly",
+        "kahuna",
+        "kingsley",
+        "ninjoy",
+        "penny",
+        "sarge fan",
+        "james",
+        "scooter",
+        "connor",
+        "peggy",
+        "georgito",
+        "yippy",
+        "greg",
+        "captain cori",
+        "rico",
+        "boomer",
+        "professor fitz",
+        "foodini",
+        "papa louie",
+        "xandra",
+      ]
       window.moves = []
       Object.assign(window, console)
       function sendRescue(level, idx) {
-        log("sendRescue", customerMap[`${level}-${idx}`], level, idx)
+        var charName = {
+          "0-3": "clover",
+          "1-2": "mindy",
+          "1-1": "big pauly",
+          "2-3": "professor fitz",
+          "2-2": "kahuna",
+          "2-1": "boomer",
+          "3-3": "yippy",
+          "3-2": "foodini",
+          "3-1": "georgito",
+          "4-3": "connor",
+          "4-2": "kingsley",
+          "4-1": "scooter",
+          "5-3": "captain cori",
+          "5-2": "greg",
+          "5-1": "james",
+          // 0: "prudence",
+          // 1: "taylor",
+          "1-3": "akari",
+          "7-3": "zoe",
+          "6-1": "ninjoy",
+          "6-3": "penny",
+          "7-1": "sarge fan",
+          "6-2": "peggy",
+          "7-2": "rico",
+          "8-1": "papa louie",
+          // 25: "xandra",
+          // "marty",
+          // "rita",
+        }[`${level}-${idx}`]
+        newItem(`level${level} - char:${charName}`)
+        log("sendRescue", charName, level, idx)
       }
 
       function debugModeEnabled() {
@@ -91,13 +122,71 @@
       function updateCharLockState() {
         window.chars.forEach((e, i) => player.setCharLockState(i, e))
       }
+      var updatingAreas = false
       function updateAreaLockState() {
         window.areas.forEach((e, i) => player.setAreaLockState(i, e))
+        if (!updatingAreas) {
+          updatingAreas = true
+          queueMicrotask(() => {
+            player.updateLockedAreas()
+            updatingAreas = false
+          })
+        }
       }
       window.moves ??= []
       const itemList = {
         "filler:nothing": () => {},
+        "level:level0": () => {
+          window.areas[0] = 1
+          updateAreaLockState()
+        },
+        "level:level1": () => {
+          window.areas[1] = 1
+          updateAreaLockState()
+        },
+        "level:level2": () => {
+          window.areas[2] = 1
+          updateAreaLockState()
+        },
+        "level:level3": () => {
+          window.areas[3] = 1
+          updateAreaLockState()
+        },
+        "level:level4": () => {
+          window.areas[4] = 1
+          updateAreaLockState()
+        },
+        "level:level5": () => {
+          window.areas[5] = 1
+          updateAreaLockState()
+        },
+        "level:level6": () => {
+          window.areas[6] = 1
+          updateAreaLockState()
+        },
+        "level:level7": () => {
+          window.areas[7] = 1
+          updateAreaLockState()
+        },
+        "level:level8": () => {
+          window.areas[8] = 1
+          updateAreaLockState()
+        },
+        "level:level9": () => {
+          window.areas[9] = 1
+          updateAreaLockState()
+        },
+        "level:level10": () => {
+          window.areas[10] = 1
+          updateAreaLockState()
+        },
       }
+      customerNameToId.forEach((e, i) => {
+        itemList[`char:${e}`] = ((i) => {
+          window.chars[i] = 1
+          updateCharLockState()
+        }).bind(null, i)
+      })
       window.apErrors = []
       window.onPlayerLoaded = []
       window.onPlayerLoaded.push(() => {
@@ -113,7 +202,8 @@
         }
         updateCharLockState()
         updateAreaLockState()
-        newItem("menu - level:level0")
+        updateAreaLockState()
+        newItem("menu - level:levellevel0window.areas[level0]=1")
         newItem("menu - char:rita")
         newItem("menu - char:marty")
         // TODO put correct place later

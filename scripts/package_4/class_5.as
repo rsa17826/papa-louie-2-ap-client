@@ -145,6 +145,7 @@ package package_4
       this.var_109 = new DataManager(this);
       ExternalInterface.addCallback("setCharLockState", setCharLockState);
       ExternalInterface.addCallback("setAreaLockState", this.setAreaLockState);
+      ExternalInterface.addCallback("updateLockedAreas", this.updateLockedAreas);
       this.var_109.prepareLevelData(false);
     }
 
@@ -156,8 +157,16 @@ package package_4
     {
       this.var_106.areasUnlocked[lv] = state;
       this.var_106.hasRevealedLatestArea = false;
-      // this.menuScreen.destroy()
-      this.menuScreen.setupMap(true);
+    }
+    public function updateLockedAreas()
+    {
+      if (this.menuScreen.clip)
+      {
+        this.menuScreen.setupMap(true);
+        return true;
+      }
+      // map not visible
+      return false;
     }
     public function method_183():MovieClip
     {

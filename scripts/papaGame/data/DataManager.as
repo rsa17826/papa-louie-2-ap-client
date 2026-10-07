@@ -1,5 +1,6 @@
 package papaGame.data
 {
+  import flash.external.ExternalInterface;
   import flash.display.BitmapData;
   import flash.display.LoaderInfo;
   import flash.display.MovieClip;
@@ -53,123 +54,66 @@ package papaGame.data
     public static const HEALTH_ADDED_PER_UPGRADE:Number = 50;
 
     public var gameObj:class_5;
-
     public var levelDataClass:LevelData;
-
     public var masterLevelData:XMLList;
-
     public var worldData:XMLList;
-
     public var totalLevels:Number = 0;
-
     public var totalWorlds:Number = 0;
-
     public var currentScreens:Array = [];
-
     public var currentScreenData:ScreenData;
-
     public var currentWorldData:WorldData;
-
     public var checkpointData:CheckpointData = null;
-
     public var firstPlay:Boolean = false;
-
     public var randomSeed:Number = 2303499;
-
     public var currentLevel:Number = 1;
-
     public var currentScreen:Number = 0;
-
     public var currentTileset:Number = 1;
 
     private var keyNameMap:Array = [];
 
     public var keyConstants:Array = [Keyboard.ENTER, Keyboard.SPACE, Keyboard.SHIFT, Keyboard.CONTROL, Keyboard.DELETE, Keyboard.BACKSPACE, Keyboard.UP, Keyboard.DOWN, Keyboard.LEFT, Keyboard.RIGHT];
-
     public var keyStrings:Array = ["enter", "space", "shift", "ctrl", "del", "back", "↑", "↓", "←", "→"];
-
     public var loadingClip:MovieClip;
-
     public var collisionArray:Array;
-
     public var thruArray:Array;
-
     public var grabArray:Array;
-
     public var slopeArray:Array = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
-
     public var standardCollisionArray:Array = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
-
     public var standardThruArray:Array = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
-
     public var standardGrabArray:Array = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
-
     public var trainCollisionArray:Array = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0]];
-
     public var trainThruArray:Array = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
-
     public var trainGrabArray:Array = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
-
     public var bargeCollisionArray:Array = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0]];
-
     public var bargeThruArray:Array = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
-
     public var bargeGrabArray:Array = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
-
     public var solidTileList:Array = [50, 51, 52, 53, 112, 113, 114, 115, 174, 175, 176, 177, 236, 237, 238, 239, 1736, 1737, 1738, 1739, 1740, 1741, 1742, 1743, 1744, 1745, 1746, 1747, 1748, 1798, 1799, 1800, 1801, 1802, 1803, 1804, 1805, 1806, 1807, 1808, 1809, 1810, 1860, 1861, 1862, 1863, 1864, 1865, 1866, 1867, 1868, 1869, 1870];
-
     public var thruTileList:Array = [1062, 1063, 1064, 1558, 1559, 1560, 1065, 1066, 1067, 1068, 1069, 1070, 1561, 1562, 1563, 1564, 1565, 1566, 1196, 1197, 1198, 1199, 1200, 1201, 1202, 1203, 1204, 1692, 1693, 1694, 1695, 1696, 1697, 1698, 1699, 1700];
-
     public var slopeTileList_22A:Array = [62, 1054, 1550, 187, 1179, 1675, 195, 1187, 1683];
-
     public var slopeTileList_22B:Array = [63, 1055, 1551];
-
     public var slopeTileList_22C:Array = [64, 1056, 1552];
-
     public var slopeTileList_22D:Array = [65, 1057, 1553, 186, 1178, 1674, 194, 1186, 1682];
-
     public var slopeTileList_45A:Array = [66, 1058, 1554, 189, 1181, 1677, 686];
-
     public var slopeTileList_45B:Array = [67, 1059, 1555, 188, 1180, 1676, 687];
-
     public var slopeTileList_67A:Array = [130, 1122, 1618];
-
     public var slopeTileList_67B:Array = [68, 1060, 1556, 682, 684];
-
     public var slopeTileList_67C:Array = [69, 1061, 1557, 683, 685];
-
     public var slopeTileList_67D:Array = [131, 1123, 1619];
-
     public var slopeTileList_67E:Array = [606];
-
     public var slopeTileList_67F:Array = [622, 620, 408];
-
     public var slopeTileList_67G:Array = [623, 621, 409];
-
     public var slopeTileList_67H:Array = [607];
-
     public var slopeTileList_22E:Array = [479, 473, 350];
-
     public var slopeTileList_22F:Array = [351];
-
     public var slopeTileList_22G:Array = [352];
-
     public var slopeTileList_22H:Array = [478, 472, 353];
-
     public var slopeTileList_45C:Array = [624, 475, 608];
-
     public var slopeTileList_45D:Array = [625, 474, 349];
-
     public var slopeTileList_solid:Array = [62, 63, 64, 65, 66, 67, 130, 68, 69, 131, 186, 187, 188, 189, 194, 195, 686, 687, 682, 684, 683, 685];
-
     public var treasureNames:Array = ["Silver Scorpion", "Jeweled Telescope", "Emerald Crown", "Yankee Egg", "Crystal Rail Spike", "Onyx Heart", "Eternal Lantern", "Cannonball Pearl", "Golden Wheel", "Jade Skull", "Lost Cryptex", "Saved Ella"];
-
     public var maxUpgradeLevel:Number = 6;
-
     public var upgradePrices:Array = [[0, 25, 100, 280, 560, 1600], [0, 50, 110, 290, 580, 1750], [0, 60, 120, 300, 600, 1800], [0, 70, 140, 330, 660, 1850], [0, 80, 160, 360, 720, 1900], [0, 85, 170, 400, 750, 1950], [0, 100, 200, 400, 800, 2000], [0, 90, 180, 380, 740, 2000], [0, 90, 180, 380, 740, 2000]];
-
     public var outfitPrices:Array = [[0, 90, 120], [0, 90, 120], [0, 90, 120], [0, 90, 120], [0, 90, 120], [0, 90, 120], [0, 90, 120], [0, 90, 120], [0, 90, 120], [0, 90, 120], [0, 90, 120], [0, 90, 120], [0, 90, 120], [0, 90, 120], [0, 90, 120], [0, 90, 120], [0, 90, 120], [0, 90, 120], [0, 90, 120], [0, 90, 120], [0, 90, 120], [0, 90, 120], [0, 90, 120], [0, 90, 120], [0, 90, 120], [0, 90, 120], [0, 90, 120], [0, 90, 120]];
-
     public var arsenalArray:Array = [ {
           "title": "Machete",
           "cost": 880
@@ -401,7 +345,6 @@ package papaGame.data
         , "Boomerang", "Firecracker", "Halberd", "Lance", "SharpStick", "Spear", "Trident", "BossScythe"];
 
     public var coinsToUnlockWorld:Array = [1, 2, 3, 5, 7, 10, 14, 18, 24, 50];
-
     public var enemyKey:Array = [ {
           "id": 1,
           "title": "Onion",
@@ -541,16 +484,14 @@ package papaGame.data
     public function DataManager(param1:class_5)
     {
       super();
-      var _loc2_:DataManager = this;
-      _loc2_.gameObj = param1;
-      _loc2_.levelDataClass = new LevelData();
-      _loc2_.setupKeyNames();
+      this.gameObj = param1;
+      this.levelDataClass = new LevelData();
+      this.setupKeyNames();
     }
 
     public function weaponNameToID(param1:String):Number
     {
-      var _loc2_:DataManager = this;
-      var _loc3_:Number = _loc2_.weaponIDsToNames.indexOf(param1);
+      var _loc3_:Number = this.weaponIDsToNames.indexOf(param1);
       if (param1 == "punch")
       {
         _loc3_ = 0;
@@ -560,14 +501,12 @@ package papaGame.data
 
     public function getLeaderBoardID(param1:String):String
     {
-      var _loc2_:DataManager = this;
-      return _loc2_[param1 + "BoardID"];
+      return this[param1 + "BoardID"];
     }
 
     public function getPropValue(param1:String, param2:*):Number
     {
       var _loc7_:int = 0;
-      var _loc3_:DataManager = this;
       var _loc4_:Number = 0;
       var _loc5_:Number = 0;
       var _loc6_:Number = 0;
@@ -630,7 +569,7 @@ package papaGame.data
               {
                 if (param1 == "thru")
                 {
-                  if (_loc3_.thruTileList.indexOf(param2[_loc7_]) > -1)
+                  if (this.thruTileList.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 1;
                   }
@@ -641,184 +580,184 @@ package papaGame.data
                 }
                 else if (param1 == "slope" || param1 == "solidslope")
                 {
-                  if (_loc3_.slopeTileList_22A.indexOf(param2[_loc7_]) > -1)
+                  if (this.slopeTileList_22A.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 3;
                   }
-                  else if (_loc3_.slopeTileList_22B.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_22B.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 4;
                   }
-                  else if (_loc3_.slopeTileList_22C.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_22C.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 5;
                   }
-                  else if (_loc3_.slopeTileList_22D.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_22D.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 6;
                   }
-                  else if (_loc3_.slopeTileList_45A.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_45A.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 1;
                   }
-                  else if (_loc3_.slopeTileList_45B.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_45B.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 2;
                   }
-                  else if (_loc3_.slopeTileList_67A.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_67A.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 7;
                   }
-                  else if (_loc3_.slopeTileList_67B.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_67B.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 8;
                   }
-                  else if (_loc3_.slopeTileList_67C.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_67C.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 9;
                   }
-                  else if (_loc3_.slopeTileList_67D.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_67D.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 10;
                   }
-                  if (param1 == "solidslope" && _loc4_ != 0 && _loc3_.slopeTileList_solid.indexOf(param2[_loc7_]) == -1)
+                  if (param1 == "solidslope" && _loc4_ != 0 && this.slopeTileList_solid.indexOf(param2[_loc7_]) == -1)
                   {
                     _loc4_ = 0;
                   }
                 }
                 else if (param1 == "ceilingslope")
                 {
-                  if (_loc3_.slopeTileList_22E.indexOf(param2[_loc7_]) > -1)
+                  if (this.slopeTileList_22E.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 3;
                   }
-                  else if (_loc3_.slopeTileList_22F.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_22F.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 4;
                   }
-                  else if (_loc3_.slopeTileList_22G.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_22G.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 5;
                   }
-                  else if (_loc3_.slopeTileList_22H.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_22H.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 6;
                   }
-                  else if (_loc3_.slopeTileList_45C.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_45C.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 1;
                   }
-                  else if (_loc3_.slopeTileList_45D.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_45D.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 2;
                   }
-                  else if (_loc3_.slopeTileList_67E.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_67E.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 7;
                   }
-                  else if (_loc3_.slopeTileList_67F.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_67F.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 8;
                   }
-                  else if (_loc3_.slopeTileList_67G.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_67G.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 9;
                   }
-                  else if (_loc3_.slopeTileList_67H.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_67H.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 10;
                   }
                 }
                 else if (param1 == "ceilingslopereverse")
                 {
-                  if (_loc3_.slopeTileList_22E.indexOf(param2[_loc7_]) > -1)
+                  if (this.slopeTileList_22E.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 3;
                   }
-                  else if (_loc3_.slopeTileList_22F.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_22F.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 4;
                   }
-                  else if (_loc3_.slopeTileList_22G.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_22G.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 5;
                   }
-                  else if (_loc3_.slopeTileList_22H.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_22H.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 6;
                   }
-                  else if (_loc3_.slopeTileList_45C.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_45C.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 1;
                   }
-                  else if (_loc3_.slopeTileList_45D.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_45D.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 2;
                   }
-                  else if (_loc3_.slopeTileList_67E.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_67E.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 7;
                   }
-                  else if (_loc3_.slopeTileList_67F.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_67F.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 8;
                   }
-                  else if (_loc3_.slopeTileList_67G.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_67G.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 9;
                   }
-                  else if (_loc3_.slopeTileList_67H.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_67H.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 10;
                   }
-                  else if (_loc3_.slopeTileList_22A.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_22A.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 5;
                   }
-                  else if (_loc3_.slopeTileList_22B.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_22B.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 6;
                   }
-                  else if (_loc3_.slopeTileList_22C.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_22C.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 3;
                   }
-                  else if (_loc3_.slopeTileList_22D.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_22D.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 4;
                   }
-                  else if (_loc3_.slopeTileList_45A.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_45A.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 2;
                   }
-                  else if (_loc3_.slopeTileList_45B.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_45B.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 1;
                   }
-                  else if (_loc3_.slopeTileList_67A.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_67A.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 9;
                   }
-                  else if (_loc3_.slopeTileList_67B.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_67B.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 10;
                   }
-                  else if (_loc3_.slopeTileList_67C.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_67C.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 7;
                   }
-                  else if (_loc3_.slopeTileList_67D.indexOf(param2[_loc7_]) > -1)
+                  else if (this.slopeTileList_67D.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 8;
                   }
-                  if (_loc4_ != 0 && _loc3_.slopeTileList_solid.indexOf(param2[_loc7_]) != -1)
+                  if (_loc4_ != 0 && this.slopeTileList_solid.indexOf(param2[_loc7_]) != -1)
                   {
                     _loc4_ = 0;
                   }
                 }
                 else if (param1 == "collision" || param1 == "naturalcollision")
                 {
-                  if (_loc3_.solidTileList.indexOf(param2[_loc7_]) > -1)
+                  if (this.solidTileList.indexOf(param2[_loc7_]) > -1)
                   {
                     _loc4_ = 1;
                   }
@@ -859,7 +798,7 @@ package papaGame.data
         }
         else if (param1 == "collision")
         {
-          if (_loc3_.solidTileList.indexOf(param2[_loc7_]) > -1)
+          if (this.solidTileList.indexOf(param2[_loc7_]) > -1)
           {
             _loc4_ = 1;
           }
@@ -874,8 +813,7 @@ package papaGame.data
 
     private function getMainLoaderInfo():LoaderInfo
     {
-      var _loc1_:DataManager = this;
-      var _loc2_:LoaderInfo = _loc1_.gameObj.root.loaderInfo;
+      var _loc2_:LoaderInfo = this.gameObj.root.loaderInfo;
       if (_loc2_.loader != null)
       {
         _loc2_ = _loc2_.loader.loaderInfo;
@@ -885,42 +823,38 @@ package papaGame.data
 
     public function prepareLevelData(param1:Boolean = false):void
     {
-      var _loc2_:DataManager = this;
       param1 = true;
       if (param1)
       {
-        _loc2_.loadingClip = _loc2_.gameObj.method_183();
-        _loc2_.loadingClip.addEventListener(Event.ENTER_FRAME, _loc2_.generateLevelData);
+        this.loadingClip = this.gameObj.method_183();
+        this.generateLevelData();
       }
     }
 
-    public function generateLevelData(param1:Event = null):void
+    public function generateLevelData():void
     {
-      var _loc2_:DataManager = this;
       class_7.method_1("GENERATE LEVEL DATA:");
-      _loc2_.levelDataClass.prepareXML(_loc2_.levelDataLoaded, _loc2_.loadingClip.bar);
-      _loc2_.loadingClip.removeEventListener(Event.ENTER_FRAME, _loc2_.generateLevelData);
+      this.levelDataClass.prepareXML();
+      this.levelDataLoaded(null, true);
     }
 
     public function levelDataLoaded(param1:Event = null, param2:Boolean = false):void
     {
       class_7.method_1("LEVEL DATA LOADED.");
-      var _loc3_:DataManager = this;
       if (param2)
       {
-        _loc3_.masterLevelData = _loc3_.levelDataClass.getLevelXMLList();
-        _loc3_.totalLevels = _loc3_.masterLevelData.length();
-        _loc3_.worldData = _loc3_.levelDataClass.getWorldXMLList();
-        _loc3_.totalWorlds = _loc3_.worldData.length();
-        _loc3_.gameObj.method_224();
+        this.masterLevelData = this.levelDataClass.getLevelXMLList();
+        this.totalLevels = this.masterLevelData.length();
+        this.worldData = this.levelDataClass.getWorldXMLList();
+        this.totalWorlds = this.worldData.length();
+        this.gameObj.method_224();
       }
     }
 
     public function levelDataError(param1:IOErrorEvent):void
     {
-      var _loc2_:DataManager = this;
       class_7.error("IO Error loading levels, use INTERNAL instead.");
-      _loc2_.prepareLevelData(true);
+      this.prepareLevelData(true);
     }
 
     public function setupLevelScreens(param1:Number):void
@@ -1008,111 +942,103 @@ package papaGame.data
 
     public function setActiveRoom(param1:Number):void
     {
-      var _loc2_:DataManager = this;
-      if (_loc2_.currentScreenData)
+      if (this.currentScreenData)
       {
-        _loc2_.currentScreenData.objectsInitialized = false;
-        _loc2_.currentScreenData.clearBitmaps();
+        this.currentScreenData.objectsInitialized = false;
+        this.currentScreenData.clearBitmaps();
       }
-      _loc2_.currentScreenData = _loc2_.currentScreens[param1];
-      _loc2_.currentScreen = param1;
+      this.currentScreenData = this.currentScreens[param1];
+      this.currentScreen = param1;
     }
 
     public function saveCheckpoint(param1:Number = -1, param2:Number = -1):void
     {
-      var _loc3_:DataManager = this;
       class_7.method_1("Saving Checkpoint...");
-      if (_loc3_.checkpointData != null)
+      if (this.checkpointData != null)
       {
-        _loc3_.checkpointData.destroy();
-        _loc3_.checkpointData = null;
+        this.checkpointData.destroy();
+        this.checkpointData = null;
       }
-      _loc3_.checkpointData = new CheckpointData(_loc3_.gameObj, _loc3_.currentLevel, _loc3_.currentScreen, _loc3_.currentScreens, param1, param2);
+      this.checkpointData = new CheckpointData(this.gameObj, this.currentLevel, this.currentScreen, this.currentScreens, param1, param2);
     }
 
     public function clearCheckpoint():void
     {
-      var _loc1_:DataManager = this;
       class_7.method_1("Clearing Checkpoint");
-      if (_loc1_.checkpointData != null)
+      if (this.checkpointData != null)
       {
-        _loc1_.checkpointData.destroy();
-        _loc1_.checkpointData = null;
+        this.checkpointData.destroy();
+        this.checkpointData = null;
       }
     }
 
     public function handleCheckpointProgress():void
     {
-      var _loc1_:DataManager = this;
-      if (_loc1_.checkpointData != null && _loc1_.checkpointData.whichLevel == _loc1_.currentLevel)
+      if (this.checkpointData != null && this.checkpointData.whichLevel == this.currentLevel)
       {
         class_7.method_1("Repopulate variables and challenges based on checkpoint.");
-        _loc1_.gameObj.var_108.gameplayTimer = _loc1_.checkpointData.save_gameplayTimer;
-        _loc1_.gameObj.var_106.gotHurt = _loc1_.checkpointData.save_gotHurt;
-        _loc1_.gameObj.var_106.fellInWater = _loc1_.checkpointData.save_fellInWater;
-        _loc1_.gameObj.var_106.killsTally = _loc1_.checkpointData.save_killsTally;
-        _loc1_.gameObj.var_106.livesLost.setValue(_loc1_.checkpointData.save_livesLost);
-        _loc1_.gameObj.var_106.burgerzillas.setValue(_loc1_.checkpointData.burgerzillas_tally);
-        _loc1_.gameObj.var_106.money.setValue(_loc1_.checkpointData.money_tally);
-        _loc1_.gameObj.var_106.specialitems.setValue(_loc1_.checkpointData.specialitems_tally);
-        _loc1_.gameObj.var_112.setChallengeTallyFromCheckpoint(_loc1_.checkpointData.whichLevel, 1, _loc1_.checkpointData.challenge1_tally);
-        _loc1_.gameObj.var_112.setChallengeTallyFromCheckpoint(_loc1_.checkpointData.whichLevel, 2, _loc1_.checkpointData.challenge2_tally);
-        _loc1_.gameObj.var_112.setChallengeTallyFromCheckpoint(_loc1_.checkpointData.whichLevel, 3, _loc1_.checkpointData.challenge3_tally);
-        _loc1_.gameObj.var_112.setChallengeTallyFromCheckpoint(_loc1_.checkpointData.whichLevel, 4, _loc1_.checkpointData.challenge4_tally);
-        _loc1_.gameObj.var_112.setChallengeTallyFromCheckpoint(_loc1_.checkpointData.whichLevel, 5, _loc1_.checkpointData.challenge5_tally);
-        _loc1_.gameObj.var_112.setChallengeTallyFromCheckpoint(_loc1_.checkpointData.whichLevel, 6, _loc1_.checkpointData.challenge6_tally);
-        _loc1_.gameObj.var_107.api.method_88("Started From Checkpoint", "Gameplay");
+        this.gameObj.var_108.gameplayTimer = this.checkpointData.save_gameplayTimer;
+        this.gameObj.var_106.gotHurt = this.checkpointData.save_gotHurt;
+        this.gameObj.var_106.fellInWater = this.checkpointData.save_fellInWater;
+        this.gameObj.var_106.killsTally = this.checkpointData.save_killsTally;
+        this.gameObj.var_106.livesLost.setValue(this.checkpointData.save_livesLost);
+        this.gameObj.var_106.burgerzillas.setValue(this.checkpointData.burgerzillas_tally);
+        this.gameObj.var_106.money.setValue(this.checkpointData.money_tally);
+        this.gameObj.var_106.specialitems.setValue(this.checkpointData.specialitems_tally);
+        this.gameObj.var_112.setChallengeTallyFromCheckpoint(this.checkpointData.whichLevel, 1, this.checkpointData.challenge1_tally);
+        this.gameObj.var_112.setChallengeTallyFromCheckpoint(this.checkpointData.whichLevel, 2, this.checkpointData.challenge2_tally);
+        this.gameObj.var_112.setChallengeTallyFromCheckpoint(this.checkpointData.whichLevel, 3, this.checkpointData.challenge3_tally);
+        this.gameObj.var_112.setChallengeTallyFromCheckpoint(this.checkpointData.whichLevel, 4, this.checkpointData.challenge4_tally);
+        this.gameObj.var_112.setChallengeTallyFromCheckpoint(this.checkpointData.whichLevel, 5, this.checkpointData.challenge5_tally);
+        this.gameObj.var_112.setChallengeTallyFromCheckpoint(this.checkpointData.whichLevel, 6, this.checkpointData.challenge6_tally);
+        this.gameObj.var_107.api.method_88("Started From Checkpoint", "Gameplay");
       }
     }
 
     public function setupCollisionArrays():void
     {
-      var _loc1_:DataManager = this;
-      _loc1_.collisionArray = _loc1_.standardCollisionArray;
-      _loc1_.thruArray = _loc1_.standardThruArray;
-      _loc1_.grabArray = _loc1_.standardGrabArray;
+      this.collisionArray = this.standardCollisionArray;
+      this.thruArray = this.standardThruArray;
+      this.grabArray = this.standardGrabArray;
     }
 
     public function clearLevelScreens():void
     {
       var _loc2_:Number = NaN;
-      var _loc1_:DataManager = this;
-      if (_loc1_.currentScreenData != null)
+      if (this.currentScreenData != null)
       {
-        _loc1_.currentScreenData.destroy();
-        _loc1_.currentScreenData = null;
+        this.currentScreenData.destroy();
+        this.currentScreenData = null;
       }
-      if (_loc1_.currentWorldData != null)
+      if (this.currentWorldData != null)
       {
-        _loc1_.currentWorldData.destroy();
-        _loc1_.currentWorldData = null;
+        this.currentWorldData.destroy();
+        this.currentWorldData = null;
       }
       _loc2_ = 0;
-      while (_loc2_ < _loc1_.currentScreens.length)
+      while (_loc2_ < this.currentScreens.length)
       {
-        _loc1_.currentScreens[_loc2_].destroy();
-        _loc1_.currentScreens[_loc2_] = null;
+        this.currentScreens[_loc2_].destroy();
+        this.currentScreens[_loc2_] = null;
         _loc2_++;
       }
-      _loc1_.currentScreens = null;
-      _loc1_.currentScreens = [];
+      this.currentScreens = null;
+      this.currentScreens = [];
     }
 
     public function randomize(param1:Boolean = true):Number
     {
-      var _loc2_:DataManager = this;
       if (param1)
       {
-        return (_loc2_.randomSeed = _loc2_.randomSeed * 16807 % 2147483647) / 2147483647 + 2.33e-10;
+        return (this.randomSeed = this.randomSeed * 16807 % 2147483647) / 2147483647 + 2.33e-10;
       }
       return Math.random();
     }
 
     public function initializeScreenObjects(param1:Number):void
     {
-      var _loc2_:DataManager = this;
-      var _loc3_:class_5 = _loc2_.gameObj;
-      var _loc4_:ScreenData = _loc2_.currentScreenData;
+      var _loc3_:class_5 = this.gameObj;
+      var _loc4_:ScreenData = this.currentScreenData;
       if (!_loc4_.objectsInitialized)
       {
         _loc3_.var_111.clearObjects(param1, true);
@@ -1135,14 +1061,13 @@ package papaGame.data
 
     public function destroy():void
     {
-      var _loc1_:DataManager = this;
-      _loc1_.levelDataClass = null;
-      _loc1_.masterLevelData = null;
-      _loc1_.currentScreenData.destroy();
-      _loc1_.currentScreenData = null;
-      this.gameObj.var_111.clearObjects(_loc1_.currentLevel, true);
-      this.gameObj.var_110.clearEnemies(_loc1_.currentLevel, true);
-      this.gameObj.var_120.clearItems(_loc1_.currentLevel, true);
+      this.levelDataClass = null;
+      this.masterLevelData = null;
+      this.currentScreenData.destroy();
+      this.currentScreenData = null;
+      this.gameObj.var_111.clearObjects(this.currentLevel, true);
+      this.gameObj.var_110.clearEnemies(this.currentLevel, true);
+      this.gameObj.var_120.clearItems(this.currentLevel, true);
     }
 
     public function isOnTrain():Boolean
@@ -1157,8 +1082,7 @@ package papaGame.data
 
     public function isAnimatedBackground():Boolean
     {
-      var _loc1_:DataManager = this;
-      if (_loc1_.currentLevel == 9)
+      if (this.currentLevel == 9)
       {
         return true;
       }
@@ -1167,45 +1091,44 @@ package papaGame.data
 
     public function getUpgradeCost(param1:String, param2:Number):Number
     {
-      var _loc3_:DataManager = this;
       var _loc4_:Number = 999999;
-      if (param2 <= _loc3_.maxUpgradeLevel)
+      if (param2 <= this.maxUpgradeLevel)
       {
         if (param1 == "punching")
         {
-          _loc4_ = Number(_loc3_.upgradePrices[0][param2 - 1]);
+          _loc4_ = Number(this.upgradePrices[0][param2 - 1]);
         }
         else if (param1 == "swinging")
         {
-          _loc4_ = Number(_loc3_.upgradePrices[1][param2 - 1]);
+          _loc4_ = Number(this.upgradePrices[1][param2 - 1]);
         }
         else if (param1 == "shooting")
         {
-          _loc4_ = Number(_loc3_.upgradePrices[2][param2 - 1]);
+          _loc4_ = Number(this.upgradePrices[2][param2 - 1]);
         }
         else if (param1 == "throwing")
         {
-          _loc4_ = Number(_loc3_.upgradePrices[3][param2 - 1]);
+          _loc4_ = Number(this.upgradePrices[3][param2 - 1]);
         }
         else if (param1 == "whipping")
         {
-          _loc4_ = Number(_loc3_.upgradePrices[4][param2 - 1]);
+          _loc4_ = Number(this.upgradePrices[4][param2 - 1]);
         }
         else if (param1 == "thrusting")
         {
-          _loc4_ = Number(_loc3_.upgradePrices[5][param2 - 1]);
+          _loc4_ = Number(this.upgradePrices[5][param2 - 1]);
         }
         else if (param1 == "launching")
         {
-          _loc4_ = Number(_loc3_.upgradePrices[6][param2 - 1]);
+          _loc4_ = Number(this.upgradePrices[6][param2 - 1]);
         }
         else if (param1 == "health")
         {
-          _loc4_ = Number(_loc3_.upgradePrices[7][param2 - 1]);
+          _loc4_ = Number(this.upgradePrices[7][param2 - 1]);
         }
         else if (param1 == "defense")
         {
-          _loc4_ = Number(_loc3_.upgradePrices[8][param2 - 1]);
+          _loc4_ = Number(this.upgradePrices[8][param2 - 1]);
         }
       }
       else
@@ -1217,14 +1140,13 @@ package papaGame.data
 
     public function getArsenalCost(param1:String):Number
     {
-      var _loc2_:DataManager = this;
       var _loc3_:Number = 999999;
       var _loc4_:int = 0;
-      while (_loc4_ < _loc2_.arsenalArray.length)
+      while (_loc4_ < this.arsenalArray.length)
       {
-        if (_loc2_.arsenalArray[_loc4_].title == param1)
+        if (this.arsenalArray[_loc4_].title == param1)
         {
-          _loc3_ = Number(_loc2_.arsenalArray[_loc4_].cost);
+          _loc3_ = Number(this.arsenalArray[_loc4_].cost);
         }
         _loc4_++;
       }
@@ -1238,22 +1160,20 @@ package papaGame.data
 
     public function getNumberOfArsenal():Number
     {
-      var _loc1_:DataManager = this;
-      if (_loc1_.gameObj.var_106.hasEarnedEverything())
+      if (this.gameObj.var_106.hasEarnedEverything())
       {
-        return _loc1_.arsenalArray.length + 1;
+        return this.arsenalArray.length + 1;
       }
-      return _loc1_.arsenalArray.length;
+      return this.arsenalArray.length;
     }
 
     public function getOutfitPrice(param1:Number, param2:Number):Number
     {
-      var _loc3_:DataManager = this;
-      if (param1 < _loc3_.outfitPrices.length)
+      if (param1 < this.outfitPrices.length)
       {
-        if (param2 < _loc3_.outfitPrices[param1].length)
+        if (param2 < this.outfitPrices[param1].length)
         {
-          return _loc3_.outfitPrices[param1][param2];
+          return this.outfitPrices[param1][param2];
         }
         return 999999;
       }
@@ -1346,8 +1266,7 @@ package papaGame.data
 
     public function getKeyLabel(param1:String):String
     {
-      var _loc2_:DataManager = this;
-      var _loc3_:UserData = _loc2_.gameObj.var_106;
+      var _loc3_:UserData = this.gameObj.var_106;
       var _loc4_:String = "???";
       var _loc5_:Number = 0;
       if (param1 == DataManager.KEY_ATTACK)
@@ -1401,20 +1320,19 @@ package papaGame.data
     public function getEnemyName(param1:Number = -1, param2:Number = -1):String
     {
       var _loc5_:int = 0;
-      var _loc3_:DataManager = this;
       var _loc4_:String = "???";
-      if (param1 != -1 && param1 < _loc3_.enemyKey.length)
+      if (param1 != -1 && param1 < this.enemyKey.length)
       {
-        _loc4_ = _loc3_.enemyKey[param1].title;
+        _loc4_ = this.enemyKey[param1].title;
       }
       else
       {
         _loc5_ = 0;
-        while (_loc5_ < _loc3_.enemyKey.length)
+        while (_loc5_ < this.enemyKey.length)
         {
-          if (_loc3_.enemyKey[_loc5_].id == param2)
+          if (this.enemyKey[_loc5_].id == param2)
           {
-            _loc4_ = _loc3_.enemyKey[_loc5_].title;
+            _loc4_ = this.enemyKey[_loc5_].title;
             break;
           }
           _loc5_++;
@@ -1426,20 +1344,19 @@ package papaGame.data
     public function getEnemyClipName(param1:Number = -1, param2:Number = -1):String
     {
       var _loc5_:int = 0;
-      var _loc3_:DataManager = this;
       var _loc4_:String = "???";
-      if (param1 != -1 && param1 < _loc3_.enemyKey.length)
+      if (param1 != -1 && param1 < this.enemyKey.length)
       {
-        _loc4_ = _loc3_.enemyKey[param1].clip;
+        _loc4_ = this.enemyKey[param1].clip;
       }
       else
       {
         _loc5_ = 0;
-        while (_loc5_ < _loc3_.enemyKey.length)
+        while (_loc5_ < this.enemyKey.length)
         {
-          if (_loc3_.enemyKey[_loc5_].id == param2)
+          if (this.enemyKey[_loc5_].id == param2)
           {
-            _loc4_ = _loc3_.enemyKey[_loc5_].clip;
+            _loc4_ = this.enemyKey[_loc5_].clip;
             break;
           }
           _loc5_++;
@@ -1450,10 +1367,9 @@ package papaGame.data
 
     public function getEnemyIDFromIndex(param1:Number):Number
     {
-      var _loc2_:DataManager = this;
-      if (param1 > -1 && param1 < _loc2_.enemyKey.length)
+      if (param1 > -1 && param1 < this.enemyKey.length)
       {
-        return _loc2_.enemyKey[param1].id;
+        return this.enemyKey[param1].id;
       }
       return -1;
     }
@@ -1470,22 +1386,21 @@ package papaGame.data
       var _loc10_:Class = null;
       var _loc11_:int = 0;
       var _loc12_:Number = NaN;
-      var _loc1_:DataManager = this;
       var _loc2_:Number = getTimer();
-      if (_loc1_.enemyThumbBMP == null)
+      if (this.enemyThumbBMP == null)
       {
-        _loc3_ = _loc1_.enemyKey.length;
+        _loc3_ = this.enemyKey.length;
         _loc4_ = 45;
         _loc5_ = 45;
         _loc6_ = 0;
-        _loc1_.enemyThumbBMP = new BitmapData(_loc4_ * _loc3_, _loc5_ * 1, true, 0);
+        this.enemyThumbBMP = new BitmapData(_loc4_ * _loc3_, _loc5_ * 1, true, 0);
         _loc7_ = new BitmapData(_loc4_, _loc5_, true, 0);
         _loc9_ = new DropShadowFilter(4, 45, 0, 0.5);
         _loc11_ = 0;
         while (_loc11_ < _loc3_)
         {
           _loc8_ = null;
-          _loc10_ = getDefinitionByName("enemythumb_" + _loc1_.enemyKey[_loc11_].clip) as Class;
+          _loc10_ = getDefinitionByName("enemythumb_" + this.enemyKey[_loc11_].clip) as Class;
           _loc8_ = new _loc10_() as MovieClip;
           _loc8_.mouseEnabled = false;
           _loc8_.mouseChildren = false;
@@ -1505,10 +1420,9 @@ package papaGame.data
 
     public function getEnemyBitmap(param1:Number):BitmapData
     {
-      var _loc2_:DataManager = this;
       var _loc5_:BitmapData = new BitmapData(45, 45, true, 0);
       var _loc6_:Number = param1 * 45;
-      _loc5_.copyPixels(_loc2_.enemyThumbBMP, new Rectangle(_loc6_, 0, 45, 45), new Point(0, 0), null, null, true);
+      _loc5_.copyPixels(this.enemyThumbBMP, new Rectangle(_loc6_, 0, 45, 45), new Point(0, 0), null, null, true);
       return _loc5_;
     }
   }

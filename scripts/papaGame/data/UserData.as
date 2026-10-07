@@ -88,13 +88,21 @@ package papaGame.data
     public var keyCodeDrop:Number = 68;
     public var keyCodePause:Number = 80;
 
-    private var defaultKeyCodeLeft:Number = 37;
-    private var defaultKeyCodeRight:Number = 39;
-    private var defaultKeyCodeUp:Number = 38;
-    private var defaultKeyCodeDown:Number = 40;
-    private var defaultKeyCodeJump:Number = 38;
-    private var defaultKeyCodeAttack:Number = 32;
+    // private var defaultKeyCodeLeft:Number = 37;
+    private var defaultKeyCodeLeft:Number = 65;
+    // private var defaultKeyCodeRight:Number = 39;
+    private var defaultKeyCodeRight:Number = 68;
+    // private var defaultKeyCodeUp:Number = 38;
+    private var defaultKeyCodeUp:Number = 87;
+    // private var defaultKeyCodeDown:Number = 40;
+    private var defaultKeyCodeDown:Number = 83;
+    // private var defaultKeyCodeJump:Number = 38;
+    private var defaultKeyCodeJump:Number = 87;
+    // private var defaultKeyCodeAttack:Number = 32;
+    private var defaultKeyCodeAttack:Number = 16;
+    // private var defaultKeyCodeDrop:Number = 68;
     private var defaultKeyCodeDrop:Number = 68;
+    // private var defaultKeyCodePause:Number = 80;
     private var defaultKeyCodePause:Number = 80;
 
     public function UserData(param1:class_5)
@@ -156,6 +164,10 @@ package papaGame.data
 
     public function unlockCustomer(param1:Number):void
     {
+      if (this.gameObj.var_109.currentLevel == 9 && param1 == 27)
+      {
+        ExternalInterface.call("newItem", "level9 - char:xandra");
+      }
       ExternalInterface.call("warn", this.gameObj.var_109.currentLevel, param1);
       // if (param1 < this.customersUnlocked.length)
       // {

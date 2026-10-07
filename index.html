@@ -79,13 +79,13 @@
         return localStorage.debug == "true"
       }
       window.owo ??= (e) => e
+      window.chars = new Array(28).fill(0)
+      window.areas = new Array(10).fill(0)
       function pmax() {
-        window.chars = new Array(28).fill(0).map((_) => 1)
+        window.chars = new Array(28).fill(1)
+        window.areas = new Array(10).fill(1)
         updateCharLockState()
-        for (var i in new Array(11).fill(1)) {
-          player[`setActLocked_${i}`]?.(false)
-          unlockedActs.add(Number(i))
-        }
+        updateAreaLockState()
         renderMovesList()
       }
       function updateCharLockState() {
@@ -96,63 +96,7 @@
       }
       window.moves ??= []
       const itemList = {
-        "move:key": () => window.moves.push("key"),
-        "move:lightswitch": () => window.moves.push("lightswitch"),
-        "move:bounce": () => window.moves.push("bounce"),
-        "move:cannon": () => window.moves.push("cannon"),
-        "move:kick": () => window.moves.push("kick"),
-        "move:lever": () => window.moves.push("lever"),
-        "move:polejump": () => window.moves.push("polejump"),
-        "move:portal": () => window.moves.push("portal"),
-        "move:pulley": () => window.moves.push("pulley"),
-        "move:slide": () => window.moves.push("slide"),
-        "move:swim": () => window.moves.push("swim"),
-        "move:walljump": () => window.moves.push("walljump"),
-        "level:stage0": () => {
-          player.setActLocked_0?.(false)
-          unlockedActs.add(0)
-        },
-        "level:stage1": () => {
-          player.setActLocked_1?.(false)
-          unlockedActs.add(1)
-        },
-        "level:stage2": () => {
-          player.setActLocked_2?.(false)
-          unlockedActs.add(2)
-        },
-        "level:stage3": () => {
-          player.setActLocked_3?.(false)
-          unlockedActs.add(3)
-        },
-        "level:stage4": () => {
-          player.setActLocked_4?.(false)
-          unlockedActs.add(4)
-        },
-        "level:stage5": () => {
-          player.setActLocked_5?.(false)
-          unlockedActs.add(5)
-        },
-        "level:stage6": () => {
-          player.setActLocked_6?.(false)
-          unlockedActs.add(6)
-        },
-        "level:stage7": () => {
-          player.setActLocked_7?.(false)
-          unlockedActs.add(7)
-        },
-        "level:stage8": () => {
-          player.setActLocked_8?.(false)
-          unlockedActs.add(8)
-        },
-        "level:stage9": () => {
-          player.setActLocked_9?.(false)
-          unlockedActs.add(9)
-        },
-        "level:stage10": () => {
-          player.setActLocked_10?.(false)
-          unlockedActs.add(10)
-        },
-        "trap:nothing": () => {},
+        "filler:nothing": () => {},
       }
       window.apErrors = []
       window.onPlayerLoaded = []
@@ -450,9 +394,11 @@
         player.style.pointerEvents = "all"
         player.play()
         window.ap = Any
-        var sd = getSaveData()
-        pmax()
-        saveGame(sd)
+        // var sd = getSaveData()
+        window.onPlayerLoaded.push(() => {
+          pmax()
+        })
+        // saveGame(sd)
       })
       const allMoves = []
 

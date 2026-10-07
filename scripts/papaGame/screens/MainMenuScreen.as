@@ -1,5 +1,6 @@
 package papaGame.screens
 {
+  import flash.external.ExternalInterface;
   import flash.display.*;
   import flash.events.*;
   import flash.filters.ColorMatrixFilter;
@@ -1656,7 +1657,7 @@ package papaGame.screens
 
     public function setupMap(param1:Boolean = true):void
     {
-      ExternalInterface.call("markPlayerLoaded")
+      ExternalInterface.call("markPlayerLoaded");
       var _loc5_:Number = NaN;
       var _loc6_:Number = NaN;
       var _loc7_:Number = NaN;

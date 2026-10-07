@@ -57,3 +57,5 @@ symbolClass/symbols.csv
 !scripts/papaGame/data/CustomerData.as
 !scripts/papaGame/models/characters/CustomerChar.as
 !scripts/papaGame/screens/ParadeScreen.as
+!scripts/papaGame/screens/ScoreTallyScreen.as
+!scripts/papaGame/events/GameControls.as

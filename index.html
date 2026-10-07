@@ -91,6 +91,9 @@
       function updateCharLockState() {
         window.chars.forEach((e, i) => player.setCharLockState(i, e))
       }
+      function updateAreaLockState() {
+        window.areas.forEach((e, i) => player.setAreaLockState(i, e))
+      }
       window.moves ??= []
       const itemList = {
         "move:key": () => window.moves.push("key"),
@@ -172,6 +175,8 @@
       function markPlayerLoaded() {
         window.playerLoaded = true
         onPlayerLoaded.forEach((e) => e())
+        updateCharLockState()
+        updateAreaLockState()
         newItem("hub - level:stage0")
       }
       HTMLElement.prototype.getElementById = function (a) {

@@ -60,7 +60,7 @@ package package_4
     public var var_325:Boolean = false;
     public var var_294:Array = [SplashScreen, ScoreTallyScreen, SlotSelectScreen, MainMenuScreen, MochiAd];
     public var var_303:Boolean = false;
-    public var menuScreen:MainMenuScreen = false;
+    public var menuScreen:MainMenuScreen;
 
     public function class_5()
     {

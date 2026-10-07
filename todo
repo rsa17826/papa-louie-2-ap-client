@@ -1,1 +1,3 @@
 lv 10 win gets no character event
+prevent player from entering level 1 when loading new save
+prevent player from entering with player0 if not unlocked

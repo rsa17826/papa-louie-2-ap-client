@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "${BASH_SOURCE[0]}")"
+RABCDASM_DIR="$PWD/RABCDAsm"
+cur=$(mktemp -d)/cur.swf
+cp papa-louie-2-deobf.swf "$cur"
+
+while IFS= read -r rel; do
+  [[ -z "$rel" ]] && continue
+  stage=$(mktemp -d)
+  mkdir -p "$stage/$(dirname "$rel")"
+  cp "scripts/$rel" "$stage/$rel"
+  next="$(dirname "$cur")/next.swf"
+  out=$(ffdec -importScript "$cur" "$next" "$stage" 2>&1)
+  echo "$out"
+  if grep -qiE "error|failed|exception" <<<"$out"; then
+    echo "FAIL $rel"
+    exit 1
+  fi
+  work=$(mktemp -d)
+  cp "$next" "$work/t.swf"
+  (
+    cd "$work"
+    "$RABCDASM_DIR/abcexport" t.swf
+    for abc in t-*.abc; do "$RABCDASM_DIR/rabcdasm" "$abc" >/dev/null; done
+  )
+  echo "OK  $rel"
+  mv "$next" "$cur"
+done <.modded_files
+cp "$cur" papa-louie-archipelago.swf

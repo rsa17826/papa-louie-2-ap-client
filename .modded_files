@@ -26,3 +26,4 @@ papaGame/data/CustomerData.as
 papaGame/models/characters/CustomerChar.as
 papaGame/screens/ParadeScreen.as
 papaGame/models/GameObject.as
+papaGame/models/objects/GameObject27.as

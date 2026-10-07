@@ -154,7 +154,6 @@ package package_4
       this.var_106.customersUnlocked[char] = state;
       if (!this.var_106.customersUnlocked[this.menuScreen.selectedCharacterIndex])
       {
-        ExternalInterface.call("log", this.var_106.customersUnlocked[this.menuScreen.selectedCharacterIndex], "this.var_106.customersUnlocked[this.menuScreen.selectedCharacterIndex]", this.menuScreen.selectedCharacterIndex, this.var_106.customersUnlocked);
         this.menuScreen.selectedCharacterIndex = 27;
         while (this.menuScreen.selectedCharacterIndex > 0 && !this.var_106.customersUnlocked[this.menuScreen.selectedCharacterIndex])
         {

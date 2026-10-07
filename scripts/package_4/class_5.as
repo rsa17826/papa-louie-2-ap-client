@@ -418,7 +418,7 @@ package package_4
     }
     public function clickTeleport(param1:MouseEvent):void
     {
-      if (!ExternalInterface.call("debugEnabled"))
+      if (!ExternalInterface.call("debugModeEnabled"))
       {
         return;
       }

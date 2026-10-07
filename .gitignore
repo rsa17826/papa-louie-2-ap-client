@@ -55,3 +55,4 @@ symbolClass/symbols.csv
 !scripts/papaGame/screens/StageOutroScreen.as
 !scripts/papaGame/models/PlayerChar.as
 !scripts/papaGame/data/CustomerData.as
+!scripts/papaGame/models/characters/CustomerChar.as

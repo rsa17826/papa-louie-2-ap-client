@@ -18,3 +18,4 @@ papaGame/screens/LoadingLevelsScreen.as
 papaGame/data/LevelData.as
 papaGame/data/DataManager.as
 papaGame/data/UserData.as
+papaGame/managers/ChallengeManager.as

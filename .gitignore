@@ -50,3 +50,4 @@ symbolClass/symbols.csv
 .direnv
 !levelViewer/images/
 !levelViewer/images/*.png
+!scripts/papaGame/managers/ChallengeManager.as

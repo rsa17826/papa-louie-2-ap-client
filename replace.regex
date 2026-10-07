@@ -1,259 +1,259 @@
-@file \.as$
-@regex (^ *(public|private) var.*)(?:\n{2,})(^ *\2 var.*)
-@replace $1
-$3
-@untilfail
-@endregex
-@js
-const tokens = []
-let i = 0
-const len = text.length
+! @file \.as$
+! @regex (^ *(public|private) var.*)(?:\n{2,})(^ *\2 var.*)
+! @replace $1
+! $3
+! @untilfail
+! @endregex
+! @name inline decompiler "this" aliases (AS3)
+! @file \.as$
+! @js
+! // Inlines the decompiler's "this" aliases: in every function, a
+! //   var _locN_:Type = this;
+! // is removed and every use of _locN_ inside that function becomes `this`.
+! // Function bounds come from brace matching on a copy of the text with
+! // strings, comments and regex literals blanked out, so a "}" inside
+! // log("}") can't end a function early.
+! // A variable is left untouched if a nested function uses it (inside a nested
+! // function `this` is something else, which is why the alias exists), if it is
+! // used before its declaration, or if it is ever assigned to.
+! const ALIAS = /\bvar\s+(_loc\d+_)\s*:\s*[^\s=;]+\s*=\s*this\s*;/g
+! const FUNCTION =
+!   /\bfunction\b\s*(?:(?:get|set)\s+)?(?:[A-Za-z_$][\w$]*)?\s*\(/g
+! // a "/" starts a regex literal after one of these characters or words
+! const REGEX_AFTER_CHAR = "(,=:[!&|?{};+-*%<>~^"
+! const REGEX_AFTER_WORD = /(?:^|[^\w$])(?:return|typeof|case|in|void)$/
 
-// 1. Lexical Scanner / Tokenizer
-while (i < len) {
-  let char = text[i]
-  let nextChar = text[i + 1]
+! /**
+!  * Same length as src, with comments, strings and regex literals replaced by
+!  * spaces (newlines kept), so offsets into the result are offsets into src.
+!  * @param {string} src
+!  * @returns {string}
+!  */
+! function maskNonCode(src) {
+!   const out = src.split("")
+!   /** @param {number} from @param {number} to */
+!   const blank = (from, to) => {
+!     for (let k = from; k < to; k++)
+!       if (out[k] !== "\n" && out[k] !== "\r") out[k] = " "
+!   }
+!   let prev = "" // last significant code character
+!   let i = 0
+!   while (i < src.length) {
+!     const c = src[i]
+!     const n = src[i + 1]
+!     if (c === "/" && n === "/") {
+!       let e = src.indexOf("\n", i)
+!       if (e === -1) e = src.length
+!       blank(i, e)
+!       i = e
+!       continue
+!     }
+!     if (c === "/" && n === "*") {
+!       const e = src.indexOf("*/", i + 2)
+!       if (e === -1)
+!         throw new Error("unterminated /* comment at offset " + i)
+!       blank(i, e + 2)
+!       i = e + 2
+!       continue
+!     }
+!     if (c === '"' || c === "'") {
+!       let k = i + 1
+!       while (k < src.length && src[k] !== c) {
+!         if (src[k] === "\n")
+!           throw new Error("unterminated string at offset " + i)
+!         k += src[k] === "\\" ? 2 : 1
+!       }
+!       if (k >= src.length)
+!         throw new Error("unterminated string at offset " + i)
+!       blank(i, k + 1)
+!       i = k + 1
+!       prev = '"'
+!       continue
+!     }
+!     if (c === "/") {
+!       const before = out
+!         .slice(Math.max(0, i - 10), i)
+!         .join("")
+!         .trimEnd()
+!       if (
+!         prev === "" ||
+!         REGEX_AFTER_CHAR.includes(prev) ||
+!         REGEX_AFTER_WORD.test(before)
+!       ) {
+!         let k = i + 1
+!         let inClass = false
+!         while (k < src.length && (inClass || src[k] !== "/")) {
+!           if (src[k] === "\n")
+!             throw new Error(
+!               "unterminated regex literal at offset " + i,
+!             )
+!           if (src[k] === "\\") k++
+!           else if (src[k] === "[") inClass = true
+!           else if (src[k] === "]") inClass = false
+!           k++
+!         }
+!         if (k >= src.length)
+!           throw new Error("unterminated regex literal at offset " + i)
+!         k++
+!         while (k < src.length && /[a-z]/.test(src[k])) k++
+!         blank(i, k)
+!         i = k
+!         prev = "x"
+!         continue
+!       }
+!     }
+!     if (!/\s/.test(c)) prev = c
+!     i++
+!   }
+!   return out.join("")
+! }
 
-  // Comments
-  if (char === "/" && nextChar === "/") {
-    let start = i
-    i += 2
-    while (i < len && text[i] !== "\n" && text[i] !== "\r") i++
-    tokens.push({
-      type: "COMMENT",
-      start,
-      end: i,
-      value: text.slice(start, i),
-    })
-    continue
-  }
-  if (char === "/" && nextChar === "*") {
-    let start = i
-    i += 2
-    while (i < len && !(text[i] === "*" && text[i + 1] === "/")) i++
-    if (i < len) i += 2
-    tokens.push({
-      type: "COMMENT",
-      start,
-      end: i,
-      value: text.slice(start, i),
-    })
-    continue
-  }
+! /**
+!  * Index of the bracket closing the one at openIdx, in masked code.
+!  * @param {string} code @param {number} openIdx @param {string} open @param {string} close
+!  */
+! function matchClose(code, openIdx, open, close) {
+!   let depth = 0
+!   for (let k = openIdx; k < code.length; k++) {
+!     if (code[k] === open) depth++
+!     else if (code[k] === close && --depth === 0) return k
+!   }
+!   throw new Error(
+!     `no matching "${close}" for the "${open}" at offset ${openIdx}`,
+!   )
+! }
 
-  // Strings ('...' or "...")
-  if (char === '"' || char === "'") {
-    let start = i
-    let quote = char
-    i++
-    while (i < len) {
-      if (text[i] === "\\") {
-        i += 2
-        continue
-      }
-      if (text[i] === quote) {
-        i++
-        break
-      }
-      i++
-    }
-    tokens.push({
-      type: "STRING",
-      start,
-      end: i,
-      value: text.slice(start, i),
-    })
-    continue
-  }
+! const code = maskNonCode(text)
 
-  // Whitespace
-  if (/\s/.test(char)) {
-    let start = i
-    while (i < len && /\s/.test(text[i])) i++
-    tokens.push({
-      type: "WHITESPACE",
-      start,
-      end: i,
-      value: text.slice(start, i),
-    })
-    continue
-  }
+! /** @type {{ head: number, open: number, close: number }[]} */
+! const fns = []
+! for (const m of code.matchAll(FUNCTION)) {
+!   const paramsEnd = matchClose(
+!     code,
+!     m.index + m[0].length - 1,
+!     "(",
+!     ")",
+!   )
+!   // after ")" comes an optional ":ReturnType" and then "{". An interface or
+!   // abstract declaration has ";" there instead and no body.
+!   const afterParams = /\s*(?::\s*[^\s{;]+\s*)?([{;])/y
+!   afterParams.lastIndex = paramsEnd + 1
+!   const found = afterParams.exec(code)
+!   if (!found)
+!     throw new Error(
+!       "cannot find the body of the function at offset " + m.index,
+!     )
+!   if (found[1] === ";") continue
+!   const open = afterParams.lastIndex - 1
+!   fns.push({
+!     head: m.index,
+!     open,
+!     close: matchClose(code, open, "{", "}"),
+!   })
+! }
 
-  // Punctuation & Braces
-  if ("{}()[];:=,".includes(char)) {
-    tokens.push({
-      type: "PUNCTUATION",
-      start: i,
-      end: i + 1,
-      value: char,
-    })
-    i++
-    continue
-  }
+! /**
+!  * Whether pos is inside a function nested in f that doesn't declare its own
+!  * `name` (so the nested code really refers to f's variable).
+!  * @param {{ open: number, close: number }} f @param {number} pos @param {string} name
+!  */
+! const usedByNestedFunction = (f, pos, name) => {
+!   const own = new RegExp(`(?:\\bvar\\s+|[(,]\\s*)${name}\\s*[:,)=;]`)
+!   const chain = fns.filter(
+!     (g) =>
+!       g !== f &&
+!       g.head > f.open &&
+!       g.close < f.close &&
+!       pos >= g.head &&
+!       pos <= g.close,
+!   )
+!   return (
+!     chain.length > 0 &&
+!     !chain.some((g) => own.test(code.slice(g.head, g.close + 1)))
+!   )
+! }
+! const isAssigned = (
+!   /** @type {number} */ pos,
+!   /** @type {string} */ name,
+! ) =>
+!   /^\s*(?:(?:[-+*\/%&|^]|<<|>>>?)=|=(?!=)|\+\+|--)/.test(
+!     code.slice(pos + name.length, pos + name.length + 6),
+!   ) || /(?:\+\+|--)\s*$/.test(code.slice(Math.max(0, pos - 6), pos))
 
-  // Identifiers & Keywords (support dots and generics like package_2.class_7 or Vector.<uint>)
-  if (/[a-zA-Z_$]/.test(char)) {
-    let start = i
-    while (i < len) {
-      let c = text[i]
-      if (/[a-zA-Z0-9_$]/.test(c)) {
-        i++
-      } else if (
-        c === "." &&
-        i + 1 < len &&
-        /[a-zA-Z_$]/.test(text[i + 1])
-      ) {
-        i++ // allow dotted identifiers
-      } else if (
-        c === "<" ||
-        c === ">" ||
-        (c === "." && text[i - 1] === ".")
-      ) {
-        // allow generic brackets or dots if part of type definition
-        i++
-      } else {
-        break
-      }
-    }
-    tokens.push({
-      type: "IDENTIFIER",
-      start,
-      end: i,
-      value: text.slice(start, i),
-    })
-    continue
-  }
+! // the alias declarations of each function, by function and name
+! /** @type {Map<string, { f: { open: number, close: number }, name: string, decls: { start: number, end: number }[] }>} */
+! const aliases = new Map()
+! for (const m of code.matchAll(ALIAS)) {
+!   const containing = fns.filter(
+!     (g) => g.open < m.index && m.index < g.close,
+!   )
+!   if (!containing.length) continue // not inside any function: not a decompiler alias
+!   const f = containing.reduce((a, b) => (b.open > a.open ? b : a))
+!   const key = f.open + ":" + m[1]
+!   if (!aliases.has(key))
+!     aliases.set(key, { f, name: m[1], decls: [] })
+!   aliases
+!     .get(key)
+!     .decls.push({ start: m.index, end: m.index + m[0].length })
+! }
 
-  // Other characters
-  tokens.push({ type: "OTHER", start: i, end: i + 1, value: char })
-  i++
-}
+! /** @type {{ start: number, end: number, text: string }[]} */
+! const edits = []
+! for (const { f, name, decls } of aliases.values()) {
+!   if (decls.length !== 1) continue // declared twice in one function: not the plain alias
+!   const decl = decls[0]
+!   const uses = []
+!   const use = new RegExp(`(?<![\\w$.])${name}(?![\\w$])`, "g")
+!   const bodyStart = f.open + 1
+!   for (const m of code.slice(bodyStart, f.close).matchAll(use)) {
+!     const start = bodyStart + m.index
+!     if (start >= decl.start && start < decl.end) continue
+!     uses.push(start)
+!   }
+!   if (
+!     uses.some(
+!       (pos) =>
+!         pos < decl.start ||
+!         isAssigned(pos, name) ||
+!         usedByNestedFunction(f, pos, name),
+!     )
+!   )
+!     continue
+!   // a nested function that declares its own `name` is not using this one
+!   const ours = uses.filter(
+!     (pos) =>
+!       !fns.some(
+!         (g) =>
+!           g !== f &&
+!           g.head > f.open &&
+!           g.close < f.close &&
+!           pos >= g.head &&
+!           pos <= g.close,
+!       ),
+!   )
 
-// Filter out whitespace and comments for structural analysis while keeping offsets
-const meaningfulTokens = []
-tokens.forEach((t) => {
-  if (t.type !== "WHITESPACE" && t.type !== "COMMENT") {
-    meaningfulTokens.push(t)
-  }
-})
+!   // remove the whole line when the declaration is all that is on it
+!   let { start, end } = decl
+!   const lineStart = text.lastIndexOf("\n", start - 1) + 1
+!   let lineEnd = text.indexOf("\n", end)
+!   if (lineEnd === -1) lineEnd = text.length
+!   if (
+!     text.slice(lineStart, start).trim() === "" &&
+!     text.slice(end, lineEnd).trim() === ""
+!   ) {
+!     start = lineStart
+!     end = Math.min(lineEnd + 1, text.length)
+!   } else {
+!     while (
+!       end < text.length &&
+!       (text[end] === " " || text[end] === "\t")
+!     )
+!       end++
+!   }
+!   edits.push({ start, end, text: "" })
+!   for (const pos of ours)
+!     edits.push({ start: pos, end: pos + name.length, text: "this" })
+! }
+! return edits.sort((a, b) => a.start - b.start)
+! @endjs
 
-// 2. Build Brace Map for Scope Matching
-const braceMap = new Map() // closing index -> opening index
-const openBraces = []
-
-meaningfulTokens.forEach((t, idx) => {
-  if (t.value === "{") {
-    openBraces.push(idx)
-  } else if (t.value === "}") {
-    if (openBraces.length > 0) {
-      let openIdx = openBraces.pop()
-      braceMap.set(idx, openIdx)
-    }
-  }
-})
-
-const replacements = []
-
-// 3. Scan meaningful tokens for `var _locN_ [ : Type ] = this ;`
-for (let mIdx = 0; mIdx < meaningfulTokens.length; mIdx++) {
-  let t = meaningfulTokens[mIdx]
-  if (t.value === "var" && mIdx + 1 < meaningfulTokens.length) {
-    let nextT = meaningfulTokens[mIdx + 1]
-    if (
-      nextT.type === "IDENTIFIER" &&
-      /^_loc\d+$/.test(nextT.value)
-    ) {
-      let varName = nextT.value
-      let declStart = t.start
-      let lookAhead = mIdx + 2
-
-      // Handle optional type annotation `: Type` (can be simple, dotted, or generic like Vector.<uint>)
-      if (
-        lookAhead < meaningfulTokens.length &&
-        meaningfulTokens[lookAhead].value === ":"
-      ) {
-        lookAhead++ // skip ':'
-        if (
-          lookAhead < meaningfulTokens.length &&
-          meaningfulTokens[lookAhead].type === "IDENTIFIER"
-        ) {
-          lookAhead++ // skip type name
-        }
-      }
-
-      // Check `=` `this` `;`
-      if (
-        lookAhead + 2 < meaningfulTokens.length &&
-        meaningfulTokens[lookAhead].value === "=" &&
-        meaningfulTokens[lookAhead + 1].value === "this" &&
-        meaningfulTokens[lookAhead + 2].value === ";"
-      ) {
-        let declEnd = meaningfulTokens[lookAhead + 2].end
-
-        // Clean up trailing newline if present
-        let nextOriginalIdx = tokens.findIndex(
-          (tok) => tok.start >= declEnd,
-        )
-        if (
-          nextOriginalIdx !== -1 &&
-          tokens[nextOriginalIdx].type === "WHITESPACE" &&
-          tokens[nextOriginalIdx].value.includes("\n")
-        ) {
-          declEnd = tokens[nextOriginalIdx].end
-        }
-
-        // Find enclosing function/block scope using brace map
-        let enclosingOpenMeaningfulIdx = -1
-        for (let bIdx = mIdx; bIdx >= 0; bIdx--) {
-          if (meaningfulTokens[bIdx].value === "{") {
-            for (let [closeIdx, openIdx] of braceMap.entries()) {
-              if (openIdx === bIdx && closeIdx > mIdx) {
-                enclosingOpenMeaningfulIdx = bIdx
-                break
-              }
-            }
-            if (enclosingOpenMeaningfulIdx !== -1) break
-          }
-        }
-
-        if (enclosingOpenMeaningfulIdx !== -1) {
-          let enclosingCloseMeaningfulIdx = -1
-          for (let [closeIdx, openIdx] of braceMap.entries()) {
-            if (openIdx === enclosingOpenMeaningfulIdx) {
-              enclosingCloseMeaningfulIdx = closeIdx
-              break
-            }
-          }
-
-          // 1. Remove declaration statement
-          replacements.push({
-            start: declStart,
-            end: declEnd,
-            text: "",
-          })
-
-          // 2. Replace all scoped references of `_locN_` with `this`
-          for (
-            let scanIdx = enclosingOpenMeaningfulIdx + 1;
-            scanIdx < enclosingCloseMeaningfulIdx;
-            scanIdx++
-          ) {
-            let mt = meaningfulTokens[scanIdx]
-            if (mt.type === "IDENTIFIER" && mt.value === varName) {
-              replacements.push({
-                start: mt.start,
-                end: mt.end,
-                text: "this",
-              })
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-// Sort replacements by start index ascending
-replacements.sort((a, b) => a.start - b.start)
-return replacements
-@endjs

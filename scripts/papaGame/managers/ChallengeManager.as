@@ -670,14 +670,13 @@ package papaGame.managers
       var _loc6_:Number = NaN;
       var _loc7_:Challenge = null;
       var _loc8_:Challenge = null;
-      var _loc4_:ChallengeManager = this;
       var _loc5_:String = "";
       if (param1 > -1)
       {
         _loc6_ = 0;
-        while (_loc6_ < _loc4_.challenges.length)
+        while (_loc6_ < this.challenges.length)
         {
-          _loc7_ = _loc4_.challenges[_loc6_];
+          _loc7_ = this.challenges[_loc6_];
           if (_loc7_.whichWorld == param1 && _loc7_.whichChallenge == param2)
           {
             _loc5_ = _loc7_.title;
@@ -688,9 +687,9 @@ package papaGame.managers
       }
       else if (param3 > -1)
       {
-        if (param3 < _loc4_.badges.length)
+        if (param3 < this.badges.length)
         {
-          _loc8_ = _loc4_.badges[param3];
+          _loc8_ = this.badges[param3];
           _loc5_ = _loc8_.title;
         }
       }
@@ -701,14 +700,13 @@ package papaGame.managers
     {
       var _loc5_:Number = NaN;
       var _loc6_:Challenge = null;
-      var _loc3_:ChallengeManager = this;
       var _loc4_:String = CustomerData.SKILL_NONE;
       if (param1 > -1)
       {
         _loc5_ = 0;
-        while (_loc5_ < _loc3_.challenges.length)
+        while (_loc5_ < this.challenges.length)
         {
-          _loc6_ = _loc3_.challenges[_loc5_];
+          _loc6_ = this.challenges[_loc5_];
           if (_loc6_.whichWorld == param1 && _loc6_.whichChallenge == param2)
           {
             _loc4_ = _loc6_.skillNeeded;
@@ -724,14 +722,13 @@ package papaGame.managers
     {
       var _loc5_:Number = NaN;
       var _loc6_:Challenge = null;
-      var _loc3_:ChallengeManager = this;
       var _loc4_:String = "";
       if (param1 > -1)
       {
         _loc5_ = 0;
-        while (_loc5_ < _loc3_.challenges.length)
+        while (_loc5_ < this.challenges.length)
         {
-          _loc6_ = _loc3_.challenges[_loc5_];
+          _loc6_ = this.challenges[_loc5_];
           if (_loc6_.whichWorld == param1 && _loc6_.whichChallenge == param2)
           {
             _loc4_ = _loc6_.challengeType;
@@ -747,14 +744,13 @@ package papaGame.managers
     {
       var _loc5_:Number = NaN;
       var _loc6_:Challenge = null;
-      var _loc3_:ChallengeManager = this;
       var _loc4_:String = "";
       if (param1 > -1)
       {
         _loc5_ = 0;
-        while (_loc5_ < _loc3_.challenges.length)
+        while (_loc5_ < this.challenges.length)
         {
-          _loc6_ = _loc3_.challenges[_loc5_];
+          _loc6_ = this.challenges[_loc5_];
           if (_loc6_.whichWorld == param1 && _loc6_.whichChallenge == param2)
           {
             _loc4_ = String(_loc6_.targetAmount);
@@ -771,14 +767,13 @@ package papaGame.managers
       var _loc6_:Number = NaN;
       var _loc7_:Challenge = null;
       var _loc8_:Challenge = null;
-      var _loc4_:ChallengeManager = this;
       var _loc5_:String = "";
       if (param1 > -1)
       {
         _loc6_ = 0;
-        while (_loc6_ < _loc4_.challenges.length)
+        while (_loc6_ < this.challenges.length)
         {
-          _loc7_ = _loc4_.challenges[_loc6_];
+          _loc7_ = this.challenges[_loc6_];
           if (_loc7_.whichWorld == param1 && _loc7_.whichChallenge == param2)
           {
             _loc5_ = _loc7_.description;
@@ -789,9 +784,9 @@ package papaGame.managers
       }
       else if (param3 > -1)
       {
-        if (param3 < _loc4_.badges.length)
+        if (param3 < this.badges.length)
         {
-          _loc8_ = _loc4_.badges[param3];
+          _loc8_ = this.badges[param3];
           _loc5_ = _loc8_.description;
         }
       }
@@ -803,14 +798,13 @@ package papaGame.managers
       var _loc6_:Number = NaN;
       var _loc7_:Challenge = null;
       var _loc8_:Challenge = null;
-      var _loc4_:ChallengeManager = this;
       var _loc5_:Number = 0;
       if (param1 > -1)
       {
         _loc6_ = 0;
-        while (_loc6_ < _loc4_.challenges.length)
+        while (_loc6_ < this.challenges.length)
         {
-          _loc7_ = _loc4_.challenges[_loc6_];
+          _loc7_ = this.challenges[_loc6_];
           if (_loc7_.whichWorld == param1 && _loc7_.whichChallenge == param2)
           {
             _loc5_ = _loc7_.rewardMoney;
@@ -821,9 +815,9 @@ package papaGame.managers
       }
       else if (param3 > -1)
       {
-        if (param3 < _loc4_.badges.length)
+        if (param3 < this.badges.length)
         {
-          _loc8_ = _loc4_.badges[param3];
+          _loc8_ = this.badges[param3];
           _loc5_ = _loc8_.rewardMoney;
         }
       }
@@ -834,14 +828,13 @@ package papaGame.managers
     {
       var _loc5_:Number = NaN;
       var _loc6_:Challenge = null;
-      var _loc3_:ChallengeManager = this;
       var _loc4_:String = "";
       if (param1 > -1)
       {
         _loc5_ = 0;
-        while (_loc5_ < _loc3_.challenges.length)
+        while (_loc5_ < this.challenges.length)
         {
-          _loc6_ = _loc3_.challenges[_loc5_];
+          _loc6_ = this.challenges[_loc5_];
           if (_loc6_.whichWorld == param1 && _loc6_.whichChallenge == param2)
           {
             if (_loc6_.showTally)
@@ -861,11 +854,10 @@ package papaGame.managers
     public function getBadgeTallyString(param1:Number):String
     {
       var _loc4_:Challenge = null;
-      var _loc2_:ChallengeManager = this;
       var _loc3_:String = "";
-      if (param1 < _loc2_.badges.length)
+      if (param1 < this.badges.length)
       {
-        _loc4_ = _loc2_.badges[param1];
+        _loc4_ = this.badges[param1];
         if (_loc4_.showTally)
         {
           if (_loc4_.tally < _loc4_.targetAmount)
@@ -880,11 +872,10 @@ package papaGame.managers
     public function getBadgeTally(param1:Number):Number
     {
       var _loc4_:Challenge = null;
-      var _loc2_:ChallengeManager = this;
       var _loc3_:Number = 0;
-      if (param1 < _loc2_.badges.length)
+      if (param1 < this.badges.length)
       {
-        _loc4_ = _loc2_.badges[param1];
+        _loc4_ = this.badges[param1];
         _loc3_ = _loc4_.tally;
       }
       return _loc3_;
@@ -892,26 +883,24 @@ package papaGame.managers
 
     public function getNumberOfBadges():Number
     {
-      var _loc1_:ChallengeManager = this;
-      return _loc1_.badges.length;
+      return this.badges.length;
     }
 
     public function shouldLockBadge(param1:Number):Boolean
     {
       var _loc4_:Challenge = null;
       var _loc5_:int = 0;
-      var _loc2_:ChallengeManager = this;
       var _loc3_:Boolean = false;
-      if (param1 < _loc2_.badges.length)
+      if (param1 < this.badges.length)
       {
-        _loc4_ = _loc2_.badges[param1];
+        _loc4_ = this.badges[param1];
         if (_loc4_.requiredCustomerUnlocks != null && _loc4_.requiredCustomerUnlocks.length > 0)
         {
           _loc3_ = true;
           _loc5_ = 0;
           while (_loc5_ < _loc4_.requiredCustomerUnlocks.length)
           {
-            if (_loc2_.gameObj.var_106.hasCustomerUnlocked(_loc2_.gameObj.var_113.getCustomerIndex(_loc4_.requiredCustomerUnlocks[_loc5_])) == true)
+            if (this.gameObj.var_106.hasCustomerUnlocked(this.gameObj.var_113.getCustomerIndex(_loc4_.requiredCustomerUnlocks[_loc5_])) == true)
             {
               _loc3_ = false;
               break;
@@ -921,7 +910,7 @@ package papaGame.managers
         }
         if (_loc4_.requiredLevelUnlock > 0)
         {
-          if (_loc2_.gameObj.var_106.areasUnlocked[_loc4_.requiredLevelUnlock - 1] == 0)
+          if (this.gameObj.var_106.areasUnlocked[_loc4_.requiredLevelUnlock - 1] == 0)
           {
             _loc3_ = true;
           }
@@ -937,14 +926,13 @@ package papaGame.managers
       var _loc8_:Boolean = false;
       var _loc9_:Challenge = null;
       var _loc10_:Boolean = false;
-      var _loc2_:ChallengeManager = this;
-      var _loc3_:DataManager = _loc2_.gameObj.var_109;
-      var _loc4_:UserData = _loc2_.gameObj.var_106;
-      var _loc5_:GameHUD = _loc2_.gameObj.var_115;
+      var _loc3_:DataManager = this.gameObj.var_109;
+      var _loc4_:UserData = this.gameObj.var_106;
+      var _loc5_:GameHUD = this.gameObj.var_115;
       _loc6_ = 0;
-      while (_loc6_ < _loc2_.challenges.length)
+      while (_loc6_ < this.challenges.length)
       {
-        _loc7_ = _loc2_.challenges[_loc6_];
+        _loc7_ = this.challenges[_loc6_];
         if (_loc7_.whichWorld == _loc3_.currentLevel)
         {
           if (_loc7_.challengeType == Challenge.TAGGED && _loc7_.tagName == param1)
@@ -961,8 +949,8 @@ package papaGame.managers
               {
                 _loc5_.updateDisplay();
               }
-              _loc2_.showCompletingChallenge(_loc7_.whichChallenge);
-              _loc2_.checkCustomChallenges("challenges");
+              this.showCompletingChallenge(_loc7_.whichChallenge);
+              this.checkCustomChallenges("challenges");
               _loc4_.saveProgress("challenge");
             }
           }
@@ -970,9 +958,9 @@ package papaGame.managers
         _loc6_++;
       }
       _loc6_ = 0;
-      while (_loc6_ < _loc2_.badges.length)
+      while (_loc6_ < this.badges.length)
       {
-        _loc9_ = _loc2_.badges[_loc6_];
+        _loc9_ = this.badges[_loc6_];
         if (_loc9_.challengeType == Challenge.TAGGED && _loc9_.tagName == param1)
         {
           _loc10_ = _loc9_.addToTally();
@@ -988,7 +976,7 @@ package papaGame.managers
             {
               _loc5_.updateDisplay();
             }
-            _loc2_.showEarningBadge(_loc6_);
+            this.showEarningBadge(_loc6_);
           }
         }
         _loc6_++;
@@ -999,14 +987,13 @@ package papaGame.managers
     {
       var _loc6_:Number = NaN;
       var _loc7_:Challenge = null;
-      var _loc2_:ChallengeManager = this;
-      var _loc3_:DataManager = _loc2_.gameObj.var_109;
-      var _loc4_:UserData = _loc2_.gameObj.var_106;
-      var _loc5_:GameHUD = _loc2_.gameObj.var_115;
+      var _loc3_:DataManager = this.gameObj.var_109;
+      var _loc4_:UserData = this.gameObj.var_106;
+      var _loc5_:GameHUD = this.gameObj.var_115;
       _loc6_ = 0;
-      while (_loc6_ < _loc2_.challenges.length)
+      while (_loc6_ < this.challenges.length)
       {
-        _loc7_ = _loc2_.challenges[_loc6_];
+        _loc7_ = this.challenges[_loc6_];
         if (_loc7_.whichWorld == _loc3_.currentLevel)
         {
           if (_loc7_.challengeType == Challenge.TAGGED && _loc7_.tagName == param1 && !_loc4_.hasCompletedChallenge(_loc7_.whichWorld, _loc7_.whichChallenge))
@@ -1026,14 +1013,13 @@ package papaGame.managers
     {
       var _loc6_:Number = NaN;
       var _loc7_:Challenge = null;
-      var _loc2_:ChallengeManager = this;
-      var _loc3_:DataManager = _loc2_.gameObj.var_109;
-      var _loc4_:UserData = _loc2_.gameObj.var_106;
-      var _loc5_:GameHUD = _loc2_.gameObj.var_115;
+      var _loc3_:DataManager = this.gameObj.var_109;
+      var _loc4_:UserData = this.gameObj.var_106;
+      var _loc5_:GameHUD = this.gameObj.var_115;
       _loc6_ = 0;
-      while (_loc6_ < _loc2_.challenges.length)
+      while (_loc6_ < this.challenges.length)
       {
-        _loc7_ = _loc2_.challenges[_loc6_];
+        _loc7_ = this.challenges[_loc6_];
         if (_loc7_.whichWorld == _loc3_.currentLevel)
         {
           if (_loc7_.challengeType == Challenge.RESCUE && _loc7_.whichCustomer == param1)
@@ -1045,8 +1031,8 @@ package papaGame.managers
               {
                 _loc5_.updateDisplay();
               }
-              _loc2_.showCompletingChallenge(_loc7_.whichChallenge);
-              _loc2_.checkCustomChallenges("challenges");
+              this.showCompletingChallenge(_loc7_.whichChallenge);
+              this.checkCustomChallenges("challenges");
             }
           }
         }
@@ -1062,14 +1048,13 @@ package papaGame.managers
       var _loc9_:Challenge = null;
       var _loc10_:Boolean = false;
       class_7.method_1("Record Burgerzilla! " + param1);
-      var _loc2_:ChallengeManager = this;
-      var _loc3_:DataManager = _loc2_.gameObj.var_109;
-      var _loc4_:UserData = _loc2_.gameObj.var_106;
-      var _loc5_:GameHUD = _loc2_.gameObj.var_115;
+      var _loc3_:DataManager = this.gameObj.var_109;
+      var _loc4_:UserData = this.gameObj.var_106;
+      var _loc5_:GameHUD = this.gameObj.var_115;
       _loc6_ = 0;
-      while (_loc6_ < _loc2_.challenges.length)
+      while (_loc6_ < this.challenges.length)
       {
-        _loc7_ = _loc2_.challenges[_loc6_];
+        _loc7_ = this.challenges[_loc6_];
         if (_loc7_.whichWorld == _loc3_.currentLevel)
         {
           if (_loc7_.challengeType == Challenge.BURGERZILLAS)
@@ -1083,17 +1068,17 @@ package papaGame.managers
               {
                 _loc5_.updateDisplay();
               }
-              _loc2_.showCompletingChallenge(_loc7_.whichChallenge);
-              _loc2_.checkCustomChallenges("challenges");
+              this.showCompletingChallenge(_loc7_.whichChallenge);
+              this.checkCustomChallenges("challenges");
             }
           }
         }
         _loc6_++;
       }
       _loc6_ = 0;
-      while (_loc6_ < _loc2_.badges.length)
+      while (_loc6_ < this.badges.length)
       {
-        _loc9_ = _loc2_.badges[_loc6_];
+        _loc9_ = this.badges[_loc6_];
         if (_loc9_.challengeType == Challenge.BURGERZILLAS)
         {
           _loc10_ = _loc9_.addToTally();
@@ -1109,7 +1094,7 @@ package papaGame.managers
             {
               _loc5_.updateDisplay();
             }
-            _loc2_.showEarningBadge(_loc6_);
+            this.showEarningBadge(_loc6_);
           }
         }
         _loc6_++;
@@ -1123,14 +1108,13 @@ package papaGame.managers
       var _loc8_:Boolean = false;
       var _loc9_:Challenge = null;
       var _loc10_:Boolean = false;
-      var _loc2_:ChallengeManager = this;
-      var _loc3_:DataManager = _loc2_.gameObj.var_109;
-      var _loc4_:UserData = _loc2_.gameObj.var_106;
-      var _loc5_:GameHUD = _loc2_.gameObj.var_115;
+      var _loc3_:DataManager = this.gameObj.var_109;
+      var _loc4_:UserData = this.gameObj.var_106;
+      var _loc5_:GameHUD = this.gameObj.var_115;
       _loc6_ = 0;
-      while (_loc6_ < _loc2_.challenges.length)
+      while (_loc6_ < this.challenges.length)
       {
-        _loc7_ = _loc2_.challenges[_loc6_];
+        _loc7_ = this.challenges[_loc6_];
         if (_loc7_.whichWorld == _loc3_.currentLevel)
         {
           if (_loc7_.challengeType == Challenge.COINS)
@@ -1143,17 +1127,17 @@ package papaGame.managers
               {
                 _loc5_.updateDisplay();
               }
-              _loc2_.showCompletingChallenge(_loc7_.whichChallenge);
-              _loc2_.checkCustomChallenges("challenges");
+              this.showCompletingChallenge(_loc7_.whichChallenge);
+              this.checkCustomChallenges("challenges");
             }
           }
         }
         _loc6_++;
       }
       _loc6_ = 0;
-      while (_loc6_ < _loc2_.badges.length)
+      while (_loc6_ < this.badges.length)
       {
-        _loc9_ = _loc2_.badges[_loc6_];
+        _loc9_ = this.badges[_loc6_];
         if (_loc9_.challengeType == Challenge.COINS)
         {
           _loc10_ = _loc9_.addToTally();
@@ -1169,7 +1153,7 @@ package papaGame.managers
             {
               _loc5_.updateDisplay();
             }
-            _loc2_.showEarningBadge(_loc6_);
+            this.showEarningBadge(_loc6_);
           }
         }
         _loc6_++;
@@ -1183,14 +1167,13 @@ package papaGame.managers
       var _loc8_:Boolean = false;
       var _loc9_:Challenge = null;
       var _loc10_:Boolean = false;
-      var _loc2_:ChallengeManager = this;
-      var _loc3_:DataManager = _loc2_.gameObj.var_109;
-      var _loc4_:UserData = _loc2_.gameObj.var_106;
-      var _loc5_:GameHUD = _loc2_.gameObj.var_115;
+      var _loc3_:DataManager = this.gameObj.var_109;
+      var _loc4_:UserData = this.gameObj.var_106;
+      var _loc5_:GameHUD = this.gameObj.var_115;
       _loc6_ = 0;
-      while (_loc6_ < _loc2_.challenges.length)
+      while (_loc6_ < this.challenges.length)
       {
-        _loc7_ = _loc2_.challenges[_loc6_];
+        _loc7_ = this.challenges[_loc6_];
         if (_loc7_.whichWorld == _loc3_.currentLevel)
         {
           if (_loc7_.challengeType == Challenge.SPECIALITEMS)
@@ -1203,17 +1186,17 @@ package papaGame.managers
               {
                 _loc5_.updateDisplay();
               }
-              _loc2_.showCompletingChallenge(_loc7_.whichChallenge);
-              _loc2_.checkCustomChallenges("challenges");
+              this.showCompletingChallenge(_loc7_.whichChallenge);
+              this.checkCustomChallenges("challenges");
             }
           }
         }
         _loc6_++;
       }
       _loc6_ = 0;
-      while (_loc6_ < _loc2_.badges.length)
+      while (_loc6_ < this.badges.length)
       {
-        _loc9_ = _loc2_.badges[_loc6_];
+        _loc9_ = this.badges[_loc6_];
         if (_loc9_.challengeType == Challenge.SPECIALITEMS)
         {
           _loc10_ = _loc9_.addToTally();
@@ -1229,7 +1212,7 @@ package papaGame.managers
             {
               _loc5_.updateDisplay();
             }
-            _loc2_.showEarningBadge(_loc6_);
+            this.showEarningBadge(_loc6_);
           }
         }
         _loc6_++;
@@ -1243,14 +1226,13 @@ package papaGame.managers
       var _loc8_:Boolean = false;
       var _loc9_:Challenge = null;
       var _loc10_:Boolean = false;
-      var _loc2_:ChallengeManager = this;
-      var _loc3_:DataManager = _loc2_.gameObj.var_109;
-      var _loc4_:UserData = _loc2_.gameObj.var_106;
-      var _loc5_:GameHUD = _loc2_.gameObj.var_115;
+      var _loc3_:DataManager = this.gameObj.var_109;
+      var _loc4_:UserData = this.gameObj.var_106;
+      var _loc5_:GameHUD = this.gameObj.var_115;
       _loc6_ = 0;
-      while (_loc6_ < _loc2_.challenges.length)
+      while (_loc6_ < this.challenges.length)
       {
-        _loc7_ = _loc2_.challenges[_loc6_];
+        _loc7_ = this.challenges[_loc6_];
         if (_loc7_.whichWorld == _loc3_.currentLevel)
         {
           if (_loc7_.challengeType == Challenge.MULTIEXPLOSION && _loc7_.targetAmount <= param1)
@@ -1263,8 +1245,8 @@ package papaGame.managers
               {
                 _loc5_.updateDisplay();
               }
-              _loc2_.showCompletingChallenge(_loc7_.whichChallenge);
-              _loc2_.checkCustomChallenges("challenges");
+              this.showCompletingChallenge(_loc7_.whichChallenge);
+              this.checkCustomChallenges("challenges");
               _loc4_.saveProgress("challenge");
             }
           }
@@ -1272,9 +1254,9 @@ package papaGame.managers
         _loc6_++;
       }
       _loc6_ = 0;
-      while (_loc6_ < _loc2_.badges.length)
+      while (_loc6_ < this.badges.length)
       {
-        _loc9_ = _loc2_.badges[_loc6_];
+        _loc9_ = this.badges[_loc6_];
         if (_loc9_.challengeType == Challenge.MULTIEXPLOSION && _loc9_.targetAmount <= param1)
         {
           _loc10_ = _loc9_.setTally(param1);
@@ -1290,7 +1272,7 @@ package papaGame.managers
             {
               _loc5_.updateDisplay();
             }
-            _loc2_.showEarningBadge(_loc6_);
+            this.showEarningBadge(_loc6_);
           }
         }
         _loc6_++;
@@ -1304,14 +1286,13 @@ package papaGame.managers
       var _loc8_:Boolean = false;
       var _loc9_:Challenge = null;
       var _loc10_:Boolean = false;
-      var _loc2_:ChallengeManager = this;
-      var _loc3_:DataManager = _loc2_.gameObj.var_109;
-      var _loc4_:UserData = _loc2_.gameObj.var_106;
-      var _loc5_:GameHUD = _loc2_.gameObj.var_115;
+      var _loc3_:DataManager = this.gameObj.var_109;
+      var _loc4_:UserData = this.gameObj.var_106;
+      var _loc5_:GameHUD = this.gameObj.var_115;
       _loc6_ = 0;
-      while (_loc6_ < _loc2_.challenges.length)
+      while (_loc6_ < this.challenges.length)
       {
-        _loc7_ = _loc2_.challenges[_loc6_];
+        _loc7_ = this.challenges[_loc6_];
         if (_loc7_.whichWorld == _loc3_.currentLevel)
         {
           if (_loc7_.challengeType == Challenge.MULTIROCKET && _loc7_.targetAmount <= param1)
@@ -1324,8 +1305,8 @@ package papaGame.managers
               {
                 _loc5_.updateDisplay();
               }
-              _loc2_.showCompletingChallenge(_loc7_.whichChallenge);
-              _loc2_.checkCustomChallenges("challenges");
+              this.showCompletingChallenge(_loc7_.whichChallenge);
+              this.checkCustomChallenges("challenges");
               _loc4_.saveProgress("challenge");
             }
           }
@@ -1333,9 +1314,9 @@ package papaGame.managers
         _loc6_++;
       }
       _loc6_ = 0;
-      while (_loc6_ < _loc2_.badges.length)
+      while (_loc6_ < this.badges.length)
       {
-        _loc9_ = _loc2_.badges[_loc6_];
+        _loc9_ = this.badges[_loc6_];
         if (_loc9_.challengeType == Challenge.MULTIROCKET && _loc9_.targetAmount <= param1)
         {
           _loc10_ = _loc9_.setTally(param1);
@@ -1351,7 +1332,7 @@ package papaGame.managers
             {
               _loc5_.updateDisplay();
             }
-            _loc2_.showEarningBadge(_loc6_);
+            this.showEarningBadge(_loc6_);
           }
         }
         _loc6_++;
@@ -1365,14 +1346,13 @@ package papaGame.managers
       var _loc8_:Boolean = false;
       var _loc9_:Challenge = null;
       var _loc10_:Boolean = false;
-      var _loc2_:ChallengeManager = this;
-      var _loc3_:DataManager = _loc2_.gameObj.var_109;
-      var _loc4_:UserData = _loc2_.gameObj.var_106;
-      var _loc5_:GameHUD = _loc2_.gameObj.var_115;
+      var _loc3_:DataManager = this.gameObj.var_109;
+      var _loc4_:UserData = this.gameObj.var_106;
+      var _loc5_:GameHUD = this.gameObj.var_115;
       _loc6_ = 0;
-      while (_loc6_ < _loc2_.challenges.length)
+      while (_loc6_ < this.challenges.length)
       {
-        _loc7_ = _loc2_.challenges[_loc6_];
+        _loc7_ = this.challenges[_loc6_];
         if (_loc7_.whichWorld == _loc3_.currentLevel)
         {
           if (_loc7_.challengeType == Challenge.MULTIJUGGLE && _loc7_.targetAmount <= param1)
@@ -1385,8 +1365,8 @@ package papaGame.managers
               {
                 _loc5_.updateDisplay();
               }
-              _loc2_.showCompletingChallenge(_loc7_.whichChallenge);
-              _loc2_.checkCustomChallenges("challenges");
+              this.showCompletingChallenge(_loc7_.whichChallenge);
+              this.checkCustomChallenges("challenges");
               _loc4_.saveProgress("challenge");
             }
           }
@@ -1394,9 +1374,9 @@ package papaGame.managers
         _loc6_++;
       }
       _loc6_ = 0;
-      while (_loc6_ < _loc2_.badges.length)
+      while (_loc6_ < this.badges.length)
       {
-        _loc9_ = _loc2_.badges[_loc6_];
+        _loc9_ = this.badges[_loc6_];
         if (_loc9_.challengeType == Challenge.MULTIJUGGLE && _loc9_.targetAmount <= param1)
         {
           _loc10_ = _loc9_.setTally(param1);
@@ -1412,7 +1392,7 @@ package papaGame.managers
             {
               _loc5_.updateDisplay();
             }
-            _loc2_.showEarningBadge(_loc6_);
+            this.showEarningBadge(_loc6_);
           }
         }
         _loc6_++;
@@ -1426,14 +1406,13 @@ package papaGame.managers
       var _loc8_:Boolean = false;
       var _loc9_:Challenge = null;
       var _loc10_:Boolean = false;
-      var _loc2_:ChallengeManager = this;
-      var _loc3_:DataManager = _loc2_.gameObj.var_109;
-      var _loc4_:UserData = _loc2_.gameObj.var_106;
-      var _loc5_:GameHUD = _loc2_.gameObj.var_115;
+      var _loc3_:DataManager = this.gameObj.var_109;
+      var _loc4_:UserData = this.gameObj.var_106;
+      var _loc5_:GameHUD = this.gameObj.var_115;
       _loc6_ = 0;
-      while (_loc6_ < _loc2_.challenges.length)
+      while (_loc6_ < this.challenges.length)
       {
-        _loc7_ = _loc2_.challenges[_loc6_];
+        _loc7_ = this.challenges[_loc6_];
         if (_loc7_.whichWorld == _loc3_.currentLevel)
         {
           if (_loc7_.challengeType == Challenge.COMBO && _loc7_.targetAmount <= param1)
@@ -1446,8 +1425,8 @@ package papaGame.managers
               {
                 _loc5_.updateDisplay();
               }
-              _loc2_.showCompletingChallenge(_loc7_.whichChallenge);
-              _loc2_.checkCustomChallenges("challenges");
+              this.showCompletingChallenge(_loc7_.whichChallenge);
+              this.checkCustomChallenges("challenges");
               _loc4_.saveProgress("challenge");
             }
           }
@@ -1455,9 +1434,9 @@ package papaGame.managers
         _loc6_++;
       }
       _loc6_ = 0;
-      while (_loc6_ < _loc2_.badges.length)
+      while (_loc6_ < this.badges.length)
       {
-        _loc9_ = _loc2_.badges[_loc6_];
+        _loc9_ = this.badges[_loc6_];
         if (_loc9_.challengeType == Challenge.COMBO && _loc9_.targetAmount <= param1)
         {
           _loc10_ = _loc9_.setTally(param1);
@@ -1473,7 +1452,7 @@ package papaGame.managers
             {
               _loc5_.updateDisplay();
             }
-            _loc2_.showEarningBadge(_loc6_);
+            this.showEarningBadge(_loc6_);
           }
         }
         _loc6_++;
@@ -1485,14 +1464,13 @@ package papaGame.managers
       var _loc6_:Number = NaN;
       var _loc7_:Challenge = null;
       var _loc8_:Challenge = null;
-      var _loc2_:ChallengeManager = this;
-      var _loc3_:DataManager = _loc2_.gameObj.var_109;
-      var _loc4_:UserData = _loc2_.gameObj.var_106;
-      var _loc5_:GameHUD = _loc2_.gameObj.var_115;
+      var _loc3_:DataManager = this.gameObj.var_109;
+      var _loc4_:UserData = this.gameObj.var_106;
+      var _loc5_:GameHUD = this.gameObj.var_115;
       _loc6_ = 0;
-      while (_loc6_ < _loc2_.challenges.length)
+      while (_loc6_ < this.challenges.length)
       {
-        _loc7_ = _loc2_.challenges[_loc6_];
+        _loc7_ = this.challenges[_loc6_];
         if (_loc7_.whichWorld == _loc3_.currentLevel)
         {
           if (_loc7_.challengeType == Challenge.TIMETRIAL && param1 <= _loc7_.targetAmount)
@@ -1504,8 +1482,8 @@ package papaGame.managers
               {
                 _loc5_.updateDisplay();
               }
-              _loc2_.showCompletingChallenge(_loc7_.whichChallenge);
-              _loc2_.checkCustomChallenges("challenges");
+              this.showCompletingChallenge(_loc7_.whichChallenge);
+              this.checkCustomChallenges("challenges");
               _loc4_.saveProgress("challenge");
             }
           }
@@ -1513,9 +1491,9 @@ package papaGame.managers
         _loc6_++;
       }
       _loc6_ = 0;
-      while (_loc6_ < _loc2_.badges.length)
+      while (_loc6_ < this.badges.length)
       {
-        _loc8_ = _loc2_.badges[_loc6_];
+        _loc8_ = this.badges[_loc6_];
         if (_loc8_.challengeType == Challenge.TIMETRIAL && param1 <= _loc8_.targetAmount)
         {
           if (!_loc4_.hasBadge(_loc6_))
@@ -1530,7 +1508,7 @@ package papaGame.managers
             {
               _loc5_.updateDisplay();
             }
-            _loc2_.showEarningBadge(_loc6_);
+            this.showEarningBadge(_loc6_);
           }
         }
         _loc6_++;
@@ -1543,15 +1521,14 @@ package papaGame.managers
       var _loc10_:Challenge = null;
       var _loc11_:Challenge = null;
       var _loc12_:Boolean = false;
-      var _loc4_:ChallengeManager = this;
-      var _loc5_:DataManager = _loc4_.gameObj.var_109;
-      var _loc6_:UserData = _loc4_.gameObj.var_106;
-      var _loc7_:GameHUD = _loc4_.gameObj.var_115;
+      var _loc5_:DataManager = this.gameObj.var_109;
+      var _loc6_:UserData = this.gameObj.var_106;
+      var _loc7_:GameHUD = this.gameObj.var_115;
       var _loc9_:Boolean = false;
       _loc8_ = 0;
-      while (_loc8_ < _loc4_.challenges.length)
+      while (_loc8_ < this.challenges.length)
       {
-        _loc10_ = _loc4_.challenges[_loc8_];
+        _loc10_ = this.challenges[_loc8_];
         if (_loc10_.whichWorld == _loc5_.currentLevel)
         {
           if (_loc10_.challengeType == Challenge.ENEMYTALLY)
@@ -1570,8 +1547,8 @@ package papaGame.managers
                 {
                   _loc7_.updateDisplay();
                 }
-                _loc4_.showCompletingChallenge(_loc10_.whichChallenge);
-                _loc4_.checkCustomChallenges("challenges");
+                this.showCompletingChallenge(_loc10_.whichChallenge);
+                this.checkCustomChallenges("challenges");
                 _loc6_.saveProgress("challenge");
               }
             }
@@ -1580,9 +1557,9 @@ package papaGame.managers
         _loc8_++;
       }
       _loc8_ = 0;
-      while (_loc8_ < _loc4_.badges.length)
+      while (_loc8_ < this.badges.length)
       {
-        _loc11_ = _loc4_.badges[_loc8_];
+        _loc11_ = this.badges[_loc8_];
         if (_loc11_.challengeType == Challenge.ENEMYTALLY)
         {
           if (_loc11_.meetsEnemyRequirements(param1, param2, param3))
@@ -1600,7 +1577,7 @@ package papaGame.managers
               {
                 _loc7_.updateDisplay();
               }
-              _loc4_.showEarningBadge(_loc8_);
+              this.showEarningBadge(_loc8_);
             }
           }
         }
@@ -1610,8 +1587,7 @@ package papaGame.managers
 
     public function fixBadges():void
     {
-      var _loc1_:ChallengeManager = this;
-      var _loc2_:UserData = _loc1_.gameObj.var_106;
+      var _loc2_:UserData = this.gameObj.var_106;
     }
 
     public function recordMastery(param1:String):void
@@ -1620,18 +1596,17 @@ package papaGame.managers
       var _loc8_:Challenge = null;
       var _loc9_:Challenge = null;
       var _loc10_:Boolean = false;
-      var _loc2_:ChallengeManager = this;
-      var _loc3_:DataManager = _loc2_.gameObj.var_109;
-      var _loc4_:UserData = _loc2_.gameObj.var_106;
-      var _loc5_:GameHUD = _loc2_.gameObj.var_115;
+      var _loc3_:DataManager = this.gameObj.var_109;
+      var _loc4_:UserData = this.gameObj.var_106;
+      var _loc5_:GameHUD = this.gameObj.var_115;
       var _loc7_:Boolean = false;
       _loc6_ = 0;
-      while (_loc6_ < _loc2_.challenges.length)
+      while (_loc6_ < this.challenges.length)
       {
-        _loc8_ = _loc2_.challenges[_loc6_];
+        _loc8_ = this.challenges[_loc6_];
         if (_loc8_.whichWorld == _loc3_.currentLevel)
         {
-          if (_loc8_.challengeType == Challenge.MASTERY && _loc8_.meetsMasteryRequirements(_loc2_.gameObj.var_111.getWeaponType(param1)))
+          if (_loc8_.challengeType == Challenge.MASTERY && _loc8_.meetsMasteryRequirements(this.gameObj.var_111.getWeaponType(param1)))
           {
             _loc7_ = _loc8_.addToTally(1);
             if (!_loc4_.hasCompletedChallenge(_loc8_.whichWorld, _loc8_.whichChallenge) && _loc8_.showTally)
@@ -1645,8 +1620,8 @@ package papaGame.managers
               {
                 _loc5_.updateDisplay();
               }
-              _loc2_.showCompletingChallenge(_loc8_.whichChallenge);
-              _loc2_.checkCustomChallenges("challenges");
+              this.showCompletingChallenge(_loc8_.whichChallenge);
+              this.checkCustomChallenges("challenges");
               _loc4_.saveProgress("challenge");
             }
           }
@@ -1654,10 +1629,10 @@ package papaGame.managers
         _loc6_++;
       }
       _loc6_ = 0;
-      while (_loc6_ < _loc2_.badges.length)
+      while (_loc6_ < this.badges.length)
       {
-        _loc9_ = _loc2_.badges[_loc6_];
-        if (_loc9_.challengeType == Challenge.MASTERY && _loc9_.meetsMasteryRequirements(_loc2_.gameObj.var_111.getWeaponType(param1)))
+        _loc9_ = this.badges[_loc6_];
+        if (_loc9_.challengeType == Challenge.MASTERY && _loc9_.meetsMasteryRequirements(this.gameObj.var_111.getWeaponType(param1)))
         {
           _loc10_ = _loc9_.addToTally(1);
           if ((_loc10_) && !_loc4_.hasBadge(_loc6_))
@@ -1672,7 +1647,7 @@ package papaGame.managers
             {
               _loc5_.updateDisplay();
             }
-            _loc2_.showEarningBadge(_loc6_);
+            this.showEarningBadge(_loc6_);
           }
         }
         _loc6_++;
@@ -1690,17 +1665,16 @@ package papaGame.managers
       var _loc12_:int = 0;
       var _loc13_:Number = NaN;
       var _loc14_:int = 0;
-      var _loc2_:ChallengeManager = this;
-      var _loc3_:DataManager = _loc2_.gameObj.var_109;
-      var _loc4_:UserData = _loc2_.gameObj.var_106;
-      var _loc5_:GameHUD = _loc2_.gameObj.var_115;
+      var _loc3_:DataManager = this.gameObj.var_109;
+      var _loc4_:UserData = this.gameObj.var_106;
+      var _loc5_:GameHUD = this.gameObj.var_115;
       // TODO custom challenges
       if (param1 == "all")
       {
         _loc6_ = 0;
-        while (_loc6_ < _loc2_.challenges.length)
+        while (_loc6_ < this.challenges.length)
         {
-          _loc7_ = _loc2_.challenges[_loc6_];
+          _loc7_ = this.challenges[_loc6_];
           if (_loc7_.whichWorld == _loc3_.currentLevel)
           {
             if (_loc7_.challengeType == Challenge.CUSTOM)
@@ -1748,8 +1722,8 @@ package papaGame.managers
                 {
                   _loc5_.updateDisplay();
                 }
-                _loc2_.showCompletingChallenge(_loc7_.whichChallenge);
-                _loc2_.checkCustomChallenges("challenges");
+                this.showCompletingChallenge(_loc7_.whichChallenge);
+                this.checkCustomChallenges("challenges");
                 _loc4_.saveProgress("challenge");
               }
             }
@@ -1758,9 +1732,9 @@ package papaGame.managers
         }
       }
       _loc6_ = 0;
-      while (_loc6_ < _loc2_.badges.length)
+      while (_loc6_ < this.badges.length)
       {
-        _loc9_ = _loc2_.badges[_loc6_];
+        _loc9_ = this.badges[_loc6_];
         if (_loc9_.challengeType == Challenge.CUSTOM)
         {
           _loc10_ = false;
@@ -1810,7 +1784,7 @@ package papaGame.managers
             {
               _loc5_.updateDisplay();
             }
-            _loc2_.showEarningBadge(_loc6_);
+            this.showEarningBadge(_loc6_);
             _loc4_.saveProgress("badge");
           }
         }
@@ -1821,12 +1795,11 @@ package papaGame.managers
     public function getMedalProgressArray():Array
     {
       var _loc4_:Challenge = null;
-      var _loc1_:ChallengeManager = this;
       var _loc2_:Array = [];
       var _loc3_:int = 0;
-      while (_loc3_ < _loc1_.badges.length)
+      while (_loc3_ < this.badges.length)
       {
-        _loc4_ = _loc1_.badges[_loc3_];
+        _loc4_ = this.badges[_loc3_];
         _loc2_[_loc3_] = _loc4_.tally;
         _loc3_++;
       }
@@ -1837,7 +1810,6 @@ package papaGame.managers
     {
       var _loc4_:Number = NaN;
       var _loc5_:Challenge = null;
-      var _loc2_:ChallengeManager = this;
       var _loc3_:int = 0;
       while (_loc3_ < param1.length)
       {
@@ -1846,9 +1818,9 @@ package papaGame.managers
         {
           _loc4_ = Number(param1[_loc3_]);
         }
-        if (_loc2_.badges.length > _loc3_)
+        if (this.badges.length > _loc3_)
         {
-          _loc5_ = _loc2_.badges[_loc3_];
+          _loc5_ = this.badges[_loc3_];
           _loc5_.setTally(_loc4_);
         }
         _loc3_++;
@@ -1859,14 +1831,13 @@ package papaGame.managers
     {
       var _loc5_:int = 0;
       var _loc6_:Challenge = null;
-      var _loc3_:ChallengeManager = this;
       var _loc4_:Number = -1;
       if (param1 > -1)
       {
         _loc5_ = 0;
-        while (_loc5_ < _loc3_.challenges.length)
+        while (_loc5_ < this.challenges.length)
         {
-          _loc6_ = _loc3_.challenges[_loc5_];
+          _loc6_ = this.challenges[_loc5_];
           if (_loc6_.whichWorld == param1 && _loc6_.whichChallenge == param2)
           {
             if (_loc6_.challengeType == Challenge.BURGERZILLAS || _loc6_.challengeType == Challenge.COINS || _loc6_.challengeType == Challenge.SPECIALITEMS || _loc6_.challengeType == Challenge.TAGGED || _loc6_.challengeType == Challenge.MULTIJUGGLE || _loc6_.challengeType == Challenge.MULTIEXPLOSION || _loc6_.challengeType == Challenge.MULTIROCKET || _loc6_.challengeType == Challenge.COMBO || _loc6_.challengeType == Challenge.ENEMYTALLY)
@@ -1884,13 +1855,12 @@ package papaGame.managers
     {
       var _loc5_:int = 0;
       var _loc6_:Challenge = null;
-      var _loc4_:ChallengeManager = this;
       if (param1 > -1)
       {
         _loc5_ = 0;
-        while (_loc5_ < _loc4_.challenges.length)
+        while (_loc5_ < this.challenges.length)
         {
-          _loc6_ = _loc4_.challenges[_loc5_];
+          _loc6_ = this.challenges[_loc5_];
           if (_loc6_.whichWorld == param1 && _loc6_.whichChallenge == param2)
           {
             if (param3 != -1)
@@ -1906,12 +1876,11 @@ package papaGame.managers
     public function resetCurrentChallenges():void
     {
       var _loc4_:Challenge = null;
-      var _loc1_:ChallengeManager = this;
-      var _loc2_:Number = _loc1_.gameObj.var_109.currentLevel;
+      var _loc2_:Number = this.gameObj.var_109.currentLevel;
       var _loc3_:int = 0;
-      while (_loc3_ < _loc1_.challenges.length)
+      while (_loc3_ < this.challenges.length)
       {
-        _loc4_ = _loc1_.challenges[_loc3_];
+        _loc4_ = this.challenges[_loc3_];
         if (_loc4_.whichWorld == _loc2_)
         {
           _loc4_.clearTally();
@@ -1925,18 +1894,17 @@ package papaGame.managers
       var _loc2_:Number = NaN;
       var _loc3_:Challenge = null;
       var _loc4_:Challenge = null;
-      var _loc1_:ChallengeManager = this;
       _loc2_ = 0;
-      while (_loc2_ < _loc1_.badges.length)
+      while (_loc2_ < this.badges.length)
       {
-        _loc3_ = _loc1_.badges[_loc2_];
+        _loc3_ = this.badges[_loc2_];
         _loc3_.clearTally(true);
         _loc2_++;
       }
       _loc2_ = 0;
-      while (_loc2_ < _loc1_.challenges.length)
+      while (_loc2_ < this.challenges.length)
       {
-        _loc4_ = _loc1_.challenges[_loc2_];
+        _loc4_ = this.challenges[_loc2_];
         _loc4_.clearTally(true);
         _loc2_++;
       }
@@ -1944,102 +1912,97 @@ package papaGame.managers
 
     public function showEarningBadge(param1:Number):void
     {
-      var _loc2_:ChallengeManager = this;
       class_7.method_1("EARN BADGE #" + param1 + ". ADD TO QUEUE!");
-      _loc2_.badgeQueue.push(param1);
-      _loc2_.checkForDisplayingDropdown();
+      this.badgeQueue.push(param1);
+      this.checkForDisplayingDropdown();
     }
 
     public function showCompletingChallenge(param1:Number):void
     {
-      var _loc2_:ChallengeManager = this;
       class_7.method_1("COMPLETE CHALLENGE #" + param1 + ". ADD TO QUEUE!");
-      _loc2_.challengeQueue.push(param1);
-      _loc2_.checkForDisplayingDropdown();
+      this.challengeQueue.push(param1);
+      this.checkForDisplayingDropdown();
     }
 
     public function showEarningTreasure(param1:Number):void
     {
-      var _loc2_:ChallengeManager = this;
       class_7.method_1("FOUND TREASURE #" + param1 + ". ADD TO QUEUE!");
-      _loc2_.treasureQueue.push(param1);
-      _loc2_.checkForDisplayingDropdown();
+      this.treasureQueue.push(param1);
+      this.checkForDisplayingDropdown();
     }
 
     public function checkForDisplayingDropdown():void
     {
       var _loc4_:Number = NaN;
-      var _loc1_:ChallengeManager = this;
       var _loc2_:String = "none";
       var _loc3_:Number = -1;
-      if (_loc1_.badgeDropdown == null)
+      if (this.badgeDropdown == null)
       {
-        if (_loc1_.treasureQueue.length > 0)
+        if (this.treasureQueue.length > 0)
         {
           _loc2_ = "treasure";
-          _loc3_ = Number(_loc1_.treasureQueue[0]);
+          _loc3_ = Number(this.treasureQueue[0]);
         }
-        else if (_loc1_.challengeQueue.length > 0)
+        else if (this.challengeQueue.length > 0)
         {
           _loc2_ = "challenge";
-          _loc3_ = Number(_loc1_.challengeQueue[0]);
+          _loc3_ = Number(this.challengeQueue[0]);
         }
-        else if (_loc1_.badgeQueue.length > 0)
+        else if (this.badgeQueue.length > 0)
         {
           _loc2_ = "badge";
-          _loc3_ = Number(_loc1_.badgeQueue[0]);
+          _loc3_ = Number(this.badgeQueue[0]);
         }
       }
       if (_loc2_ != "none" && _loc3_ != -1)
       {
         _loc4_ = _loc3_;
-        _loc1_.dropdownCurrentType = _loc2_;
-        _loc1_.badgeDropdown = new badgeDropdownMC();
-        _loc1_.badgeDropdown.buttonMode = true;
-        _loc1_.badgeDropdown.mouseEnabled = true;
-        _loc1_.badgeDropdown.mouseChildren = false;
-        _loc1_.badgeDropdown.tabEnabled = false;
-        _loc1_.badgeDropdown.x = _loc1_.dropdownX;
+        this.dropdownCurrentType = _loc2_;
+        this.badgeDropdown = new badgeDropdownMC();
+        this.badgeDropdown.buttonMode = true;
+        this.badgeDropdown.mouseEnabled = true;
+        this.badgeDropdown.mouseChildren = false;
+        this.badgeDropdown.tabEnabled = false;
+        this.badgeDropdown.x = this.dropdownX;
         if (_loc2_ == "badge")
         {
-          _loc1_.badgeDropdown.challenge.visible = false;
-          _loc1_.badgeDropdown.badge.visible = true;
-          _loc1_.badgeDropdown.badge.panel.title_txt.text = _loc1_.getChallengeTitle(-1, -1, _loc4_);
-          _loc1_.badgeDropdown.badge.panel.description_txt.text = _loc1_.getChallengeDescription(-1, -1, _loc4_);
-          _loc1_.badgeDropdown.badge.panel.reward_txt.text = "+ $" + class_10.method_84(_loc1_.getChallengeRewardAmount(-1, -1, _loc4_));
-          _loc1_.badgeDropdown.badge.panel.points_txt.text = _loc1_.getChallengeRewardAmount(-1, -1, _loc4_) + " Pts.";
-          _loc1_.badgeDropdown.badge.panel.thumb.gotoAndStop(_loc4_ + 1);
-          _loc1_.gameObj.var_105.playSound("getstar.wav");
+          this.badgeDropdown.challenge.visible = false;
+          this.badgeDropdown.badge.visible = true;
+          this.badgeDropdown.badge.panel.title_txt.text = this.getChallengeTitle(-1, -1, _loc4_);
+          this.badgeDropdown.badge.panel.description_txt.text = this.getChallengeDescription(-1, -1, _loc4_);
+          this.badgeDropdown.badge.panel.reward_txt.text = "+ $" + class_10.method_84(this.getChallengeRewardAmount(-1, -1, _loc4_));
+          this.badgeDropdown.badge.panel.points_txt.text = this.getChallengeRewardAmount(-1, -1, _loc4_) + " Pts.";
+          this.badgeDropdown.badge.panel.thumb.gotoAndStop(_loc4_ + 1);
+          this.gameObj.var_105.playSound("getstar.wav");
         }
         else if (_loc2_ == "challenge")
         {
-          _loc1_.badgeDropdown.challenge.visible = true;
-          _loc1_.badgeDropdown.badge.visible = false;
-          _loc1_.badgeDropdown.challenge.title_txt.text = _loc1_.getChallengeTitle(_loc1_.gameObj.var_109.currentLevel, _loc4_);
-          _loc1_.badgeDropdown.challenge.number_txt.text = String(_loc4_);
-          _loc1_.gameObj.var_105.playSound("getstar.wav");
+          this.badgeDropdown.challenge.visible = true;
+          this.badgeDropdown.badge.visible = false;
+          this.badgeDropdown.challenge.title_txt.text = this.getChallengeTitle(this.gameObj.var_109.currentLevel, _loc4_);
+          this.badgeDropdown.challenge.number_txt.text = String(_loc4_);
+          this.gameObj.var_105.playSound("getstar.wav");
         }
-        _loc1_.dropdownOnScreenTimer = 0;
-        _loc1_.dropdownStartY = 0 - _loc1_.dropdownHeight;
-        if (_loc1_.gameObj.var_107.api.var_118.length == 0)
+        this.dropdownOnScreenTimer = 0;
+        this.dropdownStartY = 0 - this.dropdownHeight;
+        if (this.gameObj.var_107.api.var_118.length == 0)
         {
-          _loc1_.badgeDropdown.y = this.dropdownStartY;
-          _loc1_.gameObj.addChild(_loc1_.badgeDropdown);
+          this.badgeDropdown.y = this.dropdownStartY;
+          this.gameObj.addChild(this.badgeDropdown);
         }
         else
         {
-          _loc1_.badgeDropdown.y = this.dropdownStartY;
-          _loc1_.gameObj.addChild(_loc1_.badgeDropdown);
+          this.badgeDropdown.y = this.dropdownStartY;
+          this.gameObj.addChild(this.badgeDropdown);
         }
-        _loc1_.badgeDropdown.addEventListener(Event.ENTER_FRAME, _loc1_.animateBadgeDropdown);
-        _loc1_.badgeDropdown.addEventListener(MouseEvent.CLICK, _loc1_.clickBadgeDropdown);
+        this.badgeDropdown.addEventListener(Event.ENTER_FRAME, this.animateBadgeDropdown);
+        this.badgeDropdown.addEventListener(MouseEvent.CLICK, this.clickBadgeDropdown);
       }
     }
 
     public function clickBadgeDropdown(param1:MouseEvent):void
     {
-      var _loc2_:ChallengeManager = this;
-      _loc2_.dropdownOnScreenTimer = _loc2_.dropdownOnScreenWait - 1;
+      this.dropdownOnScreenTimer = this.dropdownOnScreenWait - 1;
     }
 
     public function animateBadgeDropdown(param1:Event):void

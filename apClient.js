@@ -158,7 +158,12 @@ class ArchipelagoClient {
           this.handlePacket(packet)
         }
       } catch (err) {
-        apError("Failed to parse incoming JSON payload:", err, packets)
+        apError(
+          "Failed to parse incoming JSON payload:",
+          err,
+          "@console",
+          packets,
+        )
       }
     }
 
@@ -458,7 +463,6 @@ class ArchipelagoClient {
    */
   onLocationInfo(packet) {
     const myGame = this.slotInfo?.[this.slot]?.game
-
     for (const entry of packet.locations || []) {
       const { location, item, player, flags } = entry
       const itemName = this.getItemName(item, player)
@@ -473,7 +477,7 @@ class ArchipelagoClient {
         flags,
       }
     }
-    const pairs = Object.values(ap.locationIdToName.papaLouie2).map(
+    const pairs = Object.values(ap.locationIdToName[myGame]).map(
       (str) => {
         var [v, k] = str.split(" - quest:") ?? []
         return [k, v] // Returns [key, value] array

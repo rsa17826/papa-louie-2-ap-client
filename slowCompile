@@ -4,7 +4,9 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 RABCDASM_DIR="$PWD/RABCDAsm"
 cur=$(mktemp -d)/cur.swf
 cp papa-louie-2-deobf.swf "$cur"
-
+cat .modded_files >.tempmodded_files
+# NOTE this file appears to require compiling 2 times to get a working build
+echo "scripts/papaGame/managers/ChallengeManager.as" >>.tempmodded_files
 while IFS= read -r rel; do
   [[ -z "$rel" ]] && continue
   stage=$(mktemp -d)
@@ -26,5 +28,6 @@ while IFS= read -r rel; do
   )
   echo "OK  $rel"
   mv "$next" "$cur"
-done <.modded_files
+done <.tempmodded_files
+rm .tempmodded_files
 cp "$cur" papa-louie-archipelago.swf

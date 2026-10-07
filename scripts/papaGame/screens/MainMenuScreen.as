@@ -1667,7 +1667,6 @@ package papaGame.screens
       var _loc4_:DataManager = this.gameObj.var_109;
       if (param1)
       {
-        this.gameObj.var_106.unlockNextLevel();
         this.setupMapUpsell(true);
         this.clip.map.score_txt.text = class_10.method_84(_loc3_.getTotalScore()) + " PTS";
         this.clip.map.coins_txt.text = class_10.method_84(_loc3_.getTotalMoney());
@@ -1680,7 +1679,7 @@ package papaGame.screens
         while (_loc5_ < 10)
         {
           _loc9_ = this.clip.map["world" + (_loc5_ + 1)];
-          if (_loc3_.areasUnlocked[_loc5_] == 1 && (_loc5_ == 0 || _loc3_.getLevelHighScore(_loc5_ - 1) > 0))
+          if (_loc3_.areasUnlocked[_loc5_] == 1)
           {
             _loc7_ = _loc5_;
             _loc9_.visible = true;
@@ -1731,17 +1730,17 @@ package papaGame.screens
             _loc8_ = "beat";
           }
         }
-        if (this.gameObj.var_106.lastAreaRevealed == _loc7_)
-        {
-          this.clip.map.gotoAndStop("ready" + _loc8_);
-          this.willRevealMap = false;
-        }
-        else
-        {
-          this.clip.map.gotoAndPlay("unlock" + _loc8_);
-          this.willRevealMap = true;
-        }
-        this.mapLastUnlocked = _loc7_;
+        // if (this.gameObj.var_106.lastAreaRevealed == _loc7_)
+        // {
+        this.clip.map.gotoAndStop("ready" + 10);
+        this.willRevealMap = false;
+        // }
+        // else
+        // {
+        // this.clip.map.gotoAndPlay("unlock" + _loc8_);
+        // this.willRevealMap = true;
+        // }
+        this.mapLastUnlocked = "beat";
       }
       else
       {

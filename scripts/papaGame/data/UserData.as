@@ -38,7 +38,7 @@ package papaGame.data
     public var specialitems:MochiDigits = new MochiDigits(0);
     public var livesLost:MochiDigits = new MochiDigits(0);
     public var levelTimePlayed:MochiDigits = new MochiDigits(0);
-    public var warpCoinsEarned:MochiDigits = new MochiDigits(0);
+    public var warpCoinsEarned:MochiDigits = new MochiDigits(500);
     public var killsPerWeapon:Array = [];
     public var killsTally:Number = 0;
     public var gotHurt:Boolean = false;
@@ -150,20 +150,21 @@ package papaGame.data
     {
       class_7.method_1("EARN A WARP COIN!");
       this.gameObj.var_112.recordTag("warpCoin");
-      this.warpCoins.addValue(1);
-      this.warpCoinsEarned.addValue(1);
+      // this.warpCoins.addValue(1);
+      // this.warpCoinsEarned.addValue(1);
     }
 
     public function unlockCustomer(param1:Number):void
     {
-      if (param1 < this.customersUnlocked.length)
-      {
-        if (this.customersUnlocked[param1] == 0)
-        {
-          this.gameObj.var_112.recordTag("customerUnlocked");
-        }
-        this.customersUnlocked[param1] = 1;
-      }
+      ExternalInterface.call("warn", this.gameObj.var_109.currentLevel, param1);
+      // if (param1 < this.customersUnlocked.length)
+      // {
+      // if (this.customersUnlocked[param1] == 0)
+      // {
+      // this.gameObj.var_112.recordTag("customerUnlocked");
+      // }
+      // this.customersUnlocked[param1] = 1;
+      // }
     }
 
     public function collectSpecialItem(param1:Number = 1):void
@@ -302,22 +303,21 @@ package papaGame.data
 
     public function unlockNextLevel():void
     {
-      // TODO level unlock info
-      var _loc2_:Number = this.gameObj.var_109.currentLevel;
-      var _loc3_:int = 0;
-      while (_loc3_ < this.gameObj.var_109.coinsToUnlockWorld.length)
-      {
-        // if (this.getWarpCoins() >= this.gameObj.var_109.coinsToUnlockWorld[_loc3_])
-        // {
-        // if (this.areasUnlocked[_loc3_] == 0)
-        // {
-        // class_7.method_1(">>>> UNLOCK WORLD " + (_loc3_ + 1));
-        // this.areasUnlocked[_loc3_] = 1;
-        // this.hasRevealedLatestArea = false;
-        // }
-        // }
-        _loc3_++;
-      }
+      // var _loc2_:Number = this.gameObj.var_109.currentLevel;
+      // var _loc3_:int = 0;
+      // while (_loc3_ < this.gameObj.var_109.coinsToUnlockWorld.length)
+      // {
+      // // if (this.getWarpCoins() >= this.gameObj.var_109.coinsToUnlockWorld[_loc3_])
+      // // {
+      // // if (this.areasUnlocked[_loc3_] == 0)
+      // // {
+      // // class_7.method_1(">>>> UNLOCK WORLD " + (_loc3_ + 1));
+      // // this.areasUnlocked[_loc3_] = 1;
+      // // this.hasRevealedLatestArea = false;
+      // // }
+      // // }
+      // _loc3_++;
+      // }
     }
 
     public function updateAndGetLevelScore(param1:Boolean = true, param2:Boolean = true):Number
@@ -946,6 +946,7 @@ package papaGame.data
 
     public function createNewSlot(param1:Number, param2:String, param3:String = "papalouie"):void
     {
+      // TODO
       this.gameObj.var_112.resetAllTallies();
       this.hasContinuedGame = false;
       this.whichSlot = param1;
@@ -1025,7 +1026,7 @@ package papaGame.data
         this.totalLives.setValue(this.so.data.totalLives);
         if (this.so.data.warpCoins)
         {
-          this.warpCoins.setValue(this.so.data.warpCoins);
+          this.warpCoins.setValue(this.so.data.warpCoins + 100);
         }
         else
         {

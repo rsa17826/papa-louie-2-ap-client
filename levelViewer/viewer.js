@@ -256,6 +256,9 @@ const cur = { world: null, roomIdx: 0, level: null, hiDoor: -1 }
 const view = { x: 0, y: 0, z: 1 }
 let needFit = false // fit() was requested while the Level tab was hidden
 const vis = {}
+// active tracers, keyed "tileset:kind:id" so an id on one tileset never traces another's
+const tracers = new Set()
+const tracerKey = (kind, id) => `${curTset()}:${kind}:${id}`
 
 function loadText(text) {
   $("err").hidden = true
@@ -565,6 +568,51 @@ function render() {
     ctx.strokeRect(L.start[0] * u, L.start[1] * u, T, T)
     ctx.fillStyle = "#fff"
     ctx.fillText("start", L.start[0] * u, L.start[1] * u - 2)
+  }
+  if (tracers.size) {
+    // lines run from the viewport centre to every on-screen entity of a traced type
+    ctx.setTransform(1, 0, 0, 1, 0, 0)
+    const cx = cv.width / 2,
+      cy = cv.height / 2
+    const colors = { enemy: "#ff4040", item: "#ffd200", object: "#00d2ff" }
+    const counts = new Map()
+    for (const key of tracers) {
+      const [tset, kind, id] = key.split(":")
+      if (tset === curTset()) counts.set(key, { kind, id, n: 0 })
+    }
+    ctx.lineWidth = 2
+    for (const [kind, list] of [
+      ["enemy", L.enemies],
+      ["item", L.items],
+      ["object", L.objects],
+    ]) {
+      for (const r of list) {
+        const p = entPos(r)
+        const key = tracerKey(kind, p.id)
+        if (!tracers.has(key)) continue
+        const sx = (p.x + half) * view.z + view.x,
+          sy = (p.y + half) * view.z + view.y
+        if (sx < 0 || sx > cv.width || sy < 0 || sy > cv.height) continue
+        counts.get(key).n++
+        ctx.strokeStyle = colors[kind]
+        ctx.beginPath()
+        ctx.moveTo(cx, cy)
+        ctx.lineTo(sx, sy)
+        ctx.stroke()
+        ctx.beginPath()
+        ctx.arc(sx, sy, 9, 0, 7)
+        ctx.stroke()
+      }
+    }
+    ctx.font = "12px sans-serif"
+    let ly = 8
+    for (const { kind, id, n } of counts.values()) {
+      ctx.fillStyle = "rgba(0,0,0,.7)"
+      ctx.fillRect(8, ly, 220, 18)
+      ctx.fillStyle = colors[kind]
+      ctx.fillText(`${kind} ${entLabel(kind, id)}: ${n} on screen`, 12, ly + 13)
+      ly += 20
+    }
   }
   $("status").dataset.missing =
     missing.size ?
@@ -925,7 +973,7 @@ $("atlasCv").addEventListener("mousemove", (e) => {
   tab.className = "tab"
   tab.id = "tab-entities"
   tab.innerHTML = `
-    <div class="row"><span id="entInfo"></span><button id="entExport">Copy settings JSON</button></div>
+    <div class="row"><span id="entInfo"></span><button id="entExport">Copy settings JSON</button><button id="entTraceClear">Clear tracers</button></div>
     <div id="entPicker" hidden style="border-bottom:1px solid #111;background:#222228;padding:4px">
       <div class="row">
         <b id="pkTitle"></b>
@@ -1113,6 +1161,11 @@ $("pkClose").onclick = () => {
 }
 $("entExport").onclick = () =>
   navigator.clipboard.writeText(localStorage.lv_ents)
+$("entTraceClear").onclick = () => {
+  tracers.clear()
+  buildEntities()
+  render()
+}
 
 // every id used by any room of any world sharing the current tileset
 function entityUsage() {
@@ -1200,7 +1253,17 @@ function buildEntities() {
       const b = document.createElement("button")
       b.textContent = im ? "Change sprite..." : "Assign sprite..."
       b.onclick = () => openPicker(kind, id)
-      row.append(th, lab, inp, b)
+      const tr = document.createElement("button")
+      const trKey = tracerKey(kind, id)
+      tr.textContent = "Tracer"
+      tr.classList.toggle("on", tracers.has(trKey))
+      tr.onclick = () => {
+        if (tracers.has(trKey)) tracers.delete(trKey)
+        else tracers.add(trKey)
+        tr.classList.toggle("on", tracers.has(trKey))
+        render()
+      }
+      row.append(th, lab, inp, b, tr)
       box.appendChild(row)
     }
   }

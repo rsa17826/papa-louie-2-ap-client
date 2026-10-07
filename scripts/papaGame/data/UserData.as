@@ -502,19 +502,20 @@ package papaGame.data
       return _loc4_;
     }
 
-    public function completeChallenge(param1:Number, param2:Number):void
+    public function completeChallenge(world:Number, i:Number):void
     {
-      if (this.challengesCompleted.length > param1)
+      if (this.challengesCompleted.length > world)
       {
-        this.challengesCompleted[param1][param2 - 1] = 1;
+        this.challengesCompleted[world][i - 1] = 1;
+        ExternalInterface.call("newWarpCheck", world, i - 1);
       }
-      this.gameObj.var_107.api.method_100("Challenge " + param2, param1 + 1);
+      this.gameObj.var_107.api.method_100("Challenge " + i, world + 1);
       if (!this.alreadyEarned100 && this.hasEarnedEverything())
       {
         this.gameObj.var_107.api.method_88("100 Percent Complete", "Gameplay", true);
         this.alreadyEarned100 = true;
       }
-      if (param1 != 9)
+      if (world != 9)
       {
         this.earnWarpCoin();
         try

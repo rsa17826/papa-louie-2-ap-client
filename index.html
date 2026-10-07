@@ -209,6 +209,81 @@
         // TODO put correct place later
         newItem("menu - char:xandra")
       })
+      function newWarpCheck(world, i) {
+        var name =
+          "level" +
+          world +
+          " - " +
+          {
+            0: [
+              "char:prudence",
+              "char:taylor",
+              "char:clover",
+              "?:5 red coins",
+              "?:3 burgers",
+              "?:100 coins",
+            ],
+            1: [
+              "char:big pauly",
+              "char:mindy",
+              "char:akari",
+              "?:5 flowers",
+              "?:11 burgers",
+              "?:100 coins",
+            ],
+            2: [
+              "char:boomer",
+              "char:kahuna",
+              "char:professor fitz",
+              "?:5 helmets",
+              "?:11 burgers",
+              "?:100 coins",
+            ],
+            3: [
+              "char:georgito",
+              "char:foodini",
+              "char:yippy",
+              "?:5 purple coins",
+              "?:6 burgers",
+              "?:100 coins",
+            ],
+            4: [
+              "char:scooter",
+              "char:kingsley",
+              "char:connor",
+              "?:5 worms",
+              "?:8 burgers",
+              "?:100 coins",
+            ],
+            5: [
+              "char:james",
+              "char:greg",
+              "char:captain cori",
+              "?:5 balloons",
+              "?:10 burgers",
+              "?:100 coins",
+            ],
+            6: [
+              "char:ninjoy",
+              "char:peggy",
+              "char:penny",
+              "?:5 cans",
+              "?:13 burgers",
+              "?:100 coins",
+            ],
+            7: [
+              "char:sarge fan",
+              "char:rico",
+              "char:zoe",
+              "?:5 onion coins",
+              "?:12 burgers",
+              "?:100 coins",
+            ],
+            8: ["char:papa louie"],
+          }[world][i]
+        newItem(name)
+        log("asasdsadaazzz", world, i)
+      }
       function markPlayerLoaded() {
         if (window.playerLoaded) return
         window.playerLoaded = true

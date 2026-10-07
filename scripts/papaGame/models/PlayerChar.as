@@ -1,5 +1,6 @@
 package papaGame.models
 {
+  import flash.external.ExternalInterface;
   import flash.geom.Rectangle;
   import flash.media.SoundChannel;
   import package_2.class_7;
@@ -382,7 +383,11 @@ package papaGame.models
         param3 = false;
         class_7.method_1("Don\'t hurt him, he\'s finishing the level!");
       }
-      if (this.canGetHit() || param3)
+      if (ExternalInterface.call("debugModeEnabled"))
+      {
+        this.isInvincible = true;
+      }
+      if (this.canGetHit() || (param3 && !this.isInvincible))
       {
         if (param3)
         {

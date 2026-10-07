@@ -93,6 +93,7 @@ package papaGame.screens
     {
       super();
       this.gameObj = param1;
+      param1.menuScreen = this;
       this.container = param2;
       this.params = param3;
       this.setupScreen();

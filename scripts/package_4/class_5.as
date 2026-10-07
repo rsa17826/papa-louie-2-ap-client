@@ -60,6 +60,7 @@ package package_4
     public var var_325:Boolean = false;
     public var var_294:Array = [SplashScreen, ScoreTallyScreen, SlotSelectScreen, MainMenuScreen, MochiAd];
     public var var_303:Boolean = false;
+    public var menuScreen:MainMenuScreen = false;
 
     public function class_5()
     {
@@ -143,12 +144,20 @@ package package_4
       this.var_112 = new ChallengeManager(this);
       this.var_109 = new DataManager(this);
       ExternalInterface.addCallback("setCharLockState", setCharLockState);
+      ExternalInterface.addCallback("setAreaLockState", this.setAreaLockState);
       this.var_109.prepareLevelData(false);
     }
 
     public function setCharLockState(char, state)
     {
       this.var_106.customersUnlocked[char] = state;
+    }
+    public function setAreaLockState(lv, state)
+    {
+      this.var_106.areasUnlocked[lv] = state;
+      this.var_106.hasRevealedLatestArea = false;
+      // this.menuScreen.destroy()
+      this.menuScreen.setupMap(true);
     }
     public function method_183():MovieClip
     {

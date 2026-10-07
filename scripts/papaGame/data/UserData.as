@@ -1,7 +1,7 @@
 // this.so.data.(\w+) = (.*);
 
 // this.so.data.$1 = $2;
-// ExternalInterface.call("log", this.so.data.$1);
+// ExternalInterface.call("log"', this.so.data.$1', , this.so.data.$1);
 
 package papaGame.data
 {
@@ -307,15 +307,15 @@ package papaGame.data
       var _loc3_:int = 0;
       while (_loc3_ < this.gameObj.var_109.coinsToUnlockWorld.length)
       {
-        if (this.getWarpCoins() >= this.gameObj.var_109.coinsToUnlockWorld[_loc3_])
-        {
-          if (this.areasUnlocked[_loc3_] == 0)
-          {
-            class_7.method_1(">>>> UNLOCK WORLD " + (_loc3_ + 1));
-            this.areasUnlocked[_loc3_] = 1;
-            this.hasRevealedLatestArea = false;
-          }
-        }
+        // if (this.getWarpCoins() >= this.gameObj.var_109.coinsToUnlockWorld[_loc3_])
+        // {
+        // if (this.areasUnlocked[_loc3_] == 0)
+        // {
+        // class_7.method_1(">>>> UNLOCK WORLD " + (_loc3_ + 1));
+        // this.areasUnlocked[_loc3_] = 1;
+        // this.hasRevealedLatestArea = false;
+        // }
+        // }
         _loc3_++;
       }
     }
@@ -1231,198 +1231,198 @@ package papaGame.data
       if (param1 == "all")
       {
         this.so.data.playerName = this.playerName;
-        ExternalInterface.call("log", this.so.data.playerName);
+        ExternalInterface.call("log", 'this.so.data.playerName', this.so.data.playerName);
         this.so.data.whichCharacter = this.whichCharacter;
-        ExternalInterface.call("log", this.so.data.whichCharacter);
+        ExternalInterface.call("log", 'this.so.data.whichCharacter', this.so.data.whichCharacter);
         this.so.data.continuedgame = this.hasContinuedGame;
-        ExternalInterface.call("log", this.so.data.continuedgame);
+        ExternalInterface.call("log", 'this.so.data.continuedgame', this.so.data.continuedgame);
         this.so.data.totalScore = this.totalScore.value;
-        ExternalInterface.call("log", this.so.data.totalScore);
+        ExternalInterface.call("log", 'this.so.data.totalScore', this.so.data.totalScore);
         this.so.data.totalMoney = this.totalMoney.value;
-        ExternalInterface.call("log", this.so.data.totalMoney);
+        ExternalInterface.call("log", 'this.so.data.totalMoney', this.so.data.totalMoney);
         this.so.data.totalLives = this.totalLives.value;
-        ExternalInterface.call("log", this.so.data.totalLives);
+        ExternalInterface.call("log", 'this.so.data.totalLives', this.so.data.totalLives);
         this.so.data.totalTime = this.totalTimePlayed.value;
-        ExternalInterface.call("log", this.so.data.totalTime);
+        ExternalInterface.call("log", 'this.so.data.totalTime', this.so.data.totalTime);
         this.so.data.warpCoins = this.warpCoins.value;
-        ExternalInterface.call("log", this.so.data.warpCoins);
+        ExternalInterface.call("log", 'this.so.data.warpCoins', this.so.data.warpCoins);
         this.so.data.areasUnlocked = this.areasUnlocked.concat();
-        ExternalInterface.call("log", this.so.data.areasUnlocked);
+        ExternalInterface.call("log", 'this.so.data.areasUnlocked', this.so.data.areasUnlocked);
         this.so.data.highScores = this.highScores.concat();
-        ExternalInterface.call("log", this.so.data.highScores);
+        ExternalInterface.call("log", 'this.so.data.highScores', this.so.data.highScores);
         this.so.data.bestTimes = this.bestTimes.concat();
-        ExternalInterface.call("log", this.so.data.bestTimes);
+        ExternalInterface.call("log", 'this.so.data.bestTimes', this.so.data.bestTimes);
         this.so.data.challengesCompleted = class_12.method_90(this.challengesCompleted);
-        ExternalInterface.call("log", this.so.data.challengesCompleted);
+        ExternalInterface.call("log", 'this.so.data.challengesCompleted', this.so.data.challengesCompleted);
         this.so.data.medalsEarned = this.medalsEarned.concat();
-        ExternalInterface.call("log", this.so.data.medalsEarned);
+        ExternalInterface.call("log", 'this.so.data.medalsEarned', this.so.data.medalsEarned);
         this.so.data.medalProgress = this.gameObj.var_112.getMedalProgressArray();
-        ExternalInterface.call("log", this.so.data.medalProgress);
+        ExternalInterface.call("log", 'this.so.data.medalProgress', this.so.data.medalProgress);
         this.so.data.revealedarea = this.hasRevealedLatestArea;
-        ExternalInterface.call("log", this.so.data.revealedarea);
+        ExternalInterface.call("log", 'this.so.data.revealedarea', this.so.data.revealedarea);
         this.so.data.lastarearevealed = this.lastAreaRevealed;
-        ExternalInterface.call("log", this.so.data.lastarearevealed);
+        ExternalInterface.call("log", 'this.so.data.lastarearevealed', this.so.data.lastarearevealed);
         this.so.data.customersUnlocked = this.customersUnlocked.concat();
-        ExternalInterface.call("log", this.so.data.customersUnlocked);
+        ExternalInterface.call("log", 'this.so.data.customersUnlocked', this.so.data.customersUnlocked);
         this.so.data.customerOutfits = class_12.method_90(this.customerOutfits);
-        ExternalInterface.call("log", this.so.data.customerOutfits);
+        ExternalInterface.call("log", 'this.so.data.customerOutfits', this.so.data.customerOutfits);
         this.so.data.lastCustomerUnlocked = this.lastCustomerUnlocked;
-        ExternalInterface.call("log", this.so.data.lastCustomerUnlocked);
+        ExternalInterface.call("log", 'this.so.data.lastCustomerUnlocked', this.so.data.lastCustomerUnlocked);
         this.so.data.enemyKills = this.enemyKills.concat();
-        ExternalInterface.call("log", this.so.data.enemyKills);
+        ExternalInterface.call("log", 'this.so.data.enemyKills', this.so.data.enemyKills);
         this.so.data.customersUsed = this.customersUsed.concat();
-        ExternalInterface.call("log", this.so.data.customersUsed);
+        ExternalInterface.call("log", 'this.so.data.customersUsed', this.so.data.customersUsed);
         this.so.data.char = this.selectedCharacter;
-        ExternalInterface.call("log", this.so.data.char);
+        ExternalInterface.call("log", 'this.so.data.char', this.so.data.char);
         this.so.data.style = this.selectedStyle;
-        ExternalInterface.call("log", this.so.data.style);
+        ExternalInterface.call("log", 'this.so.data.style', this.so.data.style);
         this.so.data.keyCodeLeft = this.keyCodeLeft;
-        ExternalInterface.call("log", this.so.data.keyCodeLeft);
+        ExternalInterface.call("log", 'this.so.data.keyCodeLeft', this.so.data.keyCodeLeft);
         this.so.data.keyCodeRight = this.keyCodeRight;
-        ExternalInterface.call("log", this.so.data.keyCodeRight);
+        ExternalInterface.call("log", 'this.so.data.keyCodeRight', this.so.data.keyCodeRight);
         this.so.data.keyCodeUp = this.keyCodeUp;
-        ExternalInterface.call("log", this.so.data.keyCodeUp);
+        ExternalInterface.call("log", 'this.so.data.keyCodeUp', this.so.data.keyCodeUp);
         this.so.data.keyCodeDown = this.keyCodeDown;
-        ExternalInterface.call("log", this.so.data.keyCodeDown);
+        ExternalInterface.call("log", 'this.so.data.keyCodeDown', this.so.data.keyCodeDown);
         this.so.data.keyCodeJump = this.keyCodeJump;
-        ExternalInterface.call("log", this.so.data.keyCodeJump);
+        ExternalInterface.call("log", 'this.so.data.keyCodeJump', this.so.data.keyCodeJump);
         this.so.data.keyCodeAttack = this.keyCodeAttack;
-        ExternalInterface.call("log", this.so.data.keyCodeAttack);
+        ExternalInterface.call("log", 'this.so.data.keyCodeAttack', this.so.data.keyCodeAttack);
         this.so.data.keyCodeDrop = this.keyCodeDrop;
-        ExternalInterface.call("log", this.so.data.keyCodeDrop);
+        ExternalInterface.call("log", 'this.so.data.keyCodeDrop', this.so.data.keyCodeDrop);
         this.so.data.keyCodePause = this.keyCodePause;
-        ExternalInterface.call("log", this.so.data.keyCodePause);
+        ExternalInterface.call("log", 'this.so.data.keyCodePause', this.so.data.keyCodePause);
         this.so.data.clicktwitter = this.didClickTwitter;
-        ExternalInterface.call("log", this.so.data.clicktwitter);
+        ExternalInterface.call("log", 'this.so.data.clicktwitter', this.so.data.clicktwitter);
         this.so.data.clickfacebook = this.didClickFacebook;
-        ExternalInterface.call("log", this.so.data.clickfacebook);
+        ExternalInterface.call("log", 'this.so.data.clickfacebook', this.so.data.clickfacebook);
       }
       else if (param1 == "quitlevel")
       {
         this.so.data.playerName = this.playerName;
-        ExternalInterface.call("log", this.so.data.playerName);
+        ExternalInterface.call("log", 'this.so.data.playerName', this.so.data.playerName);
         this.so.data.whichCharacter = this.whichCharacter;
-        ExternalInterface.call("log", this.so.data.whichCharacter);
+        ExternalInterface.call("log", 'this.so.data.whichCharacter', this.so.data.whichCharacter);
         this.so.data.continuedgame = this.hasContinuedGame;
-        ExternalInterface.call("log", this.so.data.continuedgame);
+        ExternalInterface.call("log", 'this.so.data.continuedgame', this.so.data.continuedgame);
         this.so.data.revealedarea = this.hasRevealedLatestArea;
-        ExternalInterface.call("log", this.so.data.revealedarea);
+        ExternalInterface.call("log", 'this.so.data.revealedarea', this.so.data.revealedarea);
         this.so.data.lastarearevealed = this.lastAreaRevealed;
-        ExternalInterface.call("log", this.so.data.lastarearevealed);
+        ExternalInterface.call("log", 'this.so.data.lastarearevealed', this.so.data.lastarearevealed);
         this.so.data.totalTime = this.totalTimePlayed.value;
-        ExternalInterface.call("log", this.so.data.totalTime);
+        ExternalInterface.call("log", 'this.so.data.totalTime', this.so.data.totalTime);
         this.so.data.totalScore = this.totalScore.value;
-        ExternalInterface.call("log", this.so.data.totalScore);
+        ExternalInterface.call("log", 'this.so.data.totalScore', this.so.data.totalScore);
         this.so.data.totalMoney = this.totalMoney.value;
-        ExternalInterface.call("log", this.so.data.totalMoney);
+        ExternalInterface.call("log", 'this.so.data.totalMoney', this.so.data.totalMoney);
         this.so.data.totalLives = this.totalLives.value;
-        ExternalInterface.call("log", this.so.data.totalLives);
+        ExternalInterface.call("log", 'this.so.data.totalLives', this.so.data.totalLives);
         this.so.data.warpCoins = this.warpCoins.value;
-        ExternalInterface.call("log", this.so.data.warpCoins);
+        ExternalInterface.call("log", 'this.so.data.warpCoins', this.so.data.warpCoins);
         this.so.data.clicktwitter = this.didClickTwitter;
-        ExternalInterface.call("log", this.so.data.clicktwitter);
+        ExternalInterface.call("log", 'this.so.data.clicktwitter', this.so.data.clicktwitter);
         this.so.data.clickfacebook = this.didClickFacebook;
-        ExternalInterface.call("log", this.so.data.clickfacebook);
+        ExternalInterface.call("log", 'this.so.data.clickfacebook', this.so.data.clickfacebook);
         this.so.data.challengesCompleted = class_12.method_90(this.challengesCompleted);
-        ExternalInterface.call("log", this.so.data.challengesCompleted);
+        ExternalInterface.call("log", 'this.so.data.challengesCompleted', this.so.data.challengesCompleted);
         this.so.data.medalsEarned = this.medalsEarned.concat();
-        ExternalInterface.call("log", this.so.data.medalsEarned);
+        ExternalInterface.call("log", 'this.so.data.medalsEarned', this.so.data.medalsEarned);
         this.so.data.medalProgress = this.gameObj.var_112.getMedalProgressArray();
-        ExternalInterface.call("log", this.so.data.medalProgress);
+        ExternalInterface.call("log", 'this.so.data.medalProgress', this.so.data.medalProgress);
         this.so.data.customersUnlocked = this.customersUnlocked.concat();
-        ExternalInterface.call("log", this.so.data.customersUnlocked);
+        ExternalInterface.call("log", 'this.so.data.customersUnlocked', this.so.data.customersUnlocked);
         this.so.data.customerOutfits = class_12.method_90(this.customerOutfits);
-        ExternalInterface.call("log", this.so.data.customerOutfits);
+        ExternalInterface.call("log", 'this.so.data.customerOutfits', this.so.data.customerOutfits);
         this.so.data.lastCustomerUnlocked = this.lastCustomerUnlocked;
-        ExternalInterface.call("log", this.so.data.lastCustomerUnlocked);
+        ExternalInterface.call("log", 'this.so.data.lastCustomerUnlocked', this.so.data.lastCustomerUnlocked);
         this.so.data.customersUsed = this.customersUsed.concat();
-        ExternalInterface.call("log", this.so.data.customersUsed);
+        ExternalInterface.call("log", 'this.so.data.customersUsed', this.so.data.customersUsed);
         this.so.data.char = this.selectedCharacter;
-        ExternalInterface.call("log", this.so.data.char);
+        ExternalInterface.call("log", 'this.so.data.char', this.so.data.char);
         this.so.data.style = this.selectedStyle;
-        ExternalInterface.call("log", this.so.data.style);
+        ExternalInterface.call("log", 'this.so.data.style', this.so.data.style);
         this.so.data.enemyKills = this.enemyKills.concat();
-        ExternalInterface.call("log", this.so.data.enemyKills);
+        ExternalInterface.call("log", 'this.so.data.enemyKills', this.so.data.enemyKills);
       }
       else if (param1 == "time")
       {
         this.so.data.totalTime = this.totalTimePlayed.value;
-        ExternalInterface.call("log", this.so.data.totalTime);
+        ExternalInterface.call("log", 'this.so.data.totalTime', this.so.data.totalTime);
         this.so.data.continuedgame = this.hasContinuedGame;
-        ExternalInterface.call("log", this.so.data.continuedgame);
+        ExternalInterface.call("log", 'this.so.data.continuedgame', this.so.data.continuedgame);
       }
       else if (param1 == "badge")
       {
         this.so.data.medalsEarned = this.medalsEarned.concat();
-        ExternalInterface.call("log", this.so.data.medalsEarned);
+        ExternalInterface.call("log", 'this.so.data.medalsEarned', this.so.data.medalsEarned);
         this.so.data.medalProgress = this.gameObj.var_112.getMedalProgressArray();
-        ExternalInterface.call("log", this.so.data.medalProgress);
+        ExternalInterface.call("log", 'this.so.data.medalProgress', this.so.data.medalProgress);
         this.so.data.totalMoney = this.totalMoney.value;
-        ExternalInterface.call("log", this.so.data.totalMoney);
+        ExternalInterface.call("log", 'this.so.data.totalMoney', this.so.data.totalMoney);
         this.so.data.continuedgame = this.hasContinuedGame;
-        ExternalInterface.call("log", this.so.data.continuedgame);
+        ExternalInterface.call("log", 'this.so.data.continuedgame', this.so.data.continuedgame);
         this.so.data.clicktwitter = this.didClickTwitter;
-        ExternalInterface.call("log", this.so.data.clicktwitter);
+        ExternalInterface.call("log", 'this.so.data.clicktwitter', this.so.data.clicktwitter);
         this.so.data.clickfacebook = this.didClickFacebook;
-        ExternalInterface.call("log", this.so.data.clickfacebook);
+        ExternalInterface.call("log", 'this.so.data.clickfacebook', this.so.data.clickfacebook);
       }
       else if (param1 == "outfit")
       {
         this.so.data.customersUnlocked = this.customersUnlocked.concat();
-        ExternalInterface.call("log", this.so.data.customersUnlocked);
+        ExternalInterface.call("log", 'this.so.data.customersUnlocked', this.so.data.customersUnlocked);
         this.so.data.customerOutfits = class_12.method_90(this.customerOutfits);
-        ExternalInterface.call("log", this.so.data.customerOutfits);
+        ExternalInterface.call("log", 'this.so.data.customerOutfits', this.so.data.customerOutfits);
         this.so.data.totalMoney = this.totalMoney.value;
-        ExternalInterface.call("log", this.so.data.totalMoney);
+        ExternalInterface.call("log", 'this.so.data.totalMoney', this.so.data.totalMoney);
         this.so.data.clicktwitter = this.didClickTwitter;
-        ExternalInterface.call("log", this.so.data.clicktwitter);
+        ExternalInterface.call("log", 'this.so.data.clicktwitter', this.so.data.clicktwitter);
         this.so.data.clickfacebook = this.didClickFacebook;
-        ExternalInterface.call("log", this.so.data.clickfacebook);
+        ExternalInterface.call("log", 'this.so.data.clickfacebook', this.so.data.clickfacebook);
         this.so.data.medalsEarned = this.medalsEarned.concat();
-        ExternalInterface.call("log", this.so.data.medalsEarned);
+        ExternalInterface.call("log", 'this.so.data.medalsEarned', this.so.data.medalsEarned);
         this.so.data.medalProgress = this.gameObj.var_112.getMedalProgressArray();
-        ExternalInterface.call("log", this.so.data.medalProgress);
+        ExternalInterface.call("log", 'this.so.data.medalProgress', this.so.data.medalProgress);
       }
       else if (param1 == "challenge")
       {
         this.so.data.challengesCompleted = class_12.method_90(this.challengesCompleted);
-        ExternalInterface.call("log", this.so.data.challengesCompleted);
+        ExternalInterface.call("log", 'this.so.data.challengesCompleted', this.so.data.challengesCompleted);
         this.so.data.continuedgame = this.hasContinuedGame;
-        ExternalInterface.call("log", this.so.data.continuedgame);
+        ExternalInterface.call("log", 'this.so.data.continuedgame', this.so.data.continuedgame);
         this.so.data.medalsEarned = this.medalsEarned.concat();
-        ExternalInterface.call("log", this.so.data.medalsEarned);
+        ExternalInterface.call("log", 'this.so.data.medalsEarned', this.so.data.medalsEarned);
         this.so.data.medalProgress = this.gameObj.var_112.getMedalProgressArray();
-        ExternalInterface.call("log", this.so.data.medalProgress);
+        ExternalInterface.call("log", 'this.so.data.medalProgress', this.so.data.medalProgress);
         this.so.data.clicktwitter = this.didClickTwitter;
-        ExternalInterface.call("log", this.so.data.clicktwitter);
+        ExternalInterface.call("log", 'this.so.data.clicktwitter', this.so.data.clicktwitter);
         this.so.data.clickfacebook = this.didClickFacebook;
-        ExternalInterface.call("log", this.so.data.clickfacebook);
+        ExternalInterface.call("log", 'this.so.data.clickfacebook', this.so.data.clickfacebook);
       }
       else if (param1 == "controls")
       {
         this.so.data.keyCodeLeft = this.keyCodeLeft;
-        ExternalInterface.call("log", this.so.data.keyCodeLeft);
+        ExternalInterface.call("log", 'this.so.data.keyCodeLeft', this.so.data.keyCodeLeft);
         this.so.data.keyCodeRight = this.keyCodeRight;
-        ExternalInterface.call("log", this.so.data.keyCodeRight);
+        ExternalInterface.call("log", 'this.so.data.keyCodeRight', this.so.data.keyCodeRight);
         this.so.data.keyCodeUp = this.keyCodeUp;
-        ExternalInterface.call("log", this.so.data.keyCodeUp);
+        ExternalInterface.call("log", 'this.so.data.keyCodeUp', this.so.data.keyCodeUp);
         this.so.data.keyCodeDown = this.keyCodeDown;
-        ExternalInterface.call("log", this.so.data.keyCodeDown);
+        ExternalInterface.call("log", 'this.so.data.keyCodeDown', this.so.data.keyCodeDown);
         this.so.data.keyCodeJump = this.keyCodeJump;
-        ExternalInterface.call("log", this.so.data.keyCodeJump);
+        ExternalInterface.call("log", 'this.so.data.keyCodeJump', this.so.data.keyCodeJump);
         this.so.data.keyCodeAttack = this.keyCodeAttack;
-        ExternalInterface.call("log", this.so.data.keyCodeAttack);
+        ExternalInterface.call("log", 'this.so.data.keyCodeAttack', this.so.data.keyCodeAttack);
         this.so.data.keyCodeDrop = this.keyCodeDrop;
-        ExternalInterface.call("log", this.so.data.keyCodeDrop);
+        ExternalInterface.call("log", 'this.so.data.keyCodeDrop', this.so.data.keyCodeDrop);
         this.so.data.keyCodePause = this.keyCodePause;
-        ExternalInterface.call("log", this.so.data.keyCodePause);
+        ExternalInterface.call("log", 'this.so.data.keyCodePause', this.so.data.keyCodePause);
         this.so.data.continuedgame = this.hasContinuedGame;
-        ExternalInterface.call("log", this.so.data.continuedgame);
+        ExternalInterface.call("log", 'this.so.data.continuedgame', this.so.data.continuedgame);
       }
       this.so.data.version = this.saveSlotVersion;
-      ExternalInterface.call("log", this.so.data.version);
+      ExternalInterface.call("log", 'this.so.data.version', this.so.data.version);
       this.so.data.trainingflags = this.trainingFlags.concat();
-      ExternalInterface.call("log", this.so.data.trainingflags);
+      ExternalInterface.call("log", 'this.so.data.trainingflags', this.so.data.trainingflags);
       var _loc4_:Number = getTimer();
       this.flushSaveSlot();
       this.gameObj.var_107.method_151();

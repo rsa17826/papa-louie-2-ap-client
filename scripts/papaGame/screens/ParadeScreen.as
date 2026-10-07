@@ -41,12 +41,16 @@ package papaGame.screens
     {
       this.clip = new paradeScreenMC();
       this.gameObj.var_128.addChild(this.clip);
-      this.setupCustomerGroups();
-      this.releaseNextGroup();
-      this.didStart = true;
-      this.clip.addEventListener(Event.ENTER_FRAME, this.updateScreen);
+
+      // Instantly trigger the iris-out ending sequence
       this.gameObj.var_105.playTrack("TitleTrack", 1, 0, "crossfade");
-      this.clip.iris.gotoAndPlay("irisin");
+      this.clip.iris.gotoAndPlay("irisout");
+
+      // Immediately call the end/exit methods handled at the end of the screen
+      this.gameObj.method_209();
+      this.gameObj.method_182();
+
+      this.didStart = false; // Prevent updateScreen from running normal logic
     }
 
     public function updateScreen(param1:Event = null):void

@@ -83,7 +83,7 @@ package papaGame.data
       while (_loc4_ < this.customerDataFiles.length)
       {
         // ExternalInterface.call("log", this.customerDataFiles[_loc4_].customerName, this.customerDataFiles[_loc4_].customerClipName, _loc4_)
-        if (_loc2_.customerDataFiles[_loc4_].customerName == param1 || _loc2_.customerDataFiles[_loc4_].customerClipName == param1)
+        if (this.customerDataFiles[_loc4_].customerName == param1 || this.customerDataFiles[_loc4_].customerClipName == param1)
         {
           _loc3_ = _loc4_;
           break;

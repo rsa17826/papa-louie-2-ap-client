@@ -1025,7 +1025,7 @@ package papaGame.managers
         {
           if (_loc7_.challengeType == Challenge.RESCUE && _loc7_.whichCustomer == param1)
           {
-            ExternalInterface.call("sendRescue", param1)
+            ExternalInterface.call("sendRescue", _loc3_.currentLevel, param1)
             if (!_loc4_.hasCompletedChallenge(_loc7_.whichWorld, _loc7_.whichChallenge))
             {
               _loc4_.completeChallenge(_loc7_.whichWorld, _loc7_.whichChallenge);

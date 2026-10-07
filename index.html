@@ -39,40 +39,40 @@
     </div>
     <script>
       // TODO rerender tab overlay when getting new item
-      const customerMap = [
+      const customerMap = {
         // "marty",
         // "rita",
-        "prudence",
-        "taylor",
-        "clover",
-        "mindy",
-        "akari",
-        "zoe",
-        "big pauly",
-        "kahuna",
-        "kingsley",
-        "ninjoy",
-        "penny",
-        "sarge fan",
-        "james",
-        "scooter",
-        "connor",
-        "peggy",
-        "georgito",
-        "yippy",
-        "greg",
-        "captain cori",
-        "rico",
-        "boomer",
-        "professor fitz",
-        "foodini",
-        "papa louie",
-        "xandra",
-      ]
+        // 0: "prudence",
+        // 1: "taylor",
+        "0-3": "clover",
+        "1-2": "mindy",
+        // 4: "akari",
+        // 5: "zoe",
+        "1-1": "big pauly",
+        "2-2": "kahuna",
+        // 8: "kingsley",
+        // 9: "ninjoy",
+        // 10: "penny",
+        // 11: "sarge fan",
+        // 12: "james",
+        // 13: "scooter",
+        // 14: "connor",
+        // 15: "peggy",
+        // 16: "georgito",
+        // 17: "yippy",
+        // 18: "greg",
+        // 19: "captain cori",
+        // 20: "rico",
+        "2-1": "boomer",
+        "2-3": "professor fitz",
+        // 23: "foodini",
+        // 24: "papa louie",
+        // 25: "xandra",
+      }
       window.moves = []
       Object.assign(window, console)
-      function sendRescue(a) {
-        log("sendRescue", customerMap[a], a)
+      function sendRescue(level, idx) {
+        log("sendRescue", customerMap[`${level}-${idx}`], level, idx)
       }
 
       function debugModeEnabled() {

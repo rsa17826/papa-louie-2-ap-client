@@ -1042,6 +1042,7 @@ package papaGame.managers
 
     public function recordBurgerzilla(param1:Number = 1):void
     {
+      // TODO Burgerzilla check?
       var _loc6_:Number = NaN;
       var _loc7_:Challenge = null;
       var _loc8_:Boolean = false;
@@ -1919,6 +1920,7 @@ package papaGame.managers
 
     public function showCompletingChallenge(param1:Number):void
     {
+      // TODO on earn achievemtn?
       class_7.method_1("COMPLETE CHALLENGE #" + param1 + ". ADD TO QUEUE!");
       this.challengeQueue.push(param1);
       this.checkForDisplayingDropdown();

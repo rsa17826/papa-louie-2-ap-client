@@ -37,39 +37,24 @@ package flipline.api
     public static const const_16:Boolean = true;
 
     public var var_204:*;
-
     public var container:DisplayObjectContainer;
-
     public var var_132:class_22;
-
     public var var_137:Number = 1;
-
     public var var_130:Number = 1;
-
     public var var_170:Array = [];
-
     public var var_118:Array = [];
-
     public var var_173:Boolean = false;
 
     private var var_164:Scoreboard;
-
     private var var_172:class_20;
-
     private var backup:class_19;
 
     public var var_143:Boolean = false;
-
     public var var_295:Number = -1;
-
     public var var_283:String = "";
-
     public var var_211:Boolean = false;
-
     public var var_216:Boolean = false;
-
     public var var_265:String = "";
-
     public var var_282:String = "";
 
     public function class_14(param1:*, param2:DisplayObjectContainer, param3:Number, param4:Number)
@@ -84,28 +69,25 @@ package flipline.api
 
     public function method_130():void
     {
-      var _loc1_:class_14 = this;
       this.var_132 = new class_22();
-      this.backup = new class_19(_loc1_);
+      this.backup = new class_19(this);
       class_7.info("[Flipline API]: API Initialized.");
     }
 
     public function method_125(param1:*):void
     {
-      var _loc2_:class_14 = this;
-      param1.addEventListener("soundIsMuted", _loc2_.method_176);
-      param1.addEventListener("soundIsNotMuted", _loc2_.method_199);
+      param1.addEventListener("soundIsMuted", this.method_176);
+      param1.addEventListener("soundIsNotMuted", this.method_199);
     }
 
     public function method_246(param1:Number, param2:String, param3:String = null):void
     {
-      var _loc4_:class_14 = this;
-      _loc4_.var_143 = true;
-      _loc4_.var_295 = param1;
-      _loc4_.var_283 = param2;
+      this.var_143 = true;
+      this.var_295 = param1;
+      this.var_283 = param2;
       if (param3 != null)
       {
-        Log.View(param1, param2, param3, _loc4_.getMainLoaderInfo());
+        Log.View(param1, param2, param3, this.getMainLoaderInfo());
       }
       else
       {
@@ -115,12 +97,11 @@ package flipline.api
 
     public function method_239(param1:Boolean, param2:String, param3:String):void
     {
-      var _loc4_:class_14 = this;
-      _loc4_.var_216 = true;
-      _loc4_.var_211 = param1;
-      _loc4_.var_265 = param2;
-      _loc4_.var_282 = param3;
-      MochiServices.connect(param2, _loc4_.var_204, _loc4_.method_192);
+      this.var_216 = true;
+      this.var_211 = param1;
+      this.var_265 = param2;
+      this.var_282 = param3;
+      MochiServices.connect(param2, this.var_204, this.method_192);
     }
 
     public function method_192(param1:String):void
@@ -165,8 +146,7 @@ package flipline.api
 
     public function method_226():void
     {
-      var _loc1_:class_14 = this;
-      if (_loc1_.var_143)
+      if (this.var_143)
       {
         Log.Play();
       }
@@ -174,8 +154,7 @@ package flipline.api
 
     public function method_190(param1:Number = 1):void
     {
-      var _loc2_:class_14 = this;
-      if (_loc2_.var_216)
+      if (this.var_216)
       {
         MochiEvents.startPlay("Level" + param1);
       }
@@ -183,8 +162,7 @@ package flipline.api
 
     public function method_117():void
     {
-      var _loc1_:class_14 = this;
-      if (_loc1_.var_216)
+      if (this.var_216)
       {
         MochiEvents.endPlay();
       }
@@ -192,8 +170,7 @@ package flipline.api
 
     public function method_153():void
     {
-      var _loc1_:class_14 = this;
-      if (_loc1_.var_143)
+      if (this.var_143)
       {
         Log.ForceSend();
       }
@@ -214,22 +191,20 @@ package flipline.api
 
     public function method_97(param1:String, param2:String, param3:Boolean = false, param4:String = "", param5:Boolean = true, param6:String = "top right", param7:Boolean = false, param8:Boolean = false, param9:Boolean = false, param10:Boolean = false):class_13
     {
-      var _loc11_:class_14 = this;
-      var _loc12_:class_13 = new class_13(_loc11_, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10);
-      _loc11_.var_170.push(_loc12_);
+      var _loc12_:class_13 = new class_13(this, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10);
+      this.var_170.push(_loc12_);
       return _loc12_;
     }
 
     public function method_85(param1:String, param2:Object = null):void
     {
       var i:class_13 = null;
-      var _loc3_:class_14 = this;
-      if (_loc3_.var_170.length > 0)
+      if (this.var_170.length > 0)
       {
-        i = _loc3_.method_188(param1);
+        i = this.method_188(param1);
         if (i != null)
         {
-          _loc3_.method_228(i, param2);
+          this.method_228(i, param2);
         }
         else
         {
@@ -244,23 +219,21 @@ package flipline.api
 
     public function method_228(param1:class_13, param2:Object):void
     {
-      var _loc3_:class_14 = this;
-      var _loc4_:class_21 = new class_21(_loc3_, param1, param2);
-      _loc3_.var_118.push(_loc4_);
+      var _loc4_:class_21 = new class_21(this, param1, param2);
+      this.var_118.push(_loc4_);
     }
 
     public function method_188(param1:String):class_13
     {
       var _loc4_:int = 0;
       var i:class_13 = null;
-      var _loc2_:class_14 = this;
       var _loc3_:class_13 = null;
-      if (_loc2_.var_170.length > 0)
+      if (this.var_170.length > 0)
       {
         _loc4_ = 0;
-        while (_loc4_ < _loc2_.var_170.length)
+        while (_loc4_ < this.var_170.length)
         {
-          i = _loc2_.var_170[_loc4_];
+          i = this.var_170[_loc4_];
           if (i.label == param1)
           {
             _loc3_ = i;
@@ -275,17 +248,16 @@ package flipline.api
     public function method_86(param1:String = null, param2:class_13 = null, param3:class_21 = null):void
     {
       var i:Number = NaN;
-      var _loc4_:class_14 = this;
       var _loc6_:Number = -1;
       var _loc7_:class_21 = null;
       if (param1 != null)
       {
         i = 0;
-        while (i < _loc4_.var_118.length)
+        while (i < this.var_118.length)
         {
-          if (_loc4_.var_118[i].getLabel() == param1)
+          if (this.var_118[i].getLabel() == param1)
           {
-            _loc7_ = _loc4_.var_118[i];
+            _loc7_ = this.var_118[i];
             _loc6_ = i;
             break;
           }
@@ -295,11 +267,11 @@ package flipline.api
       else if (param2 != null)
       {
         i = 0;
-        while (i < _loc4_.var_118.length)
+        while (i < this.var_118.length)
         {
-          if (_loc4_.var_118[i].getLabel() == param2.label)
+          if (this.var_118[i].getLabel() == param2.label)
           {
-            _loc7_ = _loc4_.var_118[i];
+            _loc7_ = this.var_118[i];
             _loc6_ = i;
             break;
           }
@@ -309,11 +281,11 @@ package flipline.api
       else if (param3 != null)
       {
         i = 0;
-        while (i < _loc4_.var_118.length)
+        while (i < this.var_118.length)
         {
-          if (_loc4_.var_118[i].getLabel() == param3.getLabel())
+          if (this.var_118[i].getLabel() == param3.getLabel())
           {
-            _loc7_ = _loc4_.var_118[i];
+            _loc7_ = this.var_118[i];
             _loc6_ = i;
             break;
           }
@@ -327,21 +299,20 @@ package flipline.api
       }
       if (_loc6_ > -1)
       {
-        _loc4_.var_118.splice(_loc6_, 1);
+        this.var_118.splice(_loc6_, 1);
       }
     }
 
     public function method_243(param1:String):Boolean
     {
       var _loc4_:int = 0;
-      var _loc2_:class_14 = this;
       var _loc3_:Boolean = false;
-      if (_loc2_.var_118.length > 0)
+      if (this.var_118.length > 0)
       {
         _loc4_ = 0;
-        while (_loc4_ < _loc2_.var_118.length)
+        while (_loc4_ < this.var_118.length)
         {
-          if (_loc2_.var_118[_loc4_].getLabel() == param1)
+          if (this.var_118[_loc4_].getLabel() == param1)
           {
             _loc3_ = true;
             break;
@@ -377,15 +348,14 @@ package flipline.api
     public function enableButtons(param1:String = "all", param2:Array = null):void
     {
       var _loc4_:int = 0;
-      var _loc3_:class_14 = this;
-      if (_loc3_.var_118.length > 0)
+      if (this.var_118.length > 0)
       {
         _loc4_ = 0;
-        while (_loc4_ < _loc3_.var_118.length)
+        while (_loc4_ < this.var_118.length)
         {
-          if (_loc3_.var_118[_loc4_].getLabel() == param1 || param1 == "all")
+          if (this.var_118[_loc4_].getLabel() == param1 || param1 == "all")
           {
-            _loc3_.var_118[_loc4_].enableButtons(param2);
+            this.var_118[_loc4_].enableButtons(param2);
             if (param1 != "all")
             {
               break;
@@ -399,15 +369,14 @@ package flipline.api
     public function method_115(param1:String, param2:String = "all"):void
     {
       var _loc4_:int = 0;
-      var _loc3_:class_14 = this;
-      if (_loc3_.var_118.length > 0)
+      if (this.var_118.length > 0)
       {
         _loc4_ = 0;
-        while (_loc4_ < _loc3_.var_118.length)
+        while (_loc4_ < this.var_118.length)
         {
-          if (_loc3_.var_118[_loc4_].getLabel() == param2 || param2 == "all")
+          if (this.var_118[_loc4_].getLabel() == param2 || param2 == "all")
           {
-            _loc3_.var_118[_loc4_].setTitle(param1);
+            this.var_118[_loc4_].setTitle(param1);
             if (param2 != "all")
             {
               break;
@@ -421,15 +390,14 @@ package flipline.api
     public function method_105(param1:String = "all"):void
     {
       var _loc3_:int = 0;
-      var _loc2_:class_14 = this;
-      if (_loc2_.var_118.length > 0)
+      if (this.var_118.length > 0)
       {
         _loc3_ = 0;
-        while (_loc3_ < _loc2_.var_118.length)
+        while (_loc3_ < this.var_118.length)
         {
-          if (_loc2_.var_118[_loc3_].getLabel() == param1 || param1 == "all")
+          if (this.var_118[_loc3_].getLabel() == param1 || param1 == "all")
           {
-            _loc2_.var_118[_loc3_].startTransitionOut();
+            this.var_118[_loc3_].startTransitionOut();
             if (param1 != "all")
             {
               break;
@@ -453,28 +421,24 @@ package flipline.api
 
     public function method_176(param1:Event):void
     {
-      var _loc2_:class_14 = this;
-      _loc2_.var_173 = true;
+      this.var_173 = true;
     }
 
     public function method_199(param1:Event):void
     {
-      var _loc2_:class_14 = this;
-      _loc2_.var_173 = false;
+      this.var_173 = false;
     }
 
     public function method_175():void
     {
-      var _loc1_:class_14 = this;
       dispatchEvent(new Event("muteSound", true));
-      _loc1_.var_173 = true;
+      this.var_173 = true;
     }
 
     public function method_207():void
     {
-      var _loc1_:class_14 = this;
       dispatchEvent(new Event("unmuteSound", true));
-      _loc1_.var_173 = false;
+      this.var_173 = false;
     }
 
     private function getMainLoaderInfo():LoaderInfo
@@ -489,36 +453,33 @@ package flipline.api
 
     public function method_231(param1:String, param2:Function, param3:Boolean = false, param4:Boolean = false, param5:Boolean = false, param6:String = "Anonymous", param7:Number = 0, param8:Object = null):void
     {
-      var _loc9_:class_14 = this;
-      if (_loc9_.var_164)
+      if (this.var_164)
       {
         class_7.method_1("Scoreboard Already Existed, Remove.");
-        _loc9_.method_133();
+        this.method_133();
         if (param3)
         {
-          _loc9_.var_164 = new Scoreboard(_loc9_, param1, param2, param3, param4, param5, param6, param7, param8);
+          this.var_164 = new Scoreboard(this, param1, param2, param3, param4, param5, param6, param7, param8);
         }
       }
       else
       {
-        _loc9_.var_164 = new Scoreboard(_loc9_, param1, param2, param3, param4, param5, param6, param7, param8);
+        this.var_164 = new Scoreboard(this, param1, param2, param3, param4, param5, param6, param7, param8);
       }
     }
 
     public function method_133():void
     {
-      var _loc1_:class_14 = this;
-      if (_loc1_.var_164)
+      if (this.var_164)
       {
-        _loc1_.var_164.destroy();
-        _loc1_.var_164 = null;
+        this.var_164.destroy();
+        this.var_164 = null;
       }
     }
 
     public function method_232():Boolean
     {
-      var _loc1_:class_14 = this;
-      if (_loc1_.var_164)
+      if (this.var_164)
       {
         return true;
       }
@@ -527,21 +488,19 @@ package flipline.api
 
     public function method_112(param1:String):void
     {
-      var _loc2_:class_14 = this;
-      if (_loc2_.var_172)
+      if (this.var_172)
       {
-        _loc2_.method_111();
+        this.method_111();
       }
-      _loc2_.var_172 = new class_20(_loc2_, param1);
+      this.var_172 = new class_20(this, param1);
     }
 
     public function method_111():void
     {
-      var _loc1_:class_14 = this;
-      if (_loc1_.var_172)
+      if (this.var_172)
       {
-        _loc1_.var_172.destroy();
-        _loc1_.var_172 = null;
+        this.var_172.destroy();
+        this.var_172 = null;
       }
     }
 
@@ -557,8 +516,7 @@ package flipline.api
 
     public function method_223(param1:Boolean = true):void
     {
-      var _loc2_:class_14 = this;
-      _loc2_.backup.method_177(param1);
+      this.backup.method_177(param1);
     }
   }
 }

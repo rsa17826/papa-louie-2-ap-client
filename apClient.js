@@ -29,6 +29,7 @@ window.apError ??= console.error.bind("[ARCHIPELAGO]")
 const itemColors = {
   level: "yellow",
   trap: "red",
+  filler: "lightgray",
   char: "brown",
 }
 

@@ -154,7 +154,7 @@ package package_4
       this.var_106.customersUnlocked[char] = state;
       if (!this.var_106.customersUnlocked[this.menuScreen.selectedCharacterIndex])
       {
-        this.menuScreen.selectedCharacterIndex = 27;
+        this.menuScreen.selectedCharacterIndex = 28;
         while (this.menuScreen.selectedCharacterIndex > 0 && !this.var_106.customersUnlocked[this.menuScreen.selectedCharacterIndex])
         {
           this.menuScreen.selectedCharacterIndex -= 1;

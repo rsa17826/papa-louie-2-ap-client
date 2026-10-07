@@ -1849,17 +1849,18 @@ package papaGame.screens
 
     public function clickStartLevel(param1:Event):void
     {
-      this.isStartingLevel = true;
-      this.gameObj.method_94("challenges", false);
-      this.gameObj.method_103(false);
-      if (!this.gameObj.var_106.customersUnlocked[this.selectedCharacterIndex])
+      if (this.gameObj.var_106.customersUnlocked[this.selectedCharacterIndex] != 1)
       {
-        this.selectedCharacterIndex = 27;
-        while (this.selectedCharacterIndex > 0 && !this.gameObj.var_106.customersUnlocked[this.selectedCharacterIndex])
+        this.selectedCharacterIndex = 28;
+        while (this.selectedCharacterIndex > 0 && this.gameObj.var_106.customersUnlocked[this.selectedCharacterIndex] != 1)
         {
           this.selectedCharacterIndex -= 1;
         }
       }
+      this.selectCharacter(this.selectedCharacterIndex, 1);
+      this.isStartingLevel = true;
+      this.gameObj.method_94("challenges", false);
+      this.gameObj.method_103(false);
       this.gameObj.var_106.customersUsed[this.selectedCharacterIndex] = 1;
       this.isClosing = true;
       this.gameObj.var_107.api.method_105();

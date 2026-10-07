@@ -38,4 +38,5 @@ window.TILE_SHEETS = [
   "tile_5741.png",
   "worm.png",
   "burger.png",
+  "cp.png",
 ]

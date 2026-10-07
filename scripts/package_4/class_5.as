@@ -15,7 +15,7 @@ package package_4
   import papaGame.models.*;
   import papaGame.models.characters.CustomerChar;
   import papaGame.screens.*;
-import flash.geom.Point;
+  import flash.geom.Point;
 
   public dynamic class class_5 extends MovieClip
   {
@@ -418,9 +418,13 @@ import flash.geom.Point;
     }
     public function clickTeleport(param1:MouseEvent):void
     {
+      if (!ExternalInterface.call("debugEnabled"))
+      {
+        return;
+      }
       // if (!param1.shiftKey)
       // {
-      //   return;
+      // return;
       // }
       var _loc2_:Point = this.globalToLocal(new Point(param1.stageX, param1.stageY));
       this.playerObj.teleportTo(_loc2_.x + this.var_103.currentXcoord, _loc2_.y + this.var_103.currentYcoord);
@@ -557,7 +561,7 @@ import flash.geom.Point;
       this.var_103 = null;
       this.var_119 = null;
       this.var_108 = null;
-      // this.stage.removeEventListener(MouseEvent.CLICK, this.clickTeleport);
+      this.stage.removeEventListener(MouseEvent.CLICK, this.clickTeleport);
     }
 
     public function method_208():void

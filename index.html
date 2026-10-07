@@ -41,6 +41,10 @@
       // TODO rerender tab overlay when getting new item
       window.moves = []
       Object.assign(window, console)
+      function sendRescue(a) {
+        log("sendRescue", a)
+      }
+
       function debugModeEnabled() {
         return localStorage.debug == "true"
       }

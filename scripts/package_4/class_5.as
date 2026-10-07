@@ -15,6 +15,7 @@ package package_4
   import papaGame.models.*;
   import papaGame.models.characters.CustomerChar;
   import papaGame.screens.*;
+import flash.geom.Point;
 
   public dynamic class class_5 extends MovieClip
   {
@@ -67,7 +68,7 @@ package package_4
 
     public function method_172(param1:Event = null):void
     {
-      ExternalInterface.call("log","start " + getTimer());
+      ExternalInterface.call("log", "start " + getTimer());
       this.method_202();
       this.var_128 = new MovieClip();
       this.addChild(this.var_128);
@@ -413,8 +414,17 @@ package package_4
       this.var_109.handleCheckpointProgress();
       this.var_115.updateDisplay();
       this.var_103.startTransition("in");
+      this.stage.addEventListener(MouseEvent.CLICK, this.clickTeleport);
     }
-
+    public function clickTeleport(param1:MouseEvent):void
+    {
+      // if (!param1.shiftKey)
+      // {
+      //   return;
+      // }
+      var _loc2_:Point = this.globalToLocal(new Point(param1.stageX, param1.stageY));
+      this.playerObj.teleportTo(_loc2_.x + this.var_103.currentXcoord, _loc2_.y + this.var_103.currentYcoord);
+    }
     public function method_171(param1:Number, param2:Number, param3:Number, param4:Number, param5:Number, param6:Number):void
     {
       var _loc8_:DataManager = this.var_109;
@@ -467,7 +477,7 @@ package package_4
     public function finishLevel():void
     {
       // TODO level win check
-      ExternalInterface.call("newItem", "level:")
+      ExternalInterface.call("newItem", "level:");
       class_7.method_1("BEAT LEVEL");
       this.var_108.stopCycle = true;
       this.var_108.stopControls = true;
@@ -486,6 +496,7 @@ package package_4
       {
       }
       this.method_197();
+      this.stage.removeEventListener(MouseEvent.CLICK, this.clickTeleport);
     }
 
     public function method_131():void
@@ -546,6 +557,7 @@ package package_4
       this.var_103 = null;
       this.var_119 = null;
       this.var_108 = null;
+      // this.stage.removeEventListener(MouseEvent.CLICK, this.clickTeleport);
     }
 
     public function method_208():void

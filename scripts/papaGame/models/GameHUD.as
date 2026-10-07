@@ -21,187 +21,166 @@ package papaGame.models
   {
 
     public var gameObj:class_5;
-
     public var clip:MovieClip;
-
     public var interfaceClip:MovieClip;
-
     public var gameplayClip:MovieClip;
-
     public var gameplayLocation:Point = new Point(0, 0);
-
     public var dialogTimer:Number = 0;
-
     public var dialogTimerMax:Number = 10;
-
     public var portraitMC:MovieClip = null;
 
     public function GameHUD(param1:class_5)
     {
       super();
-      var _loc2_:GameHUD = this;
-      _loc2_.gameObj = param1;
-      _loc2_.setupHUD();
+      this.gameObj = param1;
+      this.setupHUD();
     }
 
     public function setupHUD():void
     {
-      var _loc1_:GameHUD = this;
-      _loc1_.clip = new MovieClip();
-      _loc1_.gameplayClip = new MovieClip();
-      _loc1_.clip.addChild(_loc1_.gameplayClip);
-      _loc1_.gameplayClip.mouseEnabled = false;
-      _loc1_.gameplayClip.mouseChildren = false;
-      _loc1_.interfaceClip = new hudMC();
-      _loc1_.interfaceClip.mouseEnabled = false;
-      _loc1_.clip.addChild(_loc1_.interfaceClip);
-      _loc1_.attachHUD();
-      _loc1_.updateDisplay();
-      _loc1_.updateTimer();
-      _loc1_.interfaceClip.menu_btn.addEventListener(MouseEvent.CLICK, this.clickMenu);
-      _loc1_.interfaceClip.mute_btn.addEventListener(MouseEvent.CLICK, this.clickMute);
-      _loc1_.interfaceClip.unmute_btn.addEventListener(MouseEvent.CLICK, this.clickUnmute);
-      _loc1_.interfaceClip.fps_txt.addEventListener(MouseEvent.CLICK, this.clickFPS);
-      _loc1_.interfaceClip.fps_txt.alpha = 0;
-      _loc1_.interfaceClip.menu_btn.tabEnabled = false;
-      _loc1_.interfaceClip.mute_btn.tabEnabled = false;
-      _loc1_.interfaceClip.unmute_btn.tabEnabled = false;
-      if (_loc1_.gameObj.var_105.isMute)
+      this.clip = new MovieClip();
+      this.gameplayClip = new MovieClip();
+      this.clip.addChild(this.gameplayClip);
+      this.gameplayClip.mouseEnabled = false;
+      this.gameplayClip.mouseChildren = false;
+      this.interfaceClip = new hudMC();
+      this.interfaceClip.mouseEnabled = false;
+      this.clip.addChild(this.interfaceClip);
+      this.attachHUD();
+      this.updateDisplay();
+      this.updateTimer();
+      this.interfaceClip.menu_btn.addEventListener(MouseEvent.CLICK, this.clickMenu);
+      this.interfaceClip.mute_btn.addEventListener(MouseEvent.CLICK, this.clickMute);
+      this.interfaceClip.unmute_btn.addEventListener(MouseEvent.CLICK, this.clickUnmute);
+      this.interfaceClip.fps_txt.addEventListener(MouseEvent.CLICK, this.clickFPS);
+      this.interfaceClip.fps_txt.alpha = 0;
+      this.interfaceClip.menu_btn.tabEnabled = false;
+      this.interfaceClip.mute_btn.tabEnabled = false;
+      this.interfaceClip.unmute_btn.tabEnabled = false;
+      if (this.gameObj.var_105.isMute)
       {
-        _loc1_.interfaceClip.mute_btn.visible = false;
-        _loc1_.interfaceClip.unmute_btn.visible = true;
+        this.interfaceClip.mute_btn.visible = false;
+        this.interfaceClip.unmute_btn.visible = true;
       }
       else
       {
-        _loc1_.interfaceClip.mute_btn.visible = true;
-        _loc1_.interfaceClip.unmute_btn.visible = false;
+        this.interfaceClip.mute_btn.visible = true;
+        this.interfaceClip.unmute_btn.visible = false;
       }
-      var _loc2_:CustomerDataFile = _loc1_.gameObj.var_113.getCustomerData(_loc1_.gameObj.var_106.selectedCharacter);
-      _loc1_.interfaceClip.skill.gotoAndStop(_loc2_.skillType);
-      _loc1_.setupPortrait();
-      _loc1_.setupBubbles();
-      _loc1_.hideHUD();
+      var _loc2_:CustomerDataFile = this.gameObj.var_113.getCustomerData(this.gameObj.var_106.selectedCharacter);
+      this.interfaceClip.skill.gotoAndStop(_loc2_.skillType);
+      this.setupPortrait();
+      this.setupBubbles();
+      this.hideHUD();
     }
 
     public function attachHUD():void
     {
-      var _loc1_:GameHUD = this;
-      _loc1_.gameObj.var_128.addChild(_loc1_.clip);
+      this.gameObj.var_128.addChild(this.clip);
     }
 
     public function attachGameDisplay(param1:DisplayObject):void
     {
-      var _loc2_:GameHUD = this;
-      _loc2_.gameplayClip.addChild(param1);
+      this.gameplayClip.addChild(param1);
     }
 
     public function updateDisplay():void
     {
-      var _loc1_:GameHUD = this;
-      var _loc2_:UserData = _loc1_.gameObj.var_106;
-      if (_loc1_.interfaceClip)
+      var _loc2_:UserData = this.gameObj.var_106;
+      if (this.interfaceClip)
       {
-        _loc1_.interfaceClip.points_txt.htmlText = "<b>" + class_10.method_84(_loc2_.getCurrentPoints()) + " PTS</b>";
-        if (_loc1_.gameObj.var_109.currentLevel < 8)
+        this.interfaceClip.points_txt.htmlText = "<b>" + class_10.method_84(_loc2_.getCurrentPoints()) + " PTS</b>";
+        if (this.gameObj.var_109.currentLevel < 8)
         {
-          _loc1_.interfaceClip.coins_txt.htmlText = "<b>" + class_10.method_84(_loc2_.getCurrentMoney()) + "/" + _loc1_.gameObj.var_112.getChallengeTargetAmount(_loc1_.gameObj.var_109.currentLevel, 6) + "</b>";
-          _loc1_.interfaceClip.burgers_txt.htmlText = "<b>" + _loc2_.getCurrentBurgerzillas() + "/" + _loc1_.gameObj.var_112.getChallengeTargetAmount(_loc1_.gameObj.var_109.currentLevel, 5) + "</b>";
-          _loc1_.interfaceClip.special_txt.htmlText = "<b>" + _loc2_.getCurrentSpecialItems() + "/" + _loc1_.gameObj.var_112.getChallengeTargetAmount(_loc1_.gameObj.var_109.currentLevel, 4) + "</b>";
+          this.interfaceClip.coins_txt.htmlText = "<b>" + class_10.method_84(_loc2_.getCurrentMoney()) + "/" + this.gameObj.var_112.getChallengeTargetAmount(this.gameObj.var_109.currentLevel, 6) + "</b>";
+          this.interfaceClip.burgers_txt.htmlText = "<b>" + _loc2_.getCurrentBurgerzillas() + "/" + this.gameObj.var_112.getChallengeTargetAmount(this.gameObj.var_109.currentLevel, 5) + "</b>";
+          this.interfaceClip.special_txt.htmlText = "<b>" + _loc2_.getCurrentSpecialItems() + "/" + this.gameObj.var_112.getChallengeTargetAmount(this.gameObj.var_109.currentLevel, 4) + "</b>";
         }
         else
         {
-          _loc1_.interfaceClip.coins_txt.htmlText = "<b>" + class_10.method_84(_loc2_.getCurrentMoney()) + "</b>";
-          _loc1_.interfaceClip.burgers_txt.htmlText = "";
-          _loc1_.interfaceClip.special_txt.htmlText = "";
-          _loc1_.interfaceClip.burgericon.visible = false;
-          _loc1_.interfaceClip.specialicon.visible = false;
+          this.interfaceClip.coins_txt.htmlText = "<b>" + class_10.method_84(_loc2_.getCurrentMoney()) + "</b>";
+          this.interfaceClip.burgers_txt.htmlText = "";
+          this.interfaceClip.special_txt.htmlText = "";
+          this.interfaceClip.burgericon.visible = false;
+          this.interfaceClip.specialicon.visible = false;
         }
-        _loc1_.interfaceClip.specialicon.gotoAndStop(_loc1_.gameObj.var_109.currentLevel + 1);
+        this.interfaceClip.specialicon.gotoAndStop(this.gameObj.var_109.currentLevel + 1);
       }
     }
 
     public function updateTimer():void
     {
       var _loc3_:Number = NaN;
-      var _loc1_:GameHUD = this;
-      var _loc2_:UserData = _loc1_.gameObj.var_106;
-      if (_loc1_.interfaceClip)
+      var _loc2_:UserData = this.gameObj.var_106;
+      if (this.interfaceClip)
       {
         _loc3_ = 0;
-        if (_loc1_.gameObj.var_108)
+        if (this.gameObj.var_108)
         {
-          _loc3_ = _loc1_.gameObj.var_108.gameplayTimer;
+          _loc3_ = this.gameObj.var_108.gameplayTimer;
         }
-        _loc1_.interfaceClip.timer_txt.text = class_10.method_109(_loc3_, true);
+        this.interfaceClip.timer_txt.text = class_10.method_109(_loc3_, true);
       }
     }
 
     public function updateMessageFPS(param1:String):void
     {
-      var _loc2_:GameHUD = this;
-      if (_loc2_.interfaceClip)
+      if (this.interfaceClip)
       {
-        _loc2_.interfaceClip.fps_txt.text = param1;
+        this.interfaceClip.fps_txt.text = param1;
       }
     }
 
     public function hideHUD():void
     {
-      var _loc1_:GameHUD = this;
-      if (_loc1_.interfaceClip)
+      if (this.interfaceClip)
       {
-        _loc1_.interfaceClip.visible = false;
+        this.interfaceClip.visible = false;
       }
     }
 
     public function showHUD():void
     {
-      var _loc1_:GameHUD = this;
-      if (_loc1_.interfaceClip)
+      if (this.interfaceClip)
       {
-        _loc1_.interfaceClip.visible = true;
-        _loc1_.updateAdjustmentNumbers();
+        this.interfaceClip.visible = true;
+        this.updateAdjustmentNumbers();
       }
     }
 
     public function clickMenu(param1:MouseEvent):void
     {
-      var _loc2_:GameHUD = this;
-      if (!_loc2_.gameObj.var_103.isTransitioningIn && !_loc2_.gameObj.var_103.isTransitionOut)
+      if (!this.gameObj.var_103.isTransitioningIn && !this.gameObj.var_103.isTransitionOut)
       {
-        _loc2_.gameObj.var_108.pauseGame();
-        _loc2_.gameObj.var_107.api.method_85("PauseMenu", {"section": "info"});
+        this.gameObj.var_108.pauseGame();
+        this.gameObj.var_107.api.method_85("PauseMenu", {"section": "info"});
       }
     }
 
     public function clickMute(param1:MouseEvent):void
     {
-      var _loc2_:GameHUD = this;
-      _loc2_.gameObj.var_105.muteSound(true);
-      _loc2_.updateMuteButton();
+      this.gameObj.var_105.muteSound(true);
+      this.updateMuteButton();
     }
 
     public function clickUnmute(param1:MouseEvent):void
     {
-      var _loc2_:GameHUD = this;
-      _loc2_.gameObj.var_105.unmuteSound(true);
-      _loc2_.updateMuteButton();
+      this.gameObj.var_105.unmuteSound(true);
+      this.updateMuteButton();
     }
 
     public function updateMuteButton():void
     {
-      var _loc1_:GameHUD = this;
-      if (_loc1_.interfaceClip)
+      if (this.interfaceClip)
       {
-        _loc1_.interfaceClip.mute_btn.visible = !_loc1_.gameObj.var_105.isMute;
-        _loc1_.interfaceClip.unmute_btn.visible = _loc1_.gameObj.var_105.isMute;
+        this.interfaceClip.mute_btn.visible = !this.gameObj.var_105.isMute;
+        this.interfaceClip.unmute_btn.visible = this.gameObj.var_105.isMute;
       }
     }
 
     public function clickPause(param1:MouseEvent = null):void
     {
-      var _loc2_:GameHUD = this;
-      var _loc3_:GameControls = _loc2_.gameObj.var_108;
+      var _loc3_:GameControls = this.gameObj.var_108;
       if (_loc3_ != null)
       {
         if (!_loc3_.isPaused)
@@ -217,18 +196,17 @@ package papaGame.models
 
     public function clickFPS(param1:MouseEvent = null):void
     {
-      var _loc2_:GameHUD = this;
-      if (_loc2_.interfaceClip)
+      if (this.interfaceClip)
       {
         if (param1.shiftKey)
         {
-          if (_loc2_.interfaceClip.fps_txt.alpha == 0)
+          if (this.interfaceClip.fps_txt.alpha == 0)
           {
-            _loc2_.interfaceClip.fps_txt.alpha = 1;
+            this.interfaceClip.fps_txt.alpha = 1;
           }
           else
           {
-            _loc2_.interfaceClip.fps_txt.alpha = 0;
+            this.interfaceClip.fps_txt.alpha = 0;
           }
         }
       }
@@ -236,8 +214,7 @@ package papaGame.models
 
     public function clickSponsorLogo(param1:MouseEvent = null):void
     {
-      var _loc2_:GameHUD = this;
-      var _loc3_:GameControls = _loc2_.gameObj.var_108;
+      var _loc3_:GameControls = this.gameObj.var_108;
       if (_loc3_ != null)
       {
         if (!_loc3_.isPaused)
@@ -250,8 +227,7 @@ package papaGame.models
 
     public function clickLicenseLogo(param1:MouseEvent = null):void
     {
-      var _loc2_:GameHUD = this;
-      var _loc3_:GameControls = _loc2_.gameObj.var_108;
+      var _loc3_:GameControls = this.gameObj.var_108;
       if (_loc3_ != null)
       {
         if (!_loc3_.isPaused)
@@ -265,19 +241,18 @@ package papaGame.models
     public function updatePlayerHealth(param1:Number):void
     {
       var _loc3_:int = 0;
-      var _loc2_:GameHUD = this;
-      if (_loc2_.interfaceClip)
+      if (this.interfaceClip)
       {
         _loc3_ = 1;
         while (_loc3_ <= 3)
         {
           if (param1 >= _loc3_)
           {
-            _loc2_.interfaceClip["heart" + _loc3_].visible = true;
+            this.interfaceClip["heart" + _loc3_].visible = true;
           }
           else
           {
-            _loc2_.interfaceClip["heart" + _loc3_].visible = false;
+            this.interfaceClip["heart" + _loc3_].visible = false;
           }
           _loc3_++;
         }
@@ -286,20 +261,25 @@ package papaGame.models
 
     public function destroy():void
     {
-      var _loc1_:GameHUD = this;
-      _loc1_.setupBubbles(false);
-      _loc1_.cleanupModel();
-      _loc1_.clip.removeChild(_loc1_.gameplayClip);
-      _loc1_.gameplayClip = null;
-      _loc1_.interfaceClip.menu_btn.removeEventListener(MouseEvent.CLICK, this.clickMenu);
-      _loc1_.interfaceClip.mute_btn.removeEventListener(MouseEvent.CLICK, this.clickMute);
-      _loc1_.interfaceClip.unmute_btn.removeEventListener(MouseEvent.CLICK, this.clickUnmute);
-      _loc1_.interfaceClip.fps_txt.removeEventListener(MouseEvent.CLICK, this.clickFPS);
-      _loc1_.interfaceClip.mouseEnabled = false;
-      _loc1_.clip.removeChild(_loc1_.interfaceClip);
-      _loc1_.interfaceClip = null;
-      _loc1_.gameObj.var_128.removeChild(_loc1_.clip);
-      _loc1_.clip = null;
+      this.setupBubbles(false);
+      this.cleanupModel();
+      this.clip.removeChild(this.gameplayClip);
+      this.gameplayClip = null;
+      if (this.interfaceClip)
+      {
+        if (this.interfaceClip.menu_btn)
+        {
+          this.interfaceClip.menu_btn.removeEventListener(MouseEvent.CLICK, this.clickMenu);
+        }
+        this.interfaceClip.mute_btn.removeEventListener(MouseEvent.CLICK, this.clickMute);
+        this.interfaceClip.unmute_btn.removeEventListener(MouseEvent.CLICK, this.clickUnmute);
+        this.interfaceClip.fps_txt.removeEventListener(MouseEvent.CLICK, this.clickFPS);
+        this.interfaceClip.mouseEnabled = false;
+      }
+      this.clip.removeChild(this.interfaceClip);
+      this.interfaceClip = null;
+      this.gameObj.var_128.removeChild(this.clip);
+      this.clip = null;
     }
 
     public function clickAdjustment(param1:MouseEvent):void
@@ -308,8 +288,7 @@ package papaGame.models
 
     public function updateAdjustmentNumbers():void
     {
-      var _loc1_:GameHUD = this;
-      var _loc2_:CustomerChar = CustomerChar(_loc1_.gameObj.playerObj);
+      var _loc2_:CustomerChar = CustomerChar(this.gameObj.playerObj);
     }
 
     public function showTally(param1:Number, param2:Number):void
@@ -318,9 +297,8 @@ package papaGame.models
 
     public function animateTally(param1:Event):void
     {
-      var _loc2_:GameHUD = this;
-      var _loc3_:PlayerChar = _loc2_.gameObj.playerObj;
-      var _loc4_:GameDisplay = _loc2_.gameObj.var_103;
+      var _loc3_:PlayerChar = this.gameObj.playerObj;
+      var _loc4_:GameDisplay = this.gameObj.var_103;
     }
 
     public function setupBubbles(param1:Boolean = true):void
@@ -328,8 +306,7 @@ package papaGame.models
       var _loc4_:String = null;
       var _loc5_:String = null;
       var _loc6_:String = null;
-      var _loc2_:GameHUD = this;
-      var _loc3_:ChallengeManager = _loc2_.gameObj.var_112;
+      var _loc3_:ChallengeManager = this.gameObj.var_112;
       if (param1)
       {
         _loc4_ = _loc3_.getChallengeSkillNeeded(_loc3_.gameObj.var_158, 4);
@@ -337,49 +314,49 @@ package papaGame.models
         _loc6_ = _loc3_.getChallengeSkillNeeded(_loc3_.gameObj.var_158, 6);
         if (_loc4_ == CustomerData.SKILL_NONE)
         {
-          _loc2_.interfaceClip.bubble_special.visible = false;
+          this.interfaceClip.bubble_special.visible = false;
         }
         else
         {
-          _loc2_.interfaceClip.bubble_special.inside.skill.gotoAndStop(_loc4_);
+          this.interfaceClip.bubble_special.inside.skill.gotoAndStop(_loc4_);
         }
         if (_loc5_ == CustomerData.SKILL_NONE)
         {
-          _loc2_.interfaceClip.bubble_burgers.visible = false;
+          this.interfaceClip.bubble_burgers.visible = false;
         }
         else
         {
-          _loc2_.interfaceClip.bubble_burgers.inside.skill.gotoAndStop(_loc5_);
+          this.interfaceClip.bubble_burgers.inside.skill.gotoAndStop(_loc5_);
         }
         if (_loc6_ == CustomerData.SKILL_NONE)
         {
-          _loc2_.interfaceClip.bubble_coins.visible = false;
+          this.interfaceClip.bubble_coins.visible = false;
         }
         else
         {
-          _loc2_.interfaceClip.bubble_coins.inside.skill.gotoAndStop(_loc6_);
+          this.interfaceClip.bubble_coins.inside.skill.gotoAndStop(_loc6_);
         }
-        _loc2_.interfaceClip.bubble_coins.mouseEnabled = true;
-        _loc2_.interfaceClip.bubble_coins.buttonMode = true;
-        _loc2_.interfaceClip.bubble_burgers.mouseEnabled = true;
-        _loc2_.interfaceClip.bubble_burgers.buttonMode = true;
-        _loc2_.interfaceClip.bubble_special.mouseEnabled = true;
-        _loc2_.interfaceClip.bubble_special.buttonMode = true;
-        _loc2_.interfaceClip.bubble_coins.addEventListener(MouseEvent.ROLL_OVER, _loc2_.rolloverBubble);
-        _loc2_.interfaceClip.bubble_coins.addEventListener(MouseEvent.ROLL_OUT, _loc2_.rolloutBubble);
-        _loc2_.interfaceClip.bubble_burgers.addEventListener(MouseEvent.ROLL_OVER, _loc2_.rolloverBubble);
-        _loc2_.interfaceClip.bubble_burgers.addEventListener(MouseEvent.ROLL_OUT, _loc2_.rolloutBubble);
-        _loc2_.interfaceClip.bubble_special.addEventListener(MouseEvent.ROLL_OVER, _loc2_.rolloverBubble);
-        _loc2_.interfaceClip.bubble_special.addEventListener(MouseEvent.ROLL_OUT, _loc2_.rolloutBubble);
+        this.interfaceClip.bubble_coins.mouseEnabled = true;
+        this.interfaceClip.bubble_coins.buttonMode = true;
+        this.interfaceClip.bubble_burgers.mouseEnabled = true;
+        this.interfaceClip.bubble_burgers.buttonMode = true;
+        this.interfaceClip.bubble_special.mouseEnabled = true;
+        this.interfaceClip.bubble_special.buttonMode = true;
+        this.interfaceClip.bubble_coins.addEventListener(MouseEvent.ROLL_OVER, this.rolloverBubble);
+        this.interfaceClip.bubble_coins.addEventListener(MouseEvent.ROLL_OUT, this.rolloutBubble);
+        this.interfaceClip.bubble_burgers.addEventListener(MouseEvent.ROLL_OVER, this.rolloverBubble);
+        this.interfaceClip.bubble_burgers.addEventListener(MouseEvent.ROLL_OUT, this.rolloutBubble);
+        this.interfaceClip.bubble_special.addEventListener(MouseEvent.ROLL_OVER, this.rolloverBubble);
+        this.interfaceClip.bubble_special.addEventListener(MouseEvent.ROLL_OUT, this.rolloutBubble);
       }
       else
       {
-        _loc2_.interfaceClip.bubble_coins.removeEventListener(MouseEvent.ROLL_OVER, _loc2_.rolloverBubble);
-        _loc2_.interfaceClip.bubble_coins.removeEventListener(MouseEvent.ROLL_OUT, _loc2_.rolloutBubble);
-        _loc2_.interfaceClip.bubble_burgers.removeEventListener(MouseEvent.ROLL_OVER, _loc2_.rolloverBubble);
-        _loc2_.interfaceClip.bubble_burgers.removeEventListener(MouseEvent.ROLL_OUT, _loc2_.rolloutBubble);
-        _loc2_.interfaceClip.bubble_special.removeEventListener(MouseEvent.ROLL_OVER, _loc2_.rolloverBubble);
-        _loc2_.interfaceClip.bubble_special.removeEventListener(MouseEvent.ROLL_OUT, _loc2_.rolloutBubble);
+        this.interfaceClip.bubble_coins.removeEventListener(MouseEvent.ROLL_OVER, this.rolloverBubble);
+        this.interfaceClip.bubble_coins.removeEventListener(MouseEvent.ROLL_OUT, this.rolloutBubble);
+        this.interfaceClip.bubble_burgers.removeEventListener(MouseEvent.ROLL_OVER, this.rolloverBubble);
+        this.interfaceClip.bubble_burgers.removeEventListener(MouseEvent.ROLL_OUT, this.rolloutBubble);
+        this.interfaceClip.bubble_special.removeEventListener(MouseEvent.ROLL_OVER, this.rolloverBubble);
+        this.interfaceClip.bubble_special.removeEventListener(MouseEvent.ROLL_OUT, this.rolloutBubble);
       }
     }
 
@@ -398,14 +375,13 @@ package papaGame.models
       var _loc15_:Class = null;
       var _loc16_:Class = null;
       var _loc17_:MovieClip = null;
-      var _loc1_:GameHUD = this;
       var _loc2_:MovieClip = new customerPortraitMC();
-      var _loc3_:String = _loc1_.gameObj.var_113.getCustomerClipName(_loc1_.gameObj.var_106.selectedCharacter);
-      if (_loc1_.gameObj.var_106.selectedStyle == 2)
+      var _loc3_:String = this.gameObj.var_113.getCustomerClipName(this.gameObj.var_106.selectedCharacter);
+      if (this.gameObj.var_106.selectedStyle == 2)
       {
         _loc3_ += "2";
       }
-      else if (_loc1_.gameObj.var_106.selectedStyle == 3)
+      else if (this.gameObj.var_106.selectedStyle == 3)
       {
         _loc3_ += "3";
       }
@@ -451,53 +427,51 @@ package papaGame.models
       var _loc12_:Rectangle = _loc2_.head.getChildAt(0).getBounds(_loc2_.head.getChildAt(0));
       _loc2_.x -= (57 - (_loc12_.x + _loc12_.width)) * _loc2_.scaleX;
       _loc2_.y += (19 - (_loc12_.y + _loc12_.height)) * _loc2_.scaleY;
-      _loc1_.interfaceClip.portraitholder.addChild(_loc2_);
-      _loc1_.portraitMC = _loc2_;
-      _loc1_.portraitMC.mouseEnabled = false;
-      _loc1_.portraitMC.mouseChildren = false;
+      this.interfaceClip.portraitholder.addChild(_loc2_);
+      this.portraitMC = _loc2_;
+      this.portraitMC.mouseEnabled = false;
+      this.portraitMC.mouseChildren = false;
     }
 
     public function cleanupModel():void
     {
-      var _loc1_:GameHUD = this;
-      if (_loc1_.portraitMC)
+      if (this.portraitMC)
       {
         try
         {
-          _loc1_.portraitMC.head.removeChildAt(0);
-          _loc1_.portraitMC.eyes.removeChildAt(0);
-          _loc1_.portraitMC.mouth.removeChildAt(0);
+          this.portraitMC.head.removeChildAt(0);
+          this.portraitMC.eyes.removeChildAt(0);
+          this.portraitMC.mouth.removeChildAt(0);
         }
         catch (err:Error)
         {
         }
         try
         {
-          _loc1_.portraitMC.hair.removeChildAt(0);
+          this.portraitMC.hair.removeChildAt(0);
         }
         catch (err:Error)
         {
         }
         try
         {
-          _loc1_.portraitMC.back_hair.removeChildAt(0);
+          this.portraitMC.back_hair.removeChildAt(0);
         }
         catch (err:Error)
         {
         }
-        _loc1_.interfaceClip.portraitholder.removeChild(_loc1_.portraitMC);
-        _loc1_.portraitMC = null;
+        this.interfaceClip.portraitholder.removeChild(this.portraitMC);
+        this.portraitMC = null;
       }
     }
 
     public function tempRemoveInterface():void
     {
-      var _loc1_:GameHUD = this;
       class_7.method_1("TEMP REMOVE INTERFACE!");
-      if (_loc1_.interfaceClip)
+      if (this.interfaceClip)
       {
-        _loc1_.clip.removeChild(_loc1_.interfaceClip);
-        _loc1_.interfaceClip = null;
+        this.clip.removeChild(this.interfaceClip);
+        this.interfaceClip = null;
       }
     }
   }

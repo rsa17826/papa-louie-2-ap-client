@@ -1,5 +1,6 @@
 package papaGame.managers
 {
+  import flash.external.ExternalInterface;
   import flash.display.MovieClip;
   import flash.events.*;
   import package_2.class_10;
@@ -1024,6 +1025,7 @@ package papaGame.managers
         {
           if (_loc7_.challengeType == Challenge.RESCUE && _loc7_.whichCustomer == param1)
           {
+            ExternalInterface.call("sendRescue", param1)
             if (!_loc4_.hasCompletedChallenge(_loc7_.whichWorld, _loc7_.whichChallenge))
             {
               _loc4_.completeChallenge(_loc7_.whichWorld, _loc7_.whichChallenge);

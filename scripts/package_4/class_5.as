@@ -142,9 +142,14 @@ package package_4
       this.var_107.method_125(this.var_105);
       this.var_112 = new ChallengeManager(this);
       this.var_109 = new DataManager(this);
+      ExternalInterface.addCallback("setCharLockState", setCharLockState);
       this.var_109.prepareLevelData(false);
     }
 
+    public function setCharLockState(char, state)
+    {
+      this.var_106.customersUnlocked[char] = state;
+    }
     public function method_183():MovieClip
     {
       this.method_129();

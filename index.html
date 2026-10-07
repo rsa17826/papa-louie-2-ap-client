@@ -80,12 +80,16 @@
       }
       window.owo ??= (e) => e
       function pmax() {
-        window.moves = [...allMoves]
+        window.chars = new Array(28).fill(0).map((_) => 1)
+        updateCharLockState()
         for (var i in new Array(11).fill(1)) {
           player[`setActLocked_${i}`]?.(false)
           unlockedActs.add(Number(i))
         }
         renderMovesList()
+      }
+      function updateCharLockState() {
+        window.chars.forEach((e, i) => player.setCharLockState(i, e))
       }
       window.moves ??= []
       const itemList = {

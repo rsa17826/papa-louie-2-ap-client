@@ -74,6 +74,7 @@ package papaGame.screens
         this.clip.inside.coin1.visible = true;
       }
       this.clip.addEventListener(Event.ENTER_FRAME, this.updateScreen);
+      this.clip.gotoAndStop(this.clip.totalFrames);
     }
 
     public function updateScreen(param1:Event):void

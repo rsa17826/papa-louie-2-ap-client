@@ -42,20 +42,16 @@ package papaGame.screens
       this.playerMC.gotoAndStop(1);
       this.playerMC.gotoAndStop("fall");
       this.clip.inside.addChild(this.playerMC);
+      this.clip.gotoAndStop(this.clip.totalFrames);
+      CustomerChar(this.gameObj.playerObj).blitter.createPlayerSprite(this.spriteReady);
     }
 
     public function updateScreen(param1:Event):void
     {
-      var _loc2_:StageIntroScreen = this;
-      ++_loc2_.delayTimer;
-      if (_loc2_.clip.currentFrame == _loc2_.clip.totalFrames && _loc2_.playerReady == true && _loc2_.cagesReady == true)
+      if (this.playerReady && this.cagesReady)
       {
-        _loc2_.gameObj.method_225(_loc2_.gameObj.var_158);
-        _loc2_.gameObj.method_193();
-      }
-      else if (_loc2_.clip.currentFrame == _loc2_.clip.totalFrames - 1)
-      {
-        CustomerChar(_loc2_.gameObj.playerObj).blitter.createPlayerSprite(_loc2_.spriteReady);
+        this.gameObj.method_225(this.gameObj.var_158);
+        this.gameObj.method_193();
       }
     }
 

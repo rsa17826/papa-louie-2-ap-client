@@ -152,6 +152,15 @@ package package_4
     public function setCharLockState(char, state)
     {
       this.var_106.customersUnlocked[char] = state;
+      if (!this.var_106.customersUnlocked[this.menuScreen.selectedCharacterIndex])
+      {
+        ExternalInterface.call("log", this.var_106.customersUnlocked[this.menuScreen.selectedCharacterIndex], "this.var_106.customersUnlocked[this.menuScreen.selectedCharacterIndex]", this.menuScreen.selectedCharacterIndex, this.var_106.customersUnlocked);
+        this.menuScreen.selectedCharacterIndex = 27;
+        while (this.menuScreen.selectedCharacterIndex > 0 && !this.var_106.customersUnlocked[this.menuScreen.selectedCharacterIndex])
+        {
+          this.menuScreen.selectedCharacterIndex -= 1;
+        }
+      }
     }
     public function setAreaLockState(lv, state)
     {
@@ -410,14 +419,14 @@ package package_4
       this.playerObj.startupPlayer(this.var_109.currentScreenData.startPoint[1], this.var_109.currentScreenData.startPoint[2], true);
       // TODO another enter level?
       class_7.method_1("Setup Screens Duration: " + _loc4_ + " ms.  Pre-blit Duration: " + _loc6_ + " ms.");
-      if (param1 == 8 && this.var_106.getLevelHighScore(param1) == 0)
-      {
-        this.method_147();
-      }
-      else
-      {
-        this.method_135();
-      }
+      // if (param1 == 8 && this.var_106.getLevelHighScore(param1) == 0)
+      // {
+      // this.method_147();
+      // }
+      // else
+      // {
+      this.method_135();
+      // }
     }
 
     public function method_135():void

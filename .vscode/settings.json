@@ -1,5 +1,16 @@
 {
   "files.exclude": {
-    "scripts": true
+    "scripts": true,
+    "sprites": true,
+    "sounds": true,
+    "shapes": true,
+    "texts": true,
+    "symbolClass": true,
+    "morphshapes": true,
+    "ruffle": true,
+    "RABCDAsm": true,
+    "frames": true,
+    "fonts": true,
+    "buttons": true
   }
 }

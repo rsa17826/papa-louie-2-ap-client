@@ -83,7 +83,6 @@ package papaGame.display
 
     public function setCameraJiggle(param1:Number, param2:Number):void
     {
-      return;
       this.jiggle = true;
       this.jiggleamount = param1;
       this.jiggleduration = param2;
@@ -92,8 +91,6 @@ package papaGame.display
 
     public function setCameraLock(param1:Number, param2:Number, param3:Boolean = true):void
     {
-      return;
-
       var _loc5_:GameDisplay = this.gameObj.var_103;
       this.lockTargetX = (param1 + Math.floor(_loc5_.screenTileWidth / 2)) * _loc5_.tileWidth;
       this.lockTargetY = (param2 + Math.floor(_loc5_.screenTileHeight / 2)) * _loc5_.tileWidth;
@@ -108,8 +105,6 @@ package papaGame.display
 
     public function setCameraForceScrolling(param1:Number = 0, param2:Number = 0, param3:Number = 1):void
     {
-      return;
-
       this.forcedScrollingCamera = true;
       this.forcedScrollingDirX = param1;
       this.forcedScrollingDirY = param2;
@@ -129,8 +124,6 @@ package papaGame.display
 
     public function jiggleCamera():void
     {
-      return;
-
       var _loc1_:GameCam = this;
       var _loc2_:Boolean = _loc1_.gameObj.var_109.isOnTrain();
       var _loc3_:Boolean = _loc1_.gameObj.var_109.isOnBarge();
@@ -201,8 +194,6 @@ package papaGame.display
 
     public function setCameraBounds():void
     {
-      return;
-
       var _loc2_:class_5 = this.gameObj;
       var _loc3_:DataManager = _loc2_.var_109;
       var _loc4_:GameDisplay = this.gameObj.var_103;
@@ -228,8 +219,6 @@ package papaGame.display
 
     public function offsetCamera(param1:Number = 0, param2:Number = 0):void
     {
-      return;
-
       if (param1 != 0)
       {
         if (param1 == 1 && this.cameraOffset == 0)
@@ -482,8 +471,6 @@ package papaGame.display
 
     public function withinPanBounds(param1:Number):Number
     {
-      return;
-
       var _loc2_:GameCam = this;
       if (param1 < 32)
       {

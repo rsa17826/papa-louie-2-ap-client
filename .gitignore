@@ -61,3 +61,4 @@ symbolClass/symbols.csv
 !scripts/papaGame/events/GameControls.as
 !scripts/papaGame/events/GameControls.as
 !scripts/papaGame/display/GameCam.as
+!scripts/papaGame/models/GameObject.as

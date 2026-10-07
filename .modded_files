@@ -27,3 +27,4 @@ papaGame/models/characters/CustomerChar.as
 papaGame/screens/ParadeScreen.as
 papaGame/events/GameControls.as
 papaGame/display/GameCam.as
+papaGame/models/GameObject.as

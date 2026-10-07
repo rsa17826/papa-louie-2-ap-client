@@ -512,7 +512,7 @@ package package_4
     public function finishLevel():void
     {
       // TODO level win check
-      ExternalInterface.call("newItem", "level" + this.var_109.currentLevel + " - level:" + (Number(this.var_109.currentLevel) + 1));
+      ExternalInterface.call("newItem", "level" + this.var_109.currentLevel + " - level:level" + (Number(this.var_109.currentLevel) + 1));
       class_7.method_1("BEAT LEVEL");
       this.var_108.stopCycle = true;
       this.var_108.stopControls = true;

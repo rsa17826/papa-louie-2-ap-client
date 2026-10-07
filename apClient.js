@@ -153,12 +153,12 @@ class ArchipelagoClient {
 
     this.socket.onmessage = (event) => {
       try {
-        const packets = JSON.parse(event.data)
+        var packets = JSON.parse(event.data)
         for (const packet of packets) {
           this.handlePacket(packet)
         }
       } catch (err) {
-        apError("Failed to parse incoming JSON payload:", err)
+        apError("Failed to parse incoming JSON payload:", err, packets)
       }
     }
 
@@ -850,7 +850,7 @@ function apTryConnect() {
     var obj = {
       hostname: "ap.localhost",
       port: "",
-      game: "papaLouie2",
+      game: "papa-louie-2",
       playerName: "",
       password: "",
     }

@@ -39,10 +39,40 @@
     </div>
     <script>
       // TODO rerender tab overlay when getting new item
+      const customerMap = [
+        "marty",
+        "rita",
+        "prudence",
+        "taylor",
+        "clover",
+        "mindy",
+        "akari",
+        "zoe",
+        "big pauly",
+        "kahuna",
+        "kingsley",
+        "ninjoy",
+        "penny",
+        "sarge fan",
+        "james",
+        "scooter",
+        "connor",
+        "peggy",
+        "georgito",
+        "yippy",
+        "greg",
+        "captain cori",
+        "rico",
+        "boomer",
+        "professor fitz",
+        "foodini",
+        "papa louie",
+        "xandra",
+      ]
       window.moves = []
       Object.assign(window, console)
       function sendRescue(a) {
-        log("sendRescue", a)
+        log("sendRescue", customerMap[a])
       }
 
       function debugModeEnabled() {
@@ -177,82 +207,8 @@
           0,
         )
       })
-      const defaultSaveData = {
-        cps: "default",
-        moves: [],
-        achievements: {
-          achievement1: 0,
-          achievement2: 0,
-          achievement3: 0,
-          achievement4: 0,
-          achievement5: 0,
-          achievement6: 0,
-          achievement7: 0,
-          achievement8: 0,
-          achievement9: 0,
-          achievement10: 0,
-          achievement11: 0,
-          achievement12: 0,
-          achievement13: 0,
-          achievement14: 0,
-          achievement15: 0,
-          achievement16: 0,
-          achievement17: 0,
-          achievement18: 0,
-          achievement19: 0,
-          achievement20: 0,
-          achievement21: 0,
-          achievement22: 0,
-          achievement23: 0,
-          achievement24: 0,
-          achievement25: 0,
-          achievement26: 2,
-          achievement27: 0,
-          achievement28: 0,
-          achievement29: 0,
-          achievement30: 0,
-        },
-        actDeaths: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        actTimes: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        itemPackages: [
-          true,
-          true,
-          true,
-          true,
-          true,
-          true,
-          true,
-          true,
-          true,
-          true,
-          true,
-          true,
-          true,
-        ],
-        stageNames: [],
-        stages: [],
-        stars: {
-          act0: [false],
-          act1: [false, false, false],
-          act2: [false, false, false],
-          act3: [false, false],
-          act4: [false, false],
-          act5: [false],
-          act6: [false, false],
-          act7: [false, false, false],
-          act8: [false],
-          act9: [false, false],
-          act10: [false, false, false],
-          act11: [false, false, false, false, false, false],
-        },
-        stats: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        unlockedActs: new Set(),
-      }
-      const globalOpts = {
-        options: [50, "high", true, 100, 100, false, false],
-        stageNames: [],
-        stages: [],
-      }
+      const defaultSaveData = {}
+      const globalOpts = {}
       ;(async () => {
         window.saveData = await createDB()
         apTryConnect()
@@ -374,7 +330,7 @@
         player.load({
           url: `papa-louie-archipelago.swf`,
           allowScriptAccess: true,
-          // autoplay: "off",
+          autoplay: "on",
         })
       })()
       window.checksInFlight = new Set()

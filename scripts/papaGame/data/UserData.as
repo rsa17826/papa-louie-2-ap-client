@@ -1038,7 +1038,7 @@ package papaGame.data
         this.totalLives.setValue(this.so.data.totalLives);
         if (this.so.data.warpCoins)
         {
-          this.warpCoins.setValue(this.so.data.warpCoins + 100);
+          this.warpCoins.setValue(this.so.data.warpCoins);
         }
         else
         {

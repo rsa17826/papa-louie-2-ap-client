@@ -19,3 +19,5 @@ papaGame/data/LevelData.as
 papaGame/data/DataManager.as
 papaGame/data/UserData.as
 papaGame/managers/ChallengeManager.as
+papaGame/screens/StageIntroScreen.as
+papaGame/screens/StageOutroScreen.as

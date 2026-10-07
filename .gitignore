@@ -51,3 +51,5 @@ symbolClass/symbols.csv
 !levelViewer/images/
 !levelViewer/images/*.png
 !scripts/papaGame/managers/ChallengeManager.as
+!scripts/papaGame/screens/StageIntroScreen.as
+!scripts/papaGame/screens/StageOutroScreen.as

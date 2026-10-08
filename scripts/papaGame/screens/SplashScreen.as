@@ -12,118 +12,85 @@ package papaGame.screens
   {
 
     public var gameObj:class_5;
-
     public var container:MovieClip;
-
     public var clip:MovieClip;
-
     public var bgSpeed:Number = 1;
-
     public var mgSpeed:Number = 2;
-
     public var isShowingCredits:Boolean = false;
-
     public var creditsDivisor:Number = 4;
 
     public function SplashScreen(param1:class_5, param2:MovieClip, param3:Object = null)
     {
       super();
-      var _loc4_:SplashScreen = this;
-      _loc4_.gameObj = param1;
-      _loc4_.container = param2;
-      _loc4_.setupScreen();
+      this.gameObj = param1;
+      this.container = param2;
+      this.setupScreen();
     }
 
     public function setupScreen():void
     {
-      var _loc1_:SplashScreen = this;
-      _loc1_.clip = new splashScreenMC();
-      _loc1_.clip.iris.gotoAndStop(1);
-      _loc1_.container.addChild(_loc1_.clip);
-      _loc1_.container.addEventListener("clickStart", _loc1_.clickStart);
-      _loc1_.container.addEventListener("clickCredits", _loc1_.clickCredits);
-      _loc1_.container.addEventListener("clickHighScores", _loc1_.clickHighScores);
-      _loc1_.clip.credits.y = 416;
-      _loc1_.clip.credits.addEventListener(MouseEvent.CLICK, _loc1_.hideCredits);
-      if (_loc1_.gameObj.var_105.hasShownTitleScreen)
+      this.clip = new splashScreenMC();
+      this.clip.iris.gotoAndStop(1);
+      this.container.addChild(this.clip);
+      this.container.addEventListener("clickStart", this.clickStart);
+      this.container.addEventListener("clickCredits", this.clickCredits);
+      this.container.addEventListener("clickHighScores", this.clickHighScores);
+      this.clip.credits.y = 416;
+      this.clip.credits.addEventListener(MouseEvent.CLICK, this.hideCredits);
+      if (this.gameObj.var_105.hasShownTitleScreen)
       {
-        _loc1_.gameObj.var_105.playTrack("TitleTrack", 1, 0, "outin");
+        this.gameObj.var_105.playTrack("TitleTrack", 1, 0, "outin");
       }
       else
       {
-        _loc1_.gameObj.var_105.playTrack("TitleTrack", 1, 0, "crossfade");
-        _loc1_.gameObj.var_105.hasShownTitleScreen = true;
+        this.gameObj.var_105.playTrack("TitleTrack", 1, 0, "crossfade");
+        this.gameObj.var_105.hasShownTitleScreen = true;
       }
-      _loc1_.clip.addEventListener(Event.ENTER_FRAME, _loc1_.animateScreen);
-      var _loc2_:SplashScreen = this;
-      _loc2_.closeSplashScreen();
-      if (_loc2_.isShowingCredits)
+      this.clip.addEventListener(Event.ENTER_FRAME, this.animateScreen);
+      this.closeSplashScreen();
+      if (this.isShowingCredits)
       {
-        _loc2_.hideCredits();
+        this.hideCredits();
       }
-      _loc2_.gameObj.var_107.closeLeaderboard();
-      _loc2_.gameObj.var_107.api.method_226();
-      _loc2_.clip.iris.gotoAndPlay("irisout");
-      _loc2_.gameObj.var_107.api.method_105("SplashScreen");
+      this.gameObj.var_107.closeLeaderboard();
+      this.gameObj.var_107.api.method_226();
+      this.clip.iris.gotoAndPlay("irisout");
+      this.gameObj.var_107.api.method_105("SplashScreen");
       class_4.method_74();
-      // _loc1_.clip.promo_holder.promo_btn.addEventListener(MouseEvent.MOUSE_DOWN, _loc1_.clickPromo);
-      // _loc1_.clip.promo2_holder.promo_btn.addEventListener(MouseEvent.MOUSE_DOWN, _loc1_.clickPromoTwo);
-      // _loc1_.clip.promo3_holder.promo_btn.addEventListener(MouseEvent.MOUSE_DOWN, _loc1_.clickPromoThree);
-      _loc1_.clip.promo_holder.visible = false;
-      _loc1_.clip.promo2_holder.visible = false;
-      _loc1_.clip.promo3_holder.visible = false;
-      if (class_3.method_47() == false)
-      {
-        class_4.method_62(class_4.const_5, _loc1_.gameObj, 628, 207);
-        if (Math.random() > 0.5)
-        {
-          class_4.method_62(class_4.const_4, _loc1_.gameObj, 71, 207);
-        }
-        else
-        {
-          class_4.method_62(class_4.const_6, _loc1_.gameObj, 71, 207);
-        }
-      }
     }
 
     public function animateScreen(param1:Event):void
     {
-      var _loc2_:SplashScreen = this;
       var _loc3_:Number = 999;
-      if (_loc2_.isShowingCredits && _loc2_.clip.credits.y > 0)
+      if (this.isShowingCredits && this.clip.credits.y > 0)
       {
-        _loc3_ = Number(_loc2_.clip.credits.y);
-        _loc2_.clip.credits.y -= _loc3_ / _loc2_.creditsDivisor;
+        _loc3_ = Number(this.clip.credits.y);
+        this.clip.credits.y -= _loc3_ / this.creditsDivisor;
       }
-      else if (!_loc2_.isShowingCredits && _loc2_.clip.credits.y < 416)
+      else if (!this.isShowingCredits && this.clip.credits.y < 416)
       {
-        _loc3_ = 416 - _loc2_.clip.credits.y;
-        _loc2_.clip.credits.y += _loc3_ / _loc2_.creditsDivisor;
+        _loc3_ = 416 - this.clip.credits.y;
+        this.clip.credits.y += _loc3_ / this.creditsDivisor;
       }
-      if (_loc2_.clip.iris.currentFrame == 21)
-      {
-        _loc2_.closeSplashScreen();
-      }
+      this.closeSplashScreen();
     }
 
     public function clickStart(param1:Event):void
     {
-      var _loc2_:SplashScreen = this;
-      if (_loc2_.isShowingCredits)
+      if (this.isShowingCredits)
       {
-        _loc2_.hideCredits();
+        this.hideCredits();
       }
-      _loc2_.gameObj.var_107.closeLeaderboard();
-      _loc2_.gameObj.var_107.api.method_226();
-      _loc2_.clip.iris.gotoAndPlay("irisout");
-      _loc2_.gameObj.var_107.api.method_105("SplashScreen");
+      this.gameObj.var_107.closeLeaderboard();
+      this.gameObj.var_107.api.method_226();
+      this.clip.iris.gotoAndPlay("irisout");
+      this.gameObj.var_107.api.method_105("SplashScreen");
       class_4.method_74();
     }
 
     public function clickHighScores(param1:Event):void
     {
-      var _loc2_:SplashScreen = this;
-      _loc2_.gameObj.var_107.showLeaderboard();
+      this.gameObj.var_107.showLeaderboard();
     }
 
     public function closedHighScores(param1:Event = null):void
@@ -137,54 +104,47 @@ package papaGame.screens
 
     public function clickCredits(param1:Event):void
     {
-      var _loc2_:SplashScreen = this;
-      _loc2_.gameObj.var_107.closeLeaderboard();
-      _loc2_.isShowingCredits = !_loc2_.isShowingCredits;
+      this.gameObj.var_107.closeLeaderboard();
+      this.isShowingCredits = !this.isShowingCredits;
     }
 
     public function hideCredits(param1:MouseEvent = null):void
     {
-      var _loc2_:SplashScreen = this;
-      _loc2_.isShowingCredits = false;
+      this.isShowingCredits = false;
     }
 
     public function destroy():void
     {
-      var _loc1_:SplashScreen = this;
-      _loc1_.clip.promo_holder.promo_btn.removeEventListener(MouseEvent.MOUSE_DOWN, _loc1_.clickPromo);
-      _loc1_.clip.promo2_holder.promo_btn.removeEventListener(MouseEvent.MOUSE_DOWN, _loc1_.clickPromoTwo);
-      _loc1_.clip.promo3_holder.promo_btn.removeEventListener(MouseEvent.MOUSE_DOWN, _loc1_.clickPromoThree);
-      _loc1_.container.removeEventListener("clickStart", _loc1_.clickStart);
-      _loc1_.container.removeEventListener("clickCredits", _loc1_.clickCredits);
-      _loc1_.container.removeEventListener("clickHighScores", _loc1_.clickHighScores);
-      _loc1_.clip.credits.removeEventListener(MouseEvent.CLICK, _loc1_.hideCredits);
-      _loc1_.clip.removeEventListener(Event.ENTER_FRAME, _loc1_.animateScreen);
-      _loc1_.container.removeChild(_loc1_.clip);
-      _loc1_.clip = null;
+      this.clip.promo_holder.promo_btn.removeEventListener(MouseEvent.MOUSE_DOWN, this.clickPromo);
+      this.clip.promo2_holder.promo_btn.removeEventListener(MouseEvent.MOUSE_DOWN, this.clickPromoTwo);
+      this.clip.promo3_holder.promo_btn.removeEventListener(MouseEvent.MOUSE_DOWN, this.clickPromoThree);
+      this.container.removeEventListener("clickStart", this.clickStart);
+      this.container.removeEventListener("clickCredits", this.clickCredits);
+      this.container.removeEventListener("clickHighScores", this.clickHighScores);
+      this.clip.credits.removeEventListener(MouseEvent.CLICK, this.hideCredits);
+      this.clip.removeEventListener(Event.ENTER_FRAME, this.animateScreen);
+      this.container.removeChild(this.clip);
+      this.clip = null;
     }
 
     public function closeSplashScreen(param1:MouseEvent = null):void
     {
-      var _loc2_:SplashScreen = this;
-      _loc2_.gameObj.var_107.api.method_85("SlotSelect");
-      _loc2_.gameObj.var_107.api.method_86("SplashScreen");
+      this.gameObj.var_107.api.method_85("SlotSelect");
+      this.gameObj.var_107.api.method_86("SplashScreen");
     }
 
     public function clickPromo(param1:MouseEvent):void
     {
-      var _loc2_:SplashScreen = this;
       // _loc2_.gameObj.var_107.api.method_83("http://itunes.apple.com/us/app/papas-burgeria/id514634235?ls=1&mt=8", "iPadPromoSplash", "Links");
     }
 
     public function clickPromoThree(param1:MouseEvent):void
     {
-      var _loc2_:SplashScreen = this;
       // _loc2_.gameObj.var_107.api.method_83("https://itunes.apple.com/us/app/papas-burgeria-to-go!/id600626116?ls=1&mt=8", "ToGoPromoSplash", "Links");
     }
 
     public function clickPromoTwo(param1:MouseEvent):void
     {
-      var _loc2_:SplashScreen = this;
       // _loc2_.gameObj.var_107.api.method_83("http://www.flipline.com/games/papashotdoggeria/index.html?utm_source=newgame_promo&utm_medium=papaswingeria&utm_campaign=papashotdoggeria", "PromoHotDoggeria", "Links");
     }
   }

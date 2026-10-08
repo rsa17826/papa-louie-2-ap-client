@@ -88,6 +88,7 @@ package papaGame.data
     public var keyCodeDrop:Number = 68;
     public var keyCodePause:Number = 80;
 
+    // TODO revert when done testing as these best keybinds for testing but not for playing
     // private var defaultKeyCodeLeft:Number = 37;
     private var defaultKeyCodeLeft:Number = 65;
     // private var defaultKeyCodeRight:Number = 39;

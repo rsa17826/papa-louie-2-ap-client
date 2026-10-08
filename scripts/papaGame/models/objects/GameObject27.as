@@ -145,7 +145,10 @@ package papaGame.models.objects
         this.wasMovingPlayer = true;
         _loc2_.isSliding = false;
         _loc2_.isInQuicksand = true;
-        _loc2_.setSpeed(3);
+        if (_loc2_.isDucking)
+          _loc2_.setSpeed(4);
+        else
+          _loc2_.setSpeed(1);
         _loc2_.moveChar(0, 1, 0);
         if (_loc2_.jump && _loc2_.jumpspeed < 0 && !this.wasPlayerJumping)
         {

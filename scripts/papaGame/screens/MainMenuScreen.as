@@ -106,6 +106,7 @@ package papaGame.screens
 
       this.coinsDeadlyOnButton.visible = this.isCoinsDeadly;
       this.coinsDeadlyOffButton.visible = !this.isCoinsDeadly;
+      this.gameObj.var_106.isCoinsDeadly = this.isCoinsDeadly;
       this.coinsDeadlyOnButton.addEventListener("clickCoinsDeadly", this.clickCoinsDeadly);
       this.coinsDeadlyOffButton.addEventListener("clickCoinsDeadly", this.clickCoinsDeadly);
 
@@ -121,16 +122,10 @@ package papaGame.screens
     public function clickCoinsDeadly(param1:Event):void
     {
       this.gameObj.var_105.playSound("buttonclick.wav");
-
-      // Toggle state
       this.isCoinsDeadly = !this.isCoinsDeadly;
-
-      // Update button text depending on toggle state
       this.coinsDeadlyOnButton.visible = this.isCoinsDeadly;
       this.coinsDeadlyOffButton.visible = !this.isCoinsDeadly;
-
-      // Apply setting to game user data if applicable
-      // this.gameObj.var_106.isCoinsDeadly = this.isCoinsDeadly;
+      this.gameObj.var_106.isCoinsDeadly = this.isCoinsDeadly;
     }
     public function MainMenuScreen(param1:class_5, param2:MovieClip, param3:Object = null)
     {

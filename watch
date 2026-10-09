@@ -2,8 +2,9 @@
 set -euo pipefail
 
 # Watches every file listed in .modded_files (under scripts/) plus everything in
-# asasm/, and runs ./compile whenever one of them is saved.
-# Requires inotify-tools (inotifywait).
+# asasm/, and runs ./compile whenever one of them is saved. If a build is still
+# running when another save happens, it is killed and restarted immediately.
+# Requires inotify-tools (inotifywait) and setsid (util-linux).
 
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SCRIPTS_DIR="$PROJECT_DIR/scripts"
@@ -22,29 +23,61 @@ command -v inotifywait >/dev/null || {
 
 mkdir -p "$ASASM_DIR"
 
-echo "Watching $SCRIPTS_DIR and $ASASM_DIR (Ctrl+C to stop)"
+BUILD_PID=""
 
-inotifywait -m -r -q \
-  -e close_write -e moved_to -e create \
-  --format '%w%f' \
-  "$SCRIPTS_DIR" "$ASASM_DIR" |
-  while IFS= read -r path; do
-    if [[ "$path" == "$ASASM_DIR"/* ]]; then
-      echo "Changed: ${path#"$PROJECT_DIR"/}"
-    else
-      rel="${path#"$SCRIPTS_DIR"/}"
-      # re-read the list every time so newly tracked files are picked up
-      grep -qxF "$rel" "$TRACKED_FILE" || continue
-      echo "Changed: scripts/$rel"
-    fi
-
-    # debounce: editors fire several events per save, wait until quiet
-    while IFS= read -r -t 0.5 _; do :; done
-
-    if "$PROJECT_DIR/compile"; then
+# The build runs in its own process group (setsid) so that killing the group
+# also takes down ffdec/java, abcexport, rabcasm etc., not just the compile shell.
+start_build() {
+  # shellcheck disable=SC2016
+  setsid bash -c '
+    if "$0"; then
       echo "[$(date +%T)] build ok"
     else
       echo "[$(date +%T)] build FAILED, still watching" >&2
     fi
     echo "Waiting for changes..."
-  done
+  ' "$PROJECT_DIR/compile" </dev/null &
+  BUILD_PID=$!
+}
+
+stop_build() {
+  [[ -n "$BUILD_PID" ]] || return 0
+  if kill -0 "$BUILD_PID" 2>/dev/null; then
+    echo "Build still running, killing it and restarting"
+    # the group can exit between kill -0 and kill, so a failure here is expected
+    kill -TERM -- "-$BUILD_PID" 2>/dev/null || true
+  fi
+  wait "$BUILD_PID" 2>/dev/null || true
+  BUILD_PID=""
+}
+
+trap 'stop_build' EXIT
+trap 'exit 130' INT TERM
+
+echo "Watching $SCRIPTS_DIR and $ASASM_DIR (Ctrl+C to stop)"
+
+# process substitution (not a pipe) so the loop runs in this shell and can
+# see BUILD_PID
+while IFS= read -r path; do
+  if [[ "$path" == "$ASASM_DIR"/* ]]; then
+    echo "Changed: ${path#"$PROJECT_DIR"/}"
+  else
+    rel="${path#"$SCRIPTS_DIR"/}"
+    # re-read the list every time so newly tracked files are picked up
+    grep -qxF "$rel" "$TRACKED_FILE" || continue
+    echo "Changed: scripts/$rel"
+  fi
+
+  # kill any in-flight build right away; the new one starts after the debounce
+  stop_build
+
+  # debounce: editors fire several events per save, wait until quiet
+  while IFS= read -r -t 0.5 _; do :; done
+
+  start_build
+done < <(
+  inotifywait -m -r -q \
+    -e close_write -e moved_to -e create \
+    --format '%w%f' \
+    "$SCRIPTS_DIR" "$ASASM_DIR"
+)

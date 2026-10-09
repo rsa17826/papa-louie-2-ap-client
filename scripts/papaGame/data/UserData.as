@@ -80,6 +80,7 @@ package papaGame.data
     public var trainingFlagNames:Array = ["doublejump", "crawl", "push", "groundpound", "glide", "walljump", "character", "nowarpkeys", "challenges", "walk", "jump", "attack", "stun", "slide", "ladder", "menu", "poundcontext", "styles"];
     public var trainingFlags:Array = [];
     public var isCoinsDeadly:Boolean = false;
+    public var skillUsed:Boolean = false;
     public var keyCodeLeft:Number = 37;
     public var keyCodeRight:Number = 39;
     public var keyCodeUp:Number = 38;

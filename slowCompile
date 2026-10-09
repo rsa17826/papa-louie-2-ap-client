@@ -5,9 +5,11 @@ RABCDASM_DIR="$PWD/RABCDAsm"
 cur=$(mktemp -d)/cur.swf
 cp papa-louie-2-deobf.swf "$cur"
 cat .modded_files >.tempmodded_files
+cat .modded_files >>.tempmodded_files
 # NOTE this file appears to require compiling 2 times to get a working build
-echo "papaGame/managers/ChallengeManager.as" >>.tempmodded_files
-echo "papaGame/data/DataManager.as" >>.tempmodded_files
+# echo "papaGame/managers/ChallengeManager.as" >>.tempmodded_files
+# echo "papaGame/data/DataManager.as" >>.tempmodded_files
+# MainMenuScreen.as required recomp too, just do it all twice instead
 while IFS= read -r rel; do
   [[ -z "$rel" ]] && continue
   stage=$(mktemp -d)

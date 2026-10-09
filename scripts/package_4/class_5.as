@@ -511,7 +511,12 @@ package package_4
 
     public function finishLevel():void
     {
-      // TODO level win check
+      // DONE level win check
+      var skillType = this.var_113.getCustomerData(this.var_106.selectedCharacter).skillType;
+      if (!(this.var_106.skillUsed || skillType != CustomerData.SKILL_NONE))
+      {
+        ExternalInterface.call("newItem", "level" + this.var_109.currentLevel + " - powerless:level" + (Number(this.var_109.currentLevel)));
+      }
       ExternalInterface.call("newItem", "level" + this.var_109.currentLevel + " - level:level" + (Number(this.var_109.currentLevel) + 1));
       class_7.method_1("BEAT LEVEL");
       this.var_108.stopCycle = true;

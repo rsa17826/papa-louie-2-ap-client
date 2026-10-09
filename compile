@@ -6,6 +6,9 @@ PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SCRIPTS_DIR="$PROJECT_DIR/scripts"
 BASE_SWF="$PROJECT_DIR/papa-louie-2-deobf.swf"
 OUT_SWF="$PROJECT_DIR/papa-louie-archipelago.swf"
+# All work happens on this file; it is only moved over OUT_SWF once the whole
+# build succeeded, so a killed/failed build can never leave OUT_SWF half-written.
+TMP_SWF="$PROJECT_DIR/papa-louie-archipelago.swf.tmp"
 TRACKED_FILE="$PROJECT_DIR/.modded_files"
 HASH_FILE="$PROJECT_DIR/.modded_hashes"
 IMPORT_DIR="$PROJECT_DIR/.import_staging"
@@ -37,6 +40,9 @@ if [[ ! -s "$TRACKED_FILE" ]]; then
 fi
 
 touch "$HASH_FILE"
+
+# Leftover from a previous build that was killed
+rm -f "$TMP_SWF"
 
 # Decide whether we can do an incremental compile: only possible if a
 # previously-built papa-louie-archipelago.swf already exists, since that's the file
@@ -73,6 +79,10 @@ done <"$TRACKED_FILE"
 rm -rf "$IMPORT_DIR"
 mkdir -p "$IMPORT_DIR"
 
+# Start the working copy from the import base; everything below modifies
+# TMP_SWF only. (If ffdec runs it overwrites this with its own output.)
+cp "$IMPORT_BASE" "$TMP_SWF"
+
 if [[ "${#CHANGED[@]}" -eq 0 ]]; then
   echo "No tracked files changed since last compile - skipping ffdec import."
 else
@@ -94,7 +104,7 @@ else
   # modded swf when doing an incremental compile so unchanged bytecode is
   # left alone.
   echo "Running ffdec importScript..."
-  ffdec -importScript "$IMPORT_BASE" "$OUT_SWF" "$IMPORT_DIR"
+  ffdec -importScript "$IMPORT_BASE" "$TMP_SWF" "$IMPORT_DIR"
 fi
 
 # --- DYNAMIC MULTI-ABC POST-PROCESS OVERRIDE ---
@@ -105,7 +115,7 @@ for filepath in "$PROJECT_DIR"/asasm/*; do
     WORK_DIR="$PROJECT_DIR/workspace"
     rm -rf "$WORK_DIR"
     mkdir -p "$WORK_DIR"
-    cp "$OUT_SWF" "$WORK_DIR/target.swf"
+    cp "$TMP_SWF" "$WORK_DIR/target.swf"
 
     cd "$WORK_DIR"
     "$RABCDASM_DIR/abcexport" target.swf
@@ -141,13 +151,17 @@ for filepath in "$PROJECT_DIR"/asasm/*; do
       exit 1
     fi
 
-    cp target.swf "$OUT_SWF"
+    cp target.swf "$TMP_SWF"
     cd "$PROJECT_DIR"
     echo "RABCDAsm post-patch applied successfully!"
   fi
 done
 
-python patch_swf.py "$OUT_SWF" "$OUT_SWF"
+python patch_swf.py "$TMP_SWF" "$TMP_SWF"
+
+# Everything succeeded: atomically replace the real output (same directory,
+# so mv is a rename).
+mv -f "$TMP_SWF" "$OUT_SWF"
 
 # Record fresh hashes for every currently-tracked file so the next run can
 # tell what changed. This rewrites the hash file (dropping entries for files

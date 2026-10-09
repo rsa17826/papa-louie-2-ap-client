@@ -19,6 +19,7 @@ package
     public function Preloader()
     {
       super();
+      var self:Preloader = this;
       loaderInfo.addEventListener(ProgressEvent.PROGRESS, function(e:ProgressEvent):void
         {
           ExternalInterface.call("log", "bytes " + e.bytesLoaded + "/" + e.bytesTotal + " @ " + getTimer());
@@ -26,6 +27,7 @@ package
       loaderInfo.addEventListener(Event.COMPLETE, function(e:Event):void
         {
           ExternalInterface.call("log", "complete @ " + getTimer());
+          self.waitForMain(e);
         });
       stop();
       this.addEventListener(Event.ENTER_FRAME, this.initPreloader);

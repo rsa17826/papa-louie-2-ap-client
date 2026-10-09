@@ -979,6 +979,9 @@ package papaGame.data
         class_7.method_1("Repopulate variables and challenges based on checkpoint.");
         this.gameObj.var_108.gameplayTimer = this.checkpointData.save_gameplayTimer;
         this.gameObj.var_106.gotHurt = this.checkpointData.save_gotHurt;
+        // ANCHOR load custom data from cp
+        this.gameObj.var_106.skillUsed = this.checkpointData.save_skillUsed;
+        this.gameObj.var_106.isCoinsDeadly = this.checkpointData.save_isCoinsDeadly;
         this.gameObj.var_106.fellInWater = this.checkpointData.save_fellInWater;
         this.gameObj.var_106.killsTally = this.checkpointData.save_killsTally;
         this.gameObj.var_106.livesLost.setValue(this.checkpointData.save_livesLost);

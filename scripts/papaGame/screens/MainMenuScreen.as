@@ -93,51 +93,30 @@ package papaGame.screens
     private var mapLastUnlocked:Number = 0;
     public function setupCoinsDeadlyButton():void
     {
-      // Duplicate using class_11(container, label, size, style, eventString, ...)
-      // Parameter 2: Button text
-      // Parameter 5: Custom event string dispatched on click
-      this.coinsDeadlyOnButton = new class_11(
-          null,
-          "COINS DEADLY: OFF",
-          "small",
-          "button",
-          "clickCoinsDeadly",
-          null,
-          false,
-          false,
-          false,
-          null,
-          false,
-          140 // Width
-        );
-      this.coinsDeadlyOffButton = new class_11(
-          null,
-          "COINS DEADLY: ON",
-          "small",
-          "button",
-          "clickCoinsDeadly",
-          null,
-          false,
-          false,
-          false,
-          null,
-          false,
-          140 // Width
-        );
+      this.coinsDeadlyOnButton = new class_11(null, "COINS DEADLY: ON", "small", "button", "clickCoinsDeadly", null, false, false, false, null, false, 140);
+      this.coinsDeadlyOffButton = new class_11(null, "COINS DEADLY: OFF", "small", "button", "clickCoinsDeadly", null, false, false, false, null, false, 140);
 
-      // Set position on screen
-      this.coinsDeadlyOnButton.x = 10;
-      this.coinsDeadlyOnButton.y = 300;
-      this.coinsDeadlyOffButton.x = 10;
-      this.coinsDeadlyOffButton.y = 300;
+      this.coinsDeadlyOnButton.x = 100;
+      this.coinsDeadlyOnButton.y = 360;
+      this.coinsDeadlyOffButton.x = 100;
+      this.coinsDeadlyOffButton.y = 360;
 
-      // Add to screen clip and listen for click event
       this.container.addChild(this.coinsDeadlyOnButton);
       this.container.addChild(this.coinsDeadlyOffButton);
+
       this.coinsDeadlyOnButton.visible = this.isCoinsDeadly;
       this.coinsDeadlyOffButton.visible = !this.isCoinsDeadly;
       this.coinsDeadlyOnButton.addEventListener("clickCoinsDeadly", this.clickCoinsDeadly);
       this.coinsDeadlyOffButton.addEventListener("clickCoinsDeadly", this.clickCoinsDeadly);
+
+      // Add listener to continuously push buttons above dynamically added black bars
+      this.container.addEventListener(Event.ENTER_FRAME, this.forceButtonToTop);
+    }
+    public function forceButtonToTop(param1:Event):void
+    {
+      this.container.setChildIndex(this.coinsDeadlyOnButton, this.container.numChildren - 1);
+      this.container.setChildIndex(this.coinsDeadlyOffButton, this.container.numChildren - 1);
+      this.container.removeEventListener(Event.ENTER_FRAME, this.forceButtonToTop);
     }
     public function clickCoinsDeadly(param1:Event):void
     {
@@ -2448,6 +2427,13 @@ package papaGame.screens
         this.coinsDeadlyOnButton.destroy();
         this.coinsDeadlyOnButton = null;
       }
+      if (this.coinsDeadlyOffButton != null)
+      {
+        this.coinsDeadlyOffButton.removeEventListener("clickCoinsDeadly", this.clickCoinsDeadly);
+        this.clip.removeChild(this.coinsDeadlyOffButton);
+        this.coinsDeadlyOffButton.destroy();
+        this.coinsDeadlyOffButton = null;
+      }
       this.gameObj.method_94("nowarpkeys", false);
       this.container.removeEventListener("clickMap", this.clickMap);
       this.container.removeEventListener("clickBaddies", this.clickBaddies);
@@ -2699,6 +2685,8 @@ package papaGame.screens
         this.isTransitioning = true;
         this.clip.addEventListener(Event.ENTER_FRAME, this.tweenSections);
       }
+      this.container.setChildIndex(this.coinsDeadlyOnButton, this.container.numChildren - 1);
+      this.container.setChildIndex(this.coinsDeadlyOffButton, this.container.numChildren - 1);
     }
 
     public function tweenSections(param1:Event):void

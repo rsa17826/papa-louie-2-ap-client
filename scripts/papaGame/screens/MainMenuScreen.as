@@ -25,7 +25,6 @@ package papaGame.screens
   {
     private var coinsDeadlyOnButton:class_11;
     private var coinsDeadlyOffButton:class_11;
-    public var isCoinsDeadly:Boolean = false;
     public var gameObj:class_5;
     public var clip:MovieClip;
     public var container:MovieClip;
@@ -104,9 +103,9 @@ package papaGame.screens
       this.container.addChild(this.coinsDeadlyOnButton);
       this.container.addChild(this.coinsDeadlyOffButton);
 
-      this.coinsDeadlyOnButton.visible = this.isCoinsDeadly;
-      this.coinsDeadlyOffButton.visible = !this.isCoinsDeadly;
-      this.gameObj.var_106.isCoinsDeadly = this.isCoinsDeadly;
+      this.coinsDeadlyOnButton.visible = this.gameObj.var_106.isCoinsDeadly;
+      this.coinsDeadlyOffButton.visible = !this.gameObj.var_106.isCoinsDeadly;
+      this.gameObj.var_106.isCoinsDeadly = this.gameObj.var_106.isCoinsDeadly;
       this.coinsDeadlyOnButton.addEventListener("clickCoinsDeadly", this.clickCoinsDeadly);
       this.coinsDeadlyOffButton.addEventListener("clickCoinsDeadly", this.clickCoinsDeadly);
 
@@ -122,10 +121,9 @@ package papaGame.screens
     public function clickCoinsDeadly(param1:Event):void
     {
       this.gameObj.var_105.playSound("buttonclick.wav");
-      this.isCoinsDeadly = !this.isCoinsDeadly;
-      this.coinsDeadlyOnButton.visible = this.isCoinsDeadly;
-      this.coinsDeadlyOffButton.visible = !this.isCoinsDeadly;
-      this.gameObj.var_106.isCoinsDeadly = this.isCoinsDeadly;
+      this.gameObj.var_106.isCoinsDeadly = !this.gameObj.var_106.isCoinsDeadly;
+      this.coinsDeadlyOnButton.visible = this.gameObj.var_106.isCoinsDeadly;
+      this.coinsDeadlyOffButton.visible = !this.gameObj.var_106.isCoinsDeadly;
     }
     public function MainMenuScreen(param1:class_5, param2:MovieClip, param3:Object = null)
     {
@@ -2418,14 +2416,14 @@ package papaGame.screens
       if (this.coinsDeadlyOnButton != null)
       {
         this.coinsDeadlyOnButton.removeEventListener("clickCoinsDeadly", this.clickCoinsDeadly);
-        this.clip.removeChild(this.coinsDeadlyOnButton);
+        this.container.removeChild(this.coinsDeadlyOnButton);
         this.coinsDeadlyOnButton.destroy();
         this.coinsDeadlyOnButton = null;
       }
       if (this.coinsDeadlyOffButton != null)
       {
         this.coinsDeadlyOffButton.removeEventListener("clickCoinsDeadly", this.clickCoinsDeadly);
-        this.clip.removeChild(this.coinsDeadlyOffButton);
+        this.container.removeChild(this.coinsDeadlyOffButton);
         this.coinsDeadlyOffButton.destroy();
         this.coinsDeadlyOffButton = null;
       }

@@ -61,3 +61,4 @@ symbolClass/symbols.csv
 !scripts/papaGame/models/objects/GameObject27.as
 !scripts/papaGame/models/items/GameItem_FizzoCan.as
 !scripts/papaGame/data/ScreenData.as
+!scripts/papaGame/models/items/GameItem_Coin.as

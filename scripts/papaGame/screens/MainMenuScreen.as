@@ -23,7 +23,9 @@ package papaGame.screens
 
   public class MainMenuScreen
   {
-
+    private var coinsDeadlyOnButton:class_11;
+    private var coinsDeadlyOffButton:class_11;
+    public var isCoinsDeadly:Boolean = false;
     public var gameObj:class_5;
     public var clip:MovieClip;
     public var container:MovieClip;
@@ -89,7 +91,68 @@ package papaGame.screens
     private var helpMainScrollDir:Number = 0;
     private var willRevealMap:Boolean = false;
     private var mapLastUnlocked:Number = 0;
+    public function setupCoinsDeadlyButton():void
+    {
+      // Duplicate using class_11(container, label, size, style, eventString, ...)
+      // Parameter 2: Button text
+      // Parameter 5: Custom event string dispatched on click
+      this.coinsDeadlyOnButton = new class_11(
+          null,
+          "COINS DEADLY: OFF",
+          "small",
+          "button",
+          "clickCoinsDeadly",
+          null,
+          false,
+          false,
+          false,
+          null,
+          false,
+          140 // Width
+        );
+      this.coinsDeadlyOffButton = new class_11(
+          null,
+          "COINS DEADLY: ON",
+          "small",
+          "button",
+          "clickCoinsDeadly",
+          null,
+          false,
+          false,
+          false,
+          null,
+          false,
+          140 // Width
+        );
 
+      // Set position on screen
+      this.coinsDeadlyOnButton.x = 10;
+      this.coinsDeadlyOnButton.y = 300;
+      this.coinsDeadlyOffButton.x = 10;
+      this.coinsDeadlyOffButton.y = 300;
+
+      // Add to screen clip and listen for click event
+      this.container.addChild(this.coinsDeadlyOnButton);
+      this.container.addChild(this.coinsDeadlyOffButton);
+      this.coinsDeadlyOnButton.visible = this.isCoinsDeadly;
+      this.coinsDeadlyOffButton.visible = !this.isCoinsDeadly;
+      this.coinsDeadlyOnButton.addEventListener("clickCoinsDeadly", this.clickCoinsDeadly);
+      this.coinsDeadlyOffButton.addEventListener("clickCoinsDeadly", this.clickCoinsDeadly);
+    }
+    public function clickCoinsDeadly(param1:Event):void
+    {
+      this.gameObj.var_105.playSound("buttonclick.wav");
+
+      // Toggle state
+      this.isCoinsDeadly = !this.isCoinsDeadly;
+
+      // Update button text depending on toggle state
+      this.coinsDeadlyOnButton.visible = this.isCoinsDeadly;
+      this.coinsDeadlyOffButton.visible = !this.isCoinsDeadly;
+
+      // Apply setting to game user data if applicable
+      // this.gameObj.var_106.isCoinsDeadly = this.isCoinsDeadly;
+    }
     public function MainMenuScreen(param1:class_5, param2:MovieClip, param3:Object = null)
     {
       super();
@@ -151,6 +214,7 @@ package papaGame.screens
       this.setupHelp();
       this.setupMedals();
       this.setupConfirmQuit();
+      this.setupCoinsDeadlyButton();
       if (this.gameObj.var_109.currentWorldData == null && this.gameObj.var_105.currentTrack != "otherscreens.wav")
       {
         this.gameObj.var_105.playTrack("AlternateTrack", 1, 0, "outin");
@@ -2377,6 +2441,13 @@ package papaGame.screens
 
     public function destroy():void
     {
+      if (this.coinsDeadlyOnButton != null)
+      {
+        this.coinsDeadlyOnButton.removeEventListener("clickCoinsDeadly", this.clickCoinsDeadly);
+        this.clip.removeChild(this.coinsDeadlyOnButton);
+        this.coinsDeadlyOnButton.destroy();
+        this.coinsDeadlyOnButton = null;
+      }
       this.gameObj.method_94("nowarpkeys", false);
       this.container.removeEventListener("clickMap", this.clickMap);
       this.container.removeEventListener("clickBaddies", this.clickBaddies);

@@ -28,3 +28,4 @@ papaGame/screens/ParadeScreen.as
 papaGame/models/GameObject.as
 papaGame/models/objects/GameObject27.as
 papaGame/models/items/GameItem_FizzoCan.as
+papaGame/data/ScreenData.as

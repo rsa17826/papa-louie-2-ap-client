@@ -2,6 +2,8 @@ lv 10 win gets no character event
 prevent player from entering level 1 when loading new save
 prevent player from entering with player0 if not unlocked
 why can't those with crawl crawl everywhere, should this be changed? could help with coinless runs
+prevent deadly coins button from appearing when not on menu
+make sure coinless checks arnt set if only enabled for part of level/coins collected before enabling
 
 ---
 

@@ -19,11 +19,12 @@ ap world: https://github.com/rsa17826/papa-louie-2-ap-world
 - each character is an item
 - each achievement is a check - TODO
 - ?each possible warp key powerless is separate check - TODO
-- ?each possible warp key pacifist is separate check - TODO
+- ?each possible warp key pacifist is separate check - ?no stunning or dewinging larks either - TODO
 - ?each possible level full genocide is separate check - TODO
 - ?each possible warp key coinless/fully itemless is separate check - TODO
 - ?some playform types are items: stones, pretzil, beguette, sausage chain, etc - TODO
 - ?each possible warp key with deadly decor on - TODO
+- ?beat level under some time limit - TODO
 - each balloon/balloon type is an item - TODO
 - each unique enemy kill is a check - TODO
 

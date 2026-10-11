@@ -7,13 +7,9 @@ package
   {
 
     public var iris:irisTransitionMC;
-
     public var promo_holder:MovieClip;
-
     public var credits:MovieClip;
-
     public var promo3_holder:MovieClip;
-
     public var promo2_holder:MovieClip;
 
     public function splashScreenMC()

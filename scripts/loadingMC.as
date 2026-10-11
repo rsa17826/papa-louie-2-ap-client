@@ -7,7 +7,6 @@ package
   {
 
     public var bar:MovieClip;
-
     public var loader_bar:MovieClip;
 
     public function loadingMC()

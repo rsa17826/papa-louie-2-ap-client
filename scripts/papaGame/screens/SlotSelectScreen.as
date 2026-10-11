@@ -19,157 +19,136 @@ package papaGame.screens
   {
 
     public var gameObj:class_5;
-
     public var container:MovieClip;
-
     public var clip:MovieClip;
-
     public var selectedSlot:Number = 0;
-
     public var isClosing:Boolean = false;
-
     public var isNewSlot:Boolean = false;
-
     public var currentMode:String = "slots";
-
     public var nameContinueButton:class_11;
-
     public var nameBackButton:class_11;
-
     public var selectedCharacter:String = "marty";
-
     public var slotName:String = "";
-
     public var missingWidget:MovieClip;
-
     public var model1:MovieClip;
-
     public var model2:MovieClip;
-
     public var model3:MovieClip;
-
     public var martyModel:MovieClip = null;
-
     public var ritaModel:MovieClip = null;
 
     public function SlotSelectScreen(param1:class_5, param2:MovieClip, param3:Object = null)
     {
       super();
-      var _loc4_:SlotSelectScreen = this;
-      _loc4_.gameObj = param1;
-      _loc4_.container = param2;
-      _loc4_.setupScreen();
+      this.gameObj = param1;
+      this.container = param2;
+      this.setupScreen();
     }
 
     public function setupScreen():void
     {
       var _loc5_:MovieClip = null;
-      var _loc1_:SlotSelectScreen = this;
-      _loc1_.clip = new slotSelectMC();
+      this.clip = new slotSelectMC();
       var _loc2_:int = 1;
       while (_loc2_ <= 3)
       {
-        _loc5_ = _loc1_.clip.slots["slot" + _loc2_ + "MC"];
-        _loc5_.new_btn.addEventListener(MouseEvent.CLICK, _loc1_.clickNewSlot);
-        _loc5_.select_btn.addEventListener(MouseEvent.CLICK, _loc1_.clickExistingSlot);
-        _loc5_.delete_btn.addEventListener(MouseEvent.CLICK, _loc1_.clickDeleteSlot);
+        _loc5_ = this.clip.slots["slot" + _loc2_ + "MC"];
+        _loc5_.new_btn.addEventListener(MouseEvent.CLICK, this.clickNewSlot);
+        _loc5_.select_btn.addEventListener(MouseEvent.CLICK, this.clickExistingSlot);
+        _loc5_.delete_btn.addEventListener(MouseEvent.CLICK, this.clickDeleteSlot);
         _loc5_.new_btn.tabEnabled = false;
         _loc5_.select_btn.tabEnabled = false;
         _loc5_.delete_btn.tabEnabled = false;
-        _loc5_.confirmMC.yes_btn.addEventListener(MouseEvent.CLICK, _loc1_.clickDeleteYes);
-        _loc5_.confirmMC.no_btn.addEventListener(MouseEvent.CLICK, _loc1_.clickDeleteNo);
+        _loc5_.confirmMC.yes_btn.addEventListener(MouseEvent.CLICK, this.clickDeleteYes);
+        _loc5_.confirmMC.no_btn.addEventListener(MouseEvent.CLICK, this.clickDeleteNo);
         _loc5_.confirmMC.yes_btn.tabEnabled = false;
         _loc5_.confirmMC.no_btn.tabEnabled = false;
-        _loc5_.savebackup_btn.addEventListener(MouseEvent.CLICK, _loc1_.clickSaveBackup);
-        _loc5_.loadbackup_btn.addEventListener(MouseEvent.CLICK, _loc1_.clickLoadBackup);
+        _loc5_.savebackup_btn.addEventListener(MouseEvent.CLICK, this.clickSaveBackup);
+        _loc5_.loadbackup_btn.addEventListener(MouseEvent.CLICK, this.clickLoadBackup);
         _loc5_.savebackup_btn.tabEnabled = false;
         _loc5_.loadbackup_btn.tabEnabled = false;
         _loc5_.confirmMC.visible = false;
         // class_4.method_80(_loc1_.gameObj,1,318,416);
         _loc2_++;
       }
-      _loc1_.nameBackButton = new class_11(null, "< BACK", "small", "button", "clickNameCancel", null, false, false, false, null, false, 112);
-      _loc1_.nameBackButton.x = 0;
-      _loc1_.nameBackButton.y = 75;
-      _loc1_.nameContinueButton = new class_11(null, "CONTINUE >", "small", "button", "clickNameOK", null, false, false, false, null, false, 112);
-      _loc1_.nameContinueButton.x = 181;
-      _loc1_.nameContinueButton.y = 75;
-      _loc1_.clip.entername.input_holder.addChild(_loc1_.nameBackButton);
-      _loc1_.clip.entername.input_holder.addChild(_loc1_.nameContinueButton);
-      _loc1_.nameContinueButton.addEventListener("clickNameOK", _loc1_.clickEnterNameOK);
-      _loc1_.nameBackButton.addEventListener("clickNameCancel", _loc1_.clickEnterNameCancel);
+      this.nameBackButton = new class_11(null, "< BACK", "small", "button", "clickNameCancel", null, false, false, false, null, false, 112);
+      this.nameBackButton.x = 0;
+      this.nameBackButton.y = 75;
+      this.nameContinueButton = new class_11(null, "CONTINUE >", "small", "button", "clickNameOK", null, false, false, false, null, false, 112);
+      this.nameContinueButton.x = 181;
+      this.nameContinueButton.y = 75;
+      this.clip.entername.input_holder.addChild(this.nameBackButton);
+      this.clip.entername.input_holder.addChild(this.nameContinueButton);
+      this.nameContinueButton.addEventListener("clickNameOK", this.clickEnterNameOK);
+      this.nameBackButton.addEventListener("clickNameCancel", this.clickEnterNameCancel);
       var _loc3_:TextFormat = new TextFormat();
       _loc3_.font = "Arial";
       _loc3_.size = 24;
       _loc3_.bold = true;
       _loc3_.align = TextFormatAlign.CENTER;
-      var _loc4_:TextInput = _loc1_.clip.entername.input_holder.input_txt;
-      _loc1_.clip.entername.input_holder.input_txt.setStyle("textFormat", _loc3_);
-      _loc1_.clip.entername.input_holder.input_txt.maxChars = 16;
-      _loc1_.clip.entername.input_holder.input_txt.restrict = "0-9A-Za-z \'\\-";
-      _loc1_.container.addEventListener("clickBack", _loc1_.clickBack);
-      _loc1_.container.addChild(_loc1_.clip);
-      _loc1_.clip.addEventListener(Event.ENTER_FRAME, _loc1_.animateScreen);
-      _loc1_.clip.addEventListener(KeyboardEvent.KEY_DOWN, _loc1_.keyListener);
-      _loc1_.clip.entername.gotoAndStop(1);
-      _loc1_.clip.slots.gotoAndStop(1);
-      _loc1_.clip.character.gotoAndStop(1);
-      _loc1_.missingWidget = _loc1_.clip.missing;
-      _loc1_.gameObj.addChild(_loc1_.missingWidget);
-      _loc1_.missingWidget.visible = false;
-      _loc1_.missingWidget.mouseEnabled = true;
-      _loc1_.missingWidget.mouseChildren = true;
-      _loc1_.missingWidget.buttonMode = true;
-      _loc1_.missingWidget.useHandCursor = true;
-      _loc1_.missingWidget.addEventListener(MouseEvent.CLICK, _loc1_.clickMissingWidget);
-      _loc1_.clip.character.marty.name_txt.text = "Marty";
-      _loc1_.clip.character.marty.select_btn.addEventListener(MouseEvent.MOUSE_DOWN, _loc1_.clickMarty);
-      _loc1_.clip.character.rita.name_txt.text = "Rita";
-      _loc1_.clip.character.rita.select_btn.addEventListener(MouseEvent.MOUSE_DOWN, _loc1_.clickRita);
-      _loc1_.showSlots();
+      var _loc4_:TextInput = this.clip.entername.input_holder.input_txt;
+      this.clip.entername.input_holder.input_txt.setStyle("textFormat", _loc3_);
+      this.clip.entername.input_holder.input_txt.maxChars = 16;
+      this.clip.entername.input_holder.input_txt.restrict = "0-9A-Za-z \'\\-";
+      this.container.addEventListener("clickBack", this.clickBack);
+      this.container.addChild(this.clip);
+      this.clip.addEventListener(Event.ENTER_FRAME, this.animateScreen);
+      this.clip.addEventListener(KeyboardEvent.KEY_DOWN, this.keyListener);
+      this.clip.entername.gotoAndStop(1);
+      this.clip.slots.gotoAndStop(1);
+      this.clip.character.gotoAndStop(1);
+      this.missingWidget = this.clip.missing;
+      this.gameObj.addChild(this.missingWidget);
+      this.missingWidget.visible = false;
+      this.missingWidget.mouseEnabled = true;
+      this.missingWidget.mouseChildren = true;
+      this.missingWidget.buttonMode = true;
+      this.missingWidget.useHandCursor = true;
+      this.missingWidget.addEventListener(MouseEvent.CLICK, this.clickMissingWidget);
+      this.clip.character.marty.name_txt.text = "Marty";
+      this.clip.character.marty.select_btn.addEventListener(MouseEvent.MOUSE_DOWN, this.clickMarty);
+      this.clip.character.rita.name_txt.text = "Rita";
+      this.clip.character.rita.select_btn.addEventListener(MouseEvent.MOUSE_DOWN, this.clickRita);
+      this.showSlots();
     }
 
     public function keyListener(param1:KeyboardEvent):void
     {
-      var _loc2_:SlotSelectScreen = this;
-      if (_loc2_.currentMode == "entername" && param1.keyCode == Keyboard.ENTER)
+      if (this.currentMode == "entername" && param1.keyCode == Keyboard.ENTER)
       {
-        _loc2_.clickEnterNameOK();
+        this.clickEnterNameOK();
       }
     }
 
     public function clickBack(param1:Event):void
     {
-      var _loc2_:SlotSelectScreen = this;
       class_4.method_78();
-      _loc2_.gameObj.var_107.api.method_85("SplashScreen");
-      _loc2_.gameObj.var_107.api.method_86("SlotSelect");
+      this.gameObj.var_107.api.method_85("SplashScreen");
+      this.gameObj.var_107.api.method_86("SlotSelect");
     }
 
     public function getSlotData():void
     {
       var _loc4_:Object = null;
       var _loc5_:MovieClip = null;
-      var _loc1_:SlotSelectScreen = this;
       var _loc2_:Boolean = true;
       var _loc3_:int = 1;
       while (_loc3_ <= 3)
       {
-        _loc4_ = _loc1_.gameObj.var_106.loadLabelsForSlot(_loc3_);
-        _loc5_ = _loc1_.clip.slots["slot" + _loc3_ + "MC"];
+        _loc4_ = this.gameObj.var_106.loadLabelsForSlot(_loc3_);
+        _loc5_ = this.clip.slots["slot" + _loc3_ + "MC"];
         if (_loc4_)
         {
           _loc5_.name_txt.text = String(_loc4_.name);
           _loc5_.textclip.visible = true;
-          if (_loc1_["model" + _loc3_])
+          if (this["model" + _loc3_])
           {
-            _loc1_.cleanupModel(_loc1_["model" + _loc3_]);
-            _loc1_["model" + _loc3_] = null;
+            this.cleanupModel(this["model" + _loc3_]);
+            this["model" + _loc3_] = null;
           }
-          _loc1_["model" + _loc3_] = _loc1_.buildModel(_loc4_.char, _loc4_.style);
-          _loc5_.textclip.addChild(_loc1_["model" + _loc3_]);
-          _loc1_["model" + _loc3_].x = 10;
-          _loc1_["model" + _loc3_].y = -60;
+          this["model" + _loc3_] = this.buildModel(_loc4_.char, _loc4_.style);
+          _loc5_.textclip.addChild(this["model" + _loc3_]);
+          this["model" + _loc3_].x = 10;
+          this["model" + _loc3_].y = -60;
           _loc5_.textclip.points_txt.text = class_10.method_84(Number(_loc4_.score));
           _loc5_.textclip.coins_txt.text = class_10.method_84(Number(_loc4_.coins));
           _loc5_.textclip.time_txt.text = class_10.method_109(Number(_loc4_.time), false, true);
@@ -187,7 +166,7 @@ package papaGame.screens
           _loc5_.select_btn.visible = true;
           _loc5_.new_btn.visible = false;
           _loc5_.delete_btn.visible = true;
-          if (_loc1_.gameObj.var_107.method_124())
+          if (this.gameObj.var_107.method_124())
           {
             _loc5_.savebackup_btn.visible = true;
             _loc5_.loadbackup_btn.visible = false;
@@ -206,7 +185,7 @@ package papaGame.screens
           _loc5_.new_btn.visible = true;
           _loc5_.select_btn.visible = false;
           _loc5_.delete_btn.visible = false;
-          if (_loc1_.gameObj.var_107.method_124())
+          if (this.gameObj.var_107.method_124())
           {
             _loc5_.savebackup_btn.visible = false;
             _loc5_.loadbackup_btn.visible = true;
@@ -221,157 +200,150 @@ package papaGame.screens
       }
       if (_loc2_)
       {
-        _loc1_.missingWidget.visible = true;
+        this.missingWidget.visible = true;
       }
       else
       {
-        _loc1_.missingWidget.visible = false;
+        this.missingWidget.visible = false;
       }
     }
 
     public function clickNewSlot(param1:MouseEvent):void
     {
-      var _loc2_:SlotSelectScreen = this;
-      var _loc3_:UserData = _loc2_.gameObj.var_106;
+      var _loc3_:UserData = this.gameObj.var_106;
       var _loc4_:Number = 0;
-      if (param1.currentTarget == _loc2_.clip.slots.slot1MC.new_btn)
+      if (param1.currentTarget == this.clip.slots.slot1MC.new_btn)
       {
         _loc4_ = 1;
       }
-      else if (param1.currentTarget == _loc2_.clip.slots.slot2MC.new_btn)
+      else if (param1.currentTarget == this.clip.slots.slot2MC.new_btn)
       {
         _loc4_ = 2;
       }
-      else if (param1.currentTarget == _loc2_.clip.slots.slot3MC.new_btn)
+      else if (param1.currentTarget == this.clip.slots.slot3MC.new_btn)
       {
         _loc4_ = 3;
       }
-      _loc2_.gameObj.var_105.playSound("buttonclick.wav");
-      _loc2_.clip.slots.mouseEnabled = false;
-      _loc2_.clip.slots.mouseChildren = false;
-      _loc2_.selectedSlot = _loc4_;
-      _loc2_.isNewSlot = true;
-      _loc2_.showCharacter();
+      this.gameObj.var_105.playSound("buttonclick.wav");
+      this.clip.slots.mouseEnabled = false;
+      this.clip.slots.mouseChildren = false;
+      this.selectedSlot = _loc4_;
+      this.isNewSlot = true;
+      this.showCharacter();
     }
 
     public function clickExistingSlot(param1:MouseEvent):void
     {
-      var _loc2_:SlotSelectScreen = this;
-      var _loc3_:UserData = _loc2_.gameObj.var_106;
+      var _loc3_:UserData = this.gameObj.var_106;
       var _loc4_:Number = 0;
-      if (param1.currentTarget == _loc2_.clip.slots.slot1MC.select_btn)
+      if (param1.currentTarget == this.clip.slots.slot1MC.select_btn)
       {
         _loc4_ = 1;
       }
-      else if (param1.currentTarget == _loc2_.clip.slots.slot2MC.select_btn)
+      else if (param1.currentTarget == this.clip.slots.slot2MC.select_btn)
       {
         _loc4_ = 2;
       }
-      else if (param1.currentTarget == _loc2_.clip.slots.slot3MC.select_btn)
+      else if (param1.currentTarget == this.clip.slots.slot3MC.select_btn)
       {
         _loc4_ = 3;
       }
       _loc3_.loadData(_loc4_);
-      _loc2_.isNewSlot = false;
-      _loc2_.clip.slots.gotoAndPlay("hide");
-      _loc2_.clip.slots.mouseEnabled = false;
-      _loc2_.clip.slots.mouseChildren = false;
-      _loc2_.startClosingScreen();
+      this.isNewSlot = false;
+      this.clip.slots.gotoAndPlay("hide");
+      this.clip.slots.mouseEnabled = false;
+      this.clip.slots.mouseChildren = false;
+      this.startClosingScreen();
     }
 
     public function clickSaveBackup(param1:MouseEvent):void
     {
-      var _loc2_:SlotSelectScreen = this;
-      var _loc3_:UserData = _loc2_.gameObj.var_106;
+      var _loc3_:UserData = this.gameObj.var_106;
       var _loc4_:Number = 0;
-      _loc2_.gameObj.var_105.playSound("buttonclick.wav");
-      if (param1.currentTarget == _loc2_.clip.slots.slot1MC.savebackup_btn)
+      this.gameObj.var_105.playSound("buttonclick.wav");
+      if (param1.currentTarget == this.clip.slots.slot1MC.savebackup_btn)
       {
         _loc4_ = 1;
       }
-      else if (param1.currentTarget == _loc2_.clip.slots.slot2MC.savebackup_btn)
+      else if (param1.currentTarget == this.clip.slots.slot2MC.savebackup_btn)
       {
         _loc4_ = 2;
       }
-      else if (param1.currentTarget == _loc2_.clip.slots.slot3MC.savebackup_btn)
+      else if (param1.currentTarget == this.clip.slots.slot3MC.savebackup_btn)
       {
         _loc4_ = 3;
       }
       if (_loc4_ != 0)
       {
-        _loc2_.gameObj.var_107.api.method_122(_loc3_.loadSlotDataForBackup(_loc4_), _loc3_.saveSlotPrefix, "papalouie2_backup_" + _loc4_, null);
+        this.gameObj.var_107.api.method_122(_loc3_.loadSlotDataForBackup(_loc4_), _loc3_.saveSlotPrefix, "papalouie2_backup_" + _loc4_, null);
       }
     }
 
     public function clickLoadBackup(param1:MouseEvent):void
     {
-      var _loc2_:SlotSelectScreen = this;
-      var _loc3_:UserData = _loc2_.gameObj.var_106;
+      var _loc3_:UserData = this.gameObj.var_106;
       var _loc4_:Number = 0;
-      _loc2_.gameObj.var_105.playSound("buttonclick.wav");
-      if (param1.currentTarget == _loc2_.clip.slots.slot1MC.loadbackup_btn)
+      this.gameObj.var_105.playSound("buttonclick.wav");
+      if (param1.currentTarget == this.clip.slots.slot1MC.loadbackup_btn)
       {
         _loc4_ = 1;
       }
-      else if (param1.currentTarget == _loc2_.clip.slots.slot2MC.loadbackup_btn)
+      else if (param1.currentTarget == this.clip.slots.slot2MC.loadbackup_btn)
       {
         _loc4_ = 2;
       }
-      else if (param1.currentTarget == _loc2_.clip.slots.slot3MC.loadbackup_btn)
+      else if (param1.currentTarget == this.clip.slots.slot3MC.loadbackup_btn)
       {
         _loc4_ = 3;
       }
       if (_loc4_ != 0)
       {
-        _loc2_.gameObj.var_107.api.method_123(_loc4_, _loc3_.saveSlotPrefix, "/", _loc2_.showSlots);
+        this.gameObj.var_107.api.method_123(_loc4_, _loc3_.saveSlotPrefix, "/", this.showSlots);
       }
     }
 
     public function clickMissingWidget(param1:MouseEvent):void
     {
-      var _loc2_:SlotSelectScreen = this;
-      _loc2_.gameObj.var_107.api.method_223(_loc2_.gameObj.var_107.method_124());
+      this.gameObj.var_107.api.method_223(this.gameObj.var_107.method_124());
     }
 
     public function clickDeleteSlot(param1:MouseEvent):void
     {
-      var _loc2_:SlotSelectScreen = this;
-      var _loc3_:UserData = _loc2_.gameObj.var_106;
-      if (param1.currentTarget == _loc2_.clip.slots.slot1MC.delete_btn)
+      var _loc3_:UserData = this.gameObj.var_106;
+      if (param1.currentTarget == this.clip.slots.slot1MC.delete_btn)
       {
-        _loc2_.clip.slots.slot1MC.confirmMC.visible = true;
+        this.clip.slots.slot1MC.confirmMC.visible = true;
       }
-      else if (param1.currentTarget == _loc2_.clip.slots.slot2MC.delete_btn)
+      else if (param1.currentTarget == this.clip.slots.slot2MC.delete_btn)
       {
-        _loc2_.clip.slots.slot2MC.confirmMC.visible = true;
+        this.clip.slots.slot2MC.confirmMC.visible = true;
       }
-      else if (param1.currentTarget == _loc2_.clip.slots.slot3MC.delete_btn)
+      else if (param1.currentTarget == this.clip.slots.slot3MC.delete_btn)
       {
-        _loc2_.clip.slots.slot3MC.confirmMC.visible = true;
+        this.clip.slots.slot3MC.confirmMC.visible = true;
       }
     }
 
     public function clickDeleteYes(param1:MouseEvent):void
     {
-      var _loc2_:SlotSelectScreen = this;
-      var _loc3_:UserData = _loc2_.gameObj.var_106;
+      var _loc3_:UserData = this.gameObj.var_106;
       var _loc4_:Number = 0;
-      if (param1.currentTarget == _loc2_.clip.slots.slot1MC.confirmMC.yes_btn)
+      if (param1.currentTarget == this.clip.slots.slot1MC.confirmMC.yes_btn)
       {
         _loc4_ = 1;
       }
-      else if (param1.currentTarget == _loc2_.clip.slots.slot2MC.confirmMC.yes_btn)
+      else if (param1.currentTarget == this.clip.slots.slot2MC.confirmMC.yes_btn)
       {
         _loc4_ = 2;
       }
-      else if (param1.currentTarget == _loc2_.clip.slots.slot3MC.confirmMC.yes_btn)
+      else if (param1.currentTarget == this.clip.slots.slot3MC.confirmMC.yes_btn)
       {
         _loc4_ = 3;
       }
       if (_loc4_ > 0)
       {
         _loc3_.eraseSlot(_loc4_);
-        _loc2_.showSlots();
+        this.showSlots();
       }
       else
       {
@@ -381,50 +353,45 @@ package papaGame.screens
 
     public function clickDeleteNo(param1:MouseEvent):void
     {
-      var _loc2_:SlotSelectScreen = this;
-      _loc2_.clip.slots.slot1MC.confirmMC.visible = false;
-      _loc2_.clip.slots.slot2MC.confirmMC.visible = false;
-      _loc2_.clip.slots.slot3MC.confirmMC.visible = false;
-      _loc2_.gameObj.var_105.playSound("buttonclick.wav");
+      this.clip.slots.slot1MC.confirmMC.visible = false;
+      this.clip.slots.slot2MC.confirmMC.visible = false;
+      this.clip.slots.slot3MC.confirmMC.visible = false;
+      this.gameObj.var_105.playSound("buttonclick.wav");
     }
 
     public function clickEnterNameOK(param1:Event = null):void
     {
-      var _loc2_:SlotSelectScreen = this;
-      _loc2_.gameObj.var_105.playSound("buttonclick.wav");
-      var _loc3_:String = _loc2_.clip.entername.input_holder.input_txt.text;
+      this.gameObj.var_105.playSound("buttonclick.wav");
+      var _loc3_:String = this.clip.entername.input_holder.input_txt.text;
       if (_loc3_ == "" || _loc3_ == " " || _loc3_ == "  " || _loc3_ == "   ")
       {
-        _loc3_ = "Player " + _loc2_.selectedSlot;
+        _loc3_ = "Player " + this.selectedSlot;
       }
-      _loc2_.gameObj.stage.focus = _loc2_.gameObj.stage;
-      _loc2_.gameObj.var_107.api.method_88("New_Game", "Slots");
-      _loc2_.gameObj.var_106.createNewSlot(_loc2_.selectedSlot, _loc3_, _loc2_.selectedCharacter);
-      _loc2_.clip.entername.gotoAndPlay("hide");
-      _loc2_.startClosingScreen();
+      this.gameObj.stage.focus = this.gameObj.stage;
+      this.gameObj.var_107.api.method_88("New_Game", "Slots");
+      this.gameObj.var_106.createNewSlot(this.selectedSlot, _loc3_, this.selectedCharacter);
+      this.clip.entername.gotoAndPlay("hide");
+      this.startClosingScreen();
     }
 
     public function clickEnterNameCancel(param1:Event = null):void
     {
-      var _loc2_:SlotSelectScreen = this;
-      _loc2_.gameObj.var_105.playSound("buttonclick.wav");
-      _loc2_.showSlots();
+      this.gameObj.var_105.playSound("buttonclick.wav");
+      this.showSlots();
     }
 
     public function clickMarty(param1:Event = null):void
     {
-      var _loc2_:SlotSelectScreen = this;
-      _loc2_.selectedCharacter = "marty";
-      _loc2_.clip.character.gotoAndPlay("hide");
-      _loc2_.showEnterName();
+      this.selectedCharacter = "marty";
+      this.clip.character.gotoAndPlay("hide");
+      this.showEnterName();
     }
 
     public function clickRita(param1:Event = null):void
     {
-      var _loc2_:SlotSelectScreen = this;
-      _loc2_.selectedCharacter = "rita";
-      _loc2_.clip.character.gotoAndPlay("hide");
-      _loc2_.showEnterName();
+      this.selectedCharacter = "rita";
+      this.clip.character.gotoAndPlay("hide");
+      this.showEnterName();
     }
     private function jumpToShown(param1:MovieClip):void
     {
@@ -440,178 +407,170 @@ package papaGame.screens
     }
     public function showSlots():void
     {
-      var _loc1_:SlotSelectScreen = this;
-      _loc1_.currentMode = "slots";
-      _loc1_.clip.slots.mouseEnabled = true;
-      _loc1_.clip.slots.mouseChildren = true;
-      _loc1_.clip.slots.slot1MC.confirmMC.visible = false;
-      _loc1_.clip.slots.slot2MC.confirmMC.visible = false;
-      _loc1_.clip.slots.slot3MC.confirmMC.visible = false;
-      _loc1_.getSlotData();
-      if (_loc1_.clip.entername.currentFrame > 1 && _loc1_.clip.entername.currentFrame < _loc1_.clip.entername.totalFrames)
+      this.currentMode = "slots";
+      this.clip.slots.mouseEnabled = true;
+      this.clip.slots.mouseChildren = true;
+      this.clip.slots.slot1MC.confirmMC.visible = false;
+      this.clip.slots.slot2MC.confirmMC.visible = false;
+      this.clip.slots.slot3MC.confirmMC.visible = false;
+      this.getSlotData();
+      if (this.clip.entername.currentFrame > 1 && this.clip.entername.currentFrame < this.clip.entername.totalFrames)
       {
-        _loc1_.clip.entername.gotoAndPlay("hide");
+        this.clip.entername.gotoAndPlay("hide");
       }
-      _loc1_.jumpToShown(_loc1_.clip.slots);
+      this.jumpToShown(this.clip.slots);
     }
 
     public function showEnterName():void
     {
-      var _loc1_:SlotSelectScreen = this;
-      _loc1_.currentMode = "entername";
-      _loc1_.clip.entername.input_holder.input_txt.text = "";
-      _loc1_.clip.entername.input_holder.input_txt.setFocus();
-      if (_loc1_.clip.character.currentFrame > 1 && _loc1_.clip.character.currentFrame < _loc1_.clip.character.totalFrames)
+      this.currentMode = "entername";
+      this.clip.entername.input_holder.input_txt.text = "";
+      this.clip.entername.input_holder.input_txt.setFocus();
+      if (this.clip.character.currentFrame > 1 && this.clip.character.currentFrame < this.clip.character.totalFrames)
       {
-        _loc1_.clip.character.gotoAndPlay("hide");
+        this.clip.character.gotoAndPlay("hide");
       }
-      _loc1_.clip.entername.gotoAndPlay("show");
-      _loc1_.gameObj.var_107.api.method_115("ENTER YOUR NAME");
+      this.clip.entername.gotoAndPlay("show");
+      this.gameObj.var_107.api.method_115("ENTER YOUR NAME");
     }
 
     public function showCharacter():void
     {
-      var _loc1_:SlotSelectScreen = this;
-      _loc1_.currentMode = "character";
-      if (_loc1_.clip.slots.currentFrame > 1 && _loc1_.clip.slots.currentFrame < _loc1_.clip.slots.totalFrames)
+      this.currentMode = "character";
+      if (this.clip.slots.currentFrame > 1 && this.clip.slots.currentFrame < this.clip.slots.totalFrames)
       {
-        _loc1_.clip.slots.gotoAndPlay("hide");
+        this.clip.slots.gotoAndPlay("hide");
       }
-      if (_loc1_.martyModel == null)
+      if (this.martyModel == null)
       {
-        _loc1_.martyModel = _loc1_.buildModel(0, 1);
-        _loc1_.clip.character.marty.holder.addChild(_loc1_.martyModel);
-        _loc1_.martyModel.x = -30;
-        _loc1_.martyModel.scaleX = 0.48;
-        _loc1_.martyModel.scaleY = 0.48;
-        _loc1_.martyModel.y = -85;
-        _loc1_.clip.character.marty.holder.scaleX = -1;
+        this.martyModel = this.buildModel(0, 1);
+        this.clip.character.marty.holder.addChild(this.martyModel);
+        this.martyModel.x = -30;
+        this.martyModel.scaleX = 0.48;
+        this.martyModel.scaleY = 0.48;
+        this.martyModel.y = -85;
+        this.clip.character.marty.holder.scaleX = -1;
       }
-      if (_loc1_.ritaModel == null)
+      if (this.ritaModel == null)
       {
-        _loc1_.ritaModel = _loc1_.buildModel(1, 1);
-        _loc1_.clip.character.rita.holder.addChild(_loc1_.ritaModel);
-        _loc1_.ritaModel.x = -30;
-        _loc1_.ritaModel.y = -85;
-        _loc1_.ritaModel.scaleX = 0.48;
-        _loc1_.ritaModel.scaleY = 0.48;
+        this.ritaModel = this.buildModel(1, 1);
+        this.clip.character.rita.holder.addChild(this.ritaModel);
+        this.ritaModel.x = -30;
+        this.ritaModel.y = -85;
+        this.ritaModel.scaleX = 0.48;
+        this.ritaModel.scaleY = 0.48;
       }
-      _loc1_.clip.character.gotoAndPlay("show");
-      _loc1_.gameObj.var_107.api.method_115("CHOOSE A CHARACTER");
+      this.clip.character.gotoAndPlay("show");
+      this.gameObj.var_107.api.method_115("CHOOSE A CHARACTER");
     }
 
     public function animateScreen(param1:Event):void
     {
-      var _loc2_:SlotSelectScreen = this;
-      if (_loc2_.isClosing)
+      if (this.isClosing)
       {
-        if (_loc2_.currentMode == "entername" && _loc2_.clip.entername.currentFrame == _loc2_.clip.entername.totalFrames)
+        if (this.currentMode == "entername" && this.clip.entername.currentFrame == this.clip.entername.totalFrames)
         {
-          _loc2_.closeSlotSelectScreen();
+          this.closeSlotSelectScreen();
         }
-        else if (_loc2_.currentMode == "slots" && _loc2_.clip.slots.currentFrame == _loc2_.clip.slots.totalFrames)
+        else if (this.currentMode == "slots" && this.clip.slots.currentFrame == this.clip.slots.totalFrames)
         {
-          _loc2_.closeSlotSelectScreen();
+          this.closeSlotSelectScreen();
         }
       }
     }
 
     public function clickStart(param1:Event):void
     {
-      var _loc2_:SlotSelectScreen = this;
-      _loc2_.clip.iris.gotoAndPlay("irisout");
-      _loc2_.gameObj.var_107.api.method_105("SlotSelectScreen");
+      this.clip.iris.gotoAndPlay("irisout");
+      this.gameObj.var_107.api.method_105("SlotSelectScreen");
     }
 
     public function destroy():void
     {
       var _loc3_:MovieClip = null;
-      var _loc1_:SlotSelectScreen = this;
-      _loc1_.missingWidget.removeEventListener(MouseEvent.CLICK, _loc1_.clickMissingWidget);
-      _loc1_.missingWidget.parent.removeChild(_loc1_.missingWidget);
-      _loc1_.missingWidget = null;
-      if (_loc1_.clip.hasEventListener(Event.ENTER_FRAME))
+      this.missingWidget.removeEventListener(MouseEvent.CLICK, this.clickMissingWidget);
+      this.missingWidget.parent.removeChild(this.missingWidget);
+      this.missingWidget = null;
+      if (this.clip.hasEventListener(Event.ENTER_FRAME))
       {
-        _loc1_.clip.removeEventListener(Event.ENTER_FRAME, _loc1_.animateScreen);
+        this.clip.removeEventListener(Event.ENTER_FRAME, this.animateScreen);
       }
-      _loc1_.container.removeEventListener("clickBack", _loc1_.clickBack);
-      if (_loc1_.model1)
+      this.container.removeEventListener("clickBack", this.clickBack);
+      if (this.model1)
       {
-        _loc1_.cleanupModel(_loc1_.model1);
-        _loc1_.model1 = null;
+        this.cleanupModel(this.model1);
+        this.model1 = null;
       }
-      if (_loc1_.model2)
+      if (this.model2)
       {
-        _loc1_.cleanupModel(_loc1_.model2);
-        _loc1_.model2 = null;
+        this.cleanupModel(this.model2);
+        this.model2 = null;
       }
-      if (_loc1_.model3)
+      if (this.model3)
       {
-        _loc1_.cleanupModel(_loc1_.model3);
-        _loc1_.model3 = null;
+        this.cleanupModel(this.model3);
+        this.model3 = null;
       }
-      if (_loc1_.martyModel)
+      if (this.martyModel)
       {
-        _loc1_.cleanupModel(_loc1_.martyModel);
-        _loc1_.martyModel = null;
+        this.cleanupModel(this.martyModel);
+        this.martyModel = null;
       }
-      if (_loc1_.ritaModel)
+      if (this.ritaModel)
       {
-        _loc1_.cleanupModel(_loc1_.ritaModel);
-        _loc1_.ritaModel = null;
+        this.cleanupModel(this.ritaModel);
+        this.ritaModel = null;
       }
       var _loc2_:int = 1;
       while (_loc2_ <= 3)
       {
-        _loc3_ = _loc1_.clip.slots["slot" + _loc2_ + "MC"];
-        _loc3_.new_btn.removeEventListener(MouseEvent.CLICK, _loc1_.clickNewSlot);
-        _loc3_.select_btn.removeEventListener(MouseEvent.CLICK, _loc1_.clickExistingSlot);
-        _loc3_.delete_btn.removeEventListener(MouseEvent.CLICK, _loc1_.clickDeleteSlot);
-        _loc3_.confirmMC.yes_btn.removeEventListener(MouseEvent.CLICK, _loc1_.clickDeleteYes);
-        _loc3_.confirmMC.no_btn.removeEventListener(MouseEvent.CLICK, _loc1_.clickDeleteNo);
-        _loc3_.savebackup_btn.removeEventListener(MouseEvent.CLICK, _loc1_.clickSaveBackup);
-        _loc3_.loadbackup_btn.removeEventListener(MouseEvent.CLICK, _loc1_.clickLoadBackup);
+        _loc3_ = this.clip.slots["slot" + _loc2_ + "MC"];
+        _loc3_.new_btn.removeEventListener(MouseEvent.CLICK, this.clickNewSlot);
+        _loc3_.select_btn.removeEventListener(MouseEvent.CLICK, this.clickExistingSlot);
+        _loc3_.delete_btn.removeEventListener(MouseEvent.CLICK, this.clickDeleteSlot);
+        _loc3_.confirmMC.yes_btn.removeEventListener(MouseEvent.CLICK, this.clickDeleteYes);
+        _loc3_.confirmMC.no_btn.removeEventListener(MouseEvent.CLICK, this.clickDeleteNo);
+        _loc3_.savebackup_btn.removeEventListener(MouseEvent.CLICK, this.clickSaveBackup);
+        _loc3_.loadbackup_btn.removeEventListener(MouseEvent.CLICK, this.clickLoadBackup);
         _loc2_++;
       }
-      _loc1_.clip.entername.input_holder.removeChild(_loc1_.nameContinueButton);
-      _loc1_.clip.entername.input_holder.removeChild(_loc1_.nameBackButton);
-      _loc1_.nameContinueButton.removeEventListener("clickNameOK", _loc1_.clickEnterNameOK);
-      _loc1_.nameBackButton.removeEventListener("clickNameCancel", _loc1_.clickEnterNameCancel);
-      _loc1_.nameContinueButton.destroy();
-      _loc1_.nameBackButton.destroy();
-      _loc1_.nameContinueButton = null;
-      _loc1_.nameBackButton = null;
-      _loc1_.clip.character.marty.select_btn.removeEventListener(MouseEvent.MOUSE_DOWN, _loc1_.clickMarty);
-      _loc1_.clip.character.rita.select_btn.removeEventListener(MouseEvent.MOUSE_DOWN, _loc1_.clickRita);
-      _loc1_.clip.removeEventListener(KeyboardEvent.KEY_DOWN, _loc1_.keyListener);
-      _loc1_.container.removeChild(_loc1_.clip);
-      _loc1_.clip = null;
+      this.clip.entername.input_holder.removeChild(this.nameContinueButton);
+      this.clip.entername.input_holder.removeChild(this.nameBackButton);
+      this.nameContinueButton.removeEventListener("clickNameOK", this.clickEnterNameOK);
+      this.nameBackButton.removeEventListener("clickNameCancel", this.clickEnterNameCancel);
+      this.nameContinueButton.destroy();
+      this.nameBackButton.destroy();
+      this.nameContinueButton = null;
+      this.nameBackButton = null;
+      this.clip.character.marty.select_btn.removeEventListener(MouseEvent.MOUSE_DOWN, this.clickMarty);
+      this.clip.character.rita.select_btn.removeEventListener(MouseEvent.MOUSE_DOWN, this.clickRita);
+      this.clip.removeEventListener(KeyboardEvent.KEY_DOWN, this.keyListener);
+      this.container.removeChild(this.clip);
+      this.clip = null;
     }
 
     public function startClosingScreen():void
     {
-      var _loc1_:SlotSelectScreen = this;
-      _loc1_.isClosing = true;
-      _loc1_.missingWidget.visible = false;
-      _loc1_.gameObj.var_107.api.method_105();
+      this.isClosing = true;
+      this.missingWidget.visible = false;
+      this.gameObj.var_107.api.method_105();
       class_4.method_78();
     }
 
     public function closeSlotSelectScreen(param1:MouseEvent = null):void
     {
-      var _loc2_:SlotSelectScreen = this;
-      _loc2_.clip.removeEventListener(Event.ENTER_FRAME, _loc2_.animateScreen);
-      _loc2_.gameObj.var_113.generateCustomerBitmap();
-      _loc2_.gameObj.var_109.generateEnemyBitmap();
-      if (_loc2_.isNewSlot)
+      this.clip.removeEventListener(Event.ENTER_FRAME, this.animateScreen);
+      this.gameObj.var_113.generateCustomerBitmap();
+      this.gameObj.var_109.generateEnemyBitmap();
+      if (this.isNewSlot)
       {
-        _loc2_.gameObj.method_217();
+        this.gameObj.method_217();
       }
       else
       {
-        _loc2_.gameObj.var_107.api.method_85("MainMenu");
+        this.gameObj.var_107.api.method_85("MainMenu");
       }
-      _loc2_.gameObj.var_107.api.method_86("SlotSelect");
+      this.gameObj.var_107.api.method_86("SlotSelect");
     }
 
     private function buildModel(param1:Number, param2:Number):MovieClip
@@ -626,8 +585,7 @@ package papaGame.screens
       var _loc44_:Class = null;
       var _loc45_:MovieClip = null;
       var _loc46_:MovieClip = null;
-      var _loc3_:SlotSelectScreen = this;
-      var _loc6_:String = _loc3_.gameObj.var_113.getCustomerType(param1);
+      var _loc6_:String = this.gameObj.var_113.getCustomerType(param1);
       if (_loc6_ == CustomerData.WEAPON_SWING1)
       {
         _loc5_ = new customerOneSwingMC();
@@ -675,7 +633,7 @@ package papaGame.screens
       _loc5_.scaleX = 0.35;
       _loc5_.scaleY = 0.35;
       var _loc7_:MovieClip = _loc5_;
-      var _loc8_:String = _loc3_.gameObj.var_113.getCustomerClipName(param1);
+      var _loc8_:String = this.gameObj.var_113.getCustomerClipName(param1);
       if (param2 == 2)
       {
         _loc8_ += "2";
@@ -773,7 +731,7 @@ package papaGame.screens
       catch (err:Error)
       {
       }
-      var _loc34_:String = _loc3_.gameObj.var_113.getWeaponClipName(param1, param2);
+      var _loc34_:String = this.gameObj.var_113.getWeaponClipName(param1, param2);
       var _loc35_:Class = getDefinitionByName("weapon_" + _loc34_) as Class;
       var _loc36_:MovieClip = new _loc35_();
       _loc36_.name = "clip";
@@ -787,7 +745,7 @@ package papaGame.screens
       catch (err:Error)
       {
       }
-      var _loc37_:String = _loc3_.gameObj.var_113.getCustomerClipName(param1);
+      var _loc37_:String = this.gameObj.var_113.getCustomerClipName(param1);
       if (_loc37_ == "Boomer")
       {
         _loc44_ = getDefinitionByName("glider_" + _loc37_) as Class;
@@ -803,7 +761,7 @@ package papaGame.screens
       }
       _loc7_.gotoAndStop(1);
       _loc7_.gotoAndStop("stand");
-      if (_loc3_.gameObj.var_113.getCustomerClipName(param1) == "Connor")
+      if (this.gameObj.var_113.getCustomerClipName(param1) == "Connor")
       {
         _loc7_.gotoAndStop("standconnor");
       }

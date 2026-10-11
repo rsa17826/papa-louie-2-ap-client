@@ -62,6 +62,10 @@ package papaGame.models.items
       {
         this.gameObj.playerObj.hurtPlayer(0, 1, true);
       }
+      else
+      {
+        this.gameObj.collectedCoin = true;
+      }
       _loc2_.removeItem(this.id);
     }
   }

@@ -19,6 +19,7 @@ package papaGame.data
     public var save_killsTally:Number = 0;
     public var save_skillUsed:Boolean = false;
     public var save_isCoinsDeadly:Boolean = false;
+    public var save_collectedCoin:Boolean = false;
     public var save_livesLost:Number = 0;
     public var save_gameplayTimer:Number = 0;
     public var challenge1_tally:Number = -1;
@@ -72,6 +73,7 @@ package papaGame.data
       var skillType = gameObj.var_113.getCustomerData(gameObj.var_106.selectedCharacter).skillType;
       ExternalInterface.call("warn", "gameObj.var_106.skillUsed || skillType != CustomerData.SKILL_NONE", gameObj.var_106.skillUsed, skillType != CustomerData.SKILL_NONE);
       ob.save_skillUsed = gameObj.var_106.skillUsed || skillType != CustomerData.SKILL_NONE;
+      ob.save_collectedCoin = gameObj.var_106.collectedCoin;
       ob.save_isCoinsDeadly = gameObj.var_106.isCoinsDeadly;
       ob.save_fellInWater = gameObj.var_106.fellInWater;
       ob.save_killsTally = gameObj.var_106.killsTally;

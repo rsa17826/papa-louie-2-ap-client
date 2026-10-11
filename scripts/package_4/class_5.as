@@ -25,6 +25,7 @@ package package_4
     public var var_109:DataManager;
     public var bitmapManager:BitmapManager;
     public var var_114:MapManager;
+    public var collectedCoin:Boolean = false;
     public var var_194:EventManager;
     public var var_112:ChallengeManager;
     public var var_115:GameHUD;
@@ -432,6 +433,7 @@ package package_4
     {
       class_7.method_1("START LEVEL");
       // TODO level start
+      this.gameObj.var_106.collectedCoin = false;
       this.var_119.adjustCamera(this.playerObj, true);
       this.var_103.currentXcoord = 0;
       this.var_103.currentYcoord = 0;
@@ -516,6 +518,10 @@ package package_4
       if (!(this.var_106.skillUsed || skillType != CustomerData.SKILL_NONE))
       {
         ExternalInterface.call("newItem", "level" + this.var_109.currentLevel + " - powerless:level" + (Number(this.var_109.currentLevel)));
+      }
+      if (!this.var_106.collectedCoin)
+      {
+        ExternalInterface.call("newItem", "level" + this.var_109.currentLevel + " - coinless:level" + (Number(this.var_109.currentLevel)));
       }
       ExternalInterface.call("newItem", "level" + this.var_109.currentLevel + " - level:level" + (Number(this.var_109.currentLevel) + 1));
       class_7.method_1("BEAT LEVEL");

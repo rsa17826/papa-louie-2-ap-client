@@ -157,8 +157,6 @@ for filepath in "$PROJECT_DIR"/asasm/*; do
   fi
 done
 
-python patch_swf.py "$TMP_SWF" "$TMP_SWF"
-
 # Everything succeeded: atomically replace the real output (same directory,
 # so mv is a rename).
 mv -f "$TMP_SWF" "$OUT_SWF"

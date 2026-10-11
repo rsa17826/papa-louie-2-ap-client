@@ -64,7 +64,7 @@ package papaGame.models.items
       }
       else
       {
-        this.gameObj.collectedCoin = true;
+        this.gameObj.var_106.collectedCoin = true;
       }
       _loc2_.removeItem(this.id);
     }

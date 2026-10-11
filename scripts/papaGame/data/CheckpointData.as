@@ -74,6 +74,7 @@ package papaGame.data
       ExternalInterface.call("warn", "gameObj.var_106.skillUsed || skillType != CustomerData.SKILL_NONE", gameObj.var_106.skillUsed, skillType != CustomerData.SKILL_NONE);
       ob.save_skillUsed = gameObj.var_106.skillUsed || skillType != CustomerData.SKILL_NONE;
       ob.save_collectedCoin = gameObj.var_106.collectedCoin;
+      ExternalInterface.call("warn", "this.var_106.collectedCoin, saving", gameObj.var_106.collectedCoin);
       ob.save_isCoinsDeadly = gameObj.var_106.isCoinsDeadly;
       ob.save_fellInWater = gameObj.var_106.fellInWater;
       ob.save_killsTally = gameObj.var_106.killsTally;

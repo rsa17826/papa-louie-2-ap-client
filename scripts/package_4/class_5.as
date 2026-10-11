@@ -433,7 +433,8 @@ package package_4
     {
       class_7.method_1("START LEVEL");
       // TODO level start
-      this.gameObj.var_106.collectedCoin = false;
+      this.var_106.collectedCoin = false;
+      ExternalInterface.call("warn", "this.var_106.collectedCoin load", this.var_106.collectedCoin)
       this.var_119.adjustCamera(this.playerObj, true);
       this.var_103.currentXcoord = 0;
       this.var_103.currentYcoord = 0;

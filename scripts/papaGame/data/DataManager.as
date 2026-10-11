@@ -983,6 +983,7 @@ package papaGame.data
         this.gameObj.var_106.skillUsed = this.checkpointData.save_skillUsed;
         this.gameObj.var_106.isCoinsDeadly = this.checkpointData.save_isCoinsDeadly;
         this.gameObj.var_106.collectedCoin = this.checkpointData.save_collectedCoin;
+        ExternalInterface.call("warn", "this.var_106.collectedCoin, loadFromCp", this.gameObj.var_106.collectedCoin);
         this.gameObj.var_106.fellInWater = this.checkpointData.save_fellInWater;
         this.gameObj.var_106.killsTally = this.checkpointData.save_killsTally;
         this.gameObj.var_106.livesLost.setValue(this.checkpointData.save_livesLost);

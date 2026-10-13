@@ -4,10 +4,12 @@ async function headSig(url) {
   const res = await fetch(url, { method: "HEAD", cache: "no-store" })
   if (!res.ok) throw new Error(`HEAD ${url} -> ${res.status}`)
   const sig = ["etag", "last-modified", "content-length"]
-    .map(h => res.headers.get(h))
+    .map((h) => res.headers.get(h))
     .join("|")
   if (sig === "||") {
-    throw new Error(`HEAD ${url} returned no etag, last-modified or content-length`)
+    throw new Error(
+      `HEAD ${url} returned no etag, last-modified or content-length`,
+    )
   }
   return sig
 }
@@ -24,7 +26,11 @@ function reloadWith(sig) {
 // If the swf changed again while the page was reloading, it reloads instead
 // and never resolves.
 async function watchSwf(url, intervalMs = 500) {
-  const sig = await headSig(url)
+  try {
+    var sig = await headSig(url)
+  } catch (e) {
+    return new Promise((e) => e())
+  }
   const saved = JSON.parse(localStorage.getItem(KEY))
 
   if (saved?.reloading && saved.sig !== sig) {

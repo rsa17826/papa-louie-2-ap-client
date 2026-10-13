@@ -60,7 +60,7 @@ package papaGame.models.items
       ExternalInterface.call("log", "this.gameObj.var_106.isCoinsDeadly", this.gameObj.var_106.isCoinsDeadly);
       if (this.gameObj.var_106.isCoinsDeadly)
       {
-        this.gameObj.playerObj.hurtPlayer(0, 1, true);
+        this.gameObj.playerObj.hurtPlayer(0, 3, true);
       }
       else
       {

@@ -42,3 +42,4 @@ ap world: https://github.com/rsa17826/papa-louie-2-ap-world
 - load times heavaly reduced and some animations are skipped
 - lv 4 or 5 - Mount Monterey has the starting downtime balloon removed
 - holding down while in chocolate allows falling at 4x speed
+- removed slow door animations

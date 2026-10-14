@@ -434,7 +434,7 @@ package package_4
       class_7.method_1("START LEVEL");
       // TODO level start
       this.var_106.collectedCoin = false;
-      ExternalInterface.call("warn", "this.var_106.collectedCoin load", this.var_106.collectedCoin)
+      ExternalInterface.call("warn", "this.var_106.collectedCoin load", this.var_106.collectedCoin);
       this.var_119.adjustCamera(this.playerObj, true);
       this.var_103.currentXcoord = 0;
       this.var_103.currentYcoord = 0;
@@ -518,13 +518,13 @@ package package_4
       var skillType = this.var_113.getCustomerData(this.var_106.selectedCharacter).skillType;
       if (!(this.var_106.skillUsed || skillType != CustomerData.SKILL_NONE))
       {
-        ExternalInterface.call("newItem", "level" + this.var_109.currentLevel + " - powerless:level" + (Number(this.var_109.currentLevel)));
+        ExternalInterface.call("newItem", "level" + this.var_109.currentLevel + " - powerless:level" + (Number(this.var_109.currentLevel) + 1));
       }
       if (!this.var_106.collectedCoin)
       {
-        ExternalInterface.call("newItem", "level" + this.var_109.currentLevel + " - coinless:level" + (Number(this.var_109.currentLevel)));
+        ExternalInterface.call("newItem", "level" + this.var_109.currentLevel + " - coinless:level" + (Number(this.var_109.currentLevel) + 1));
       }
-      ExternalInterface.call("newItem", "level" + this.var_109.currentLevel + " - level:level" + (Number(this.var_109.currentLevel) + 1));
+      ExternalInterface.call("newItem", "level" + this.var_109.currentLevel + " - unlockedLevel:level" + (Number(this.var_109.currentLevel) + 2));
       class_7.method_1("BEAT LEVEL");
       this.var_108.stopCycle = true;
       this.var_108.stopControls = true;

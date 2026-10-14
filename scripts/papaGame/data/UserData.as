@@ -511,7 +511,7 @@ package papaGame.data
       if (this.challengesCompleted.length > world)
       {
         this.challengesCompleted[world][i - 1] = 1;
-        ExternalInterface.call("newWarpCheck", world, i - 1);
+        ExternalInterface.call("newWarpCheck", world + 1, i - 1);
       }
       this.gameObj.var_107.api.method_100("Challenge " + i, world + 1);
       if (!this.alreadyEarned100 && this.hasEarnedEverything())

@@ -31,3 +31,4 @@ papaGame/models/items/GameItem_FizzoCan.as
 papaGame/data/ScreenData.as
 papaGame/models/items/GameItem_Coin.as
 papaGame/data/CheckpointData.as
+papaGame/screens/NewCustomerScreen.as

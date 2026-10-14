@@ -102,7 +102,7 @@
           // "marty",
           // "rita",
         }[`${level}-${idx}`]
-        newItem(`level${level} - char:${charName}`)
+        newItem(`level${level + 1} - char:${charName}`)
         log("sendRescue", charName, level, idx)
       }
 
@@ -136,47 +136,47 @@
       window.moves ??= []
       const itemList = {
         "filler:nothing": () => {},
-        "unlockedLevel:level0": () => {
+        "unlockedLevel:level1": () => {
           window.areas[0] = 1
           updateAreaLockState()
         },
-        "unlockedLevel:level1": () => {
+        "unlockedLevel:level2": () => {
           window.areas[1] = 1
           updateAreaLockState()
         },
-        "unlockedLevel:level2": () => {
+        "unlockedLevel:level3": () => {
           window.areas[2] = 1
           updateAreaLockState()
         },
-        "unlockedLevel:level3": () => {
+        "unlockedLevel:level4": () => {
           window.areas[3] = 1
           updateAreaLockState()
         },
-        "unlockedLevel:level4": () => {
+        "unlockedLevel:level5": () => {
           window.areas[4] = 1
           updateAreaLockState()
         },
-        "unlockedLevel:level5": () => {
+        "unlockedLevel:level6": () => {
           window.areas[5] = 1
           updateAreaLockState()
         },
-        "unlockedLevel:level6": () => {
+        "unlockedLevel:level7": () => {
           window.areas[6] = 1
           updateAreaLockState()
         },
-        "unlockedLevel:level7": () => {
+        "unlockedLevel:level8": () => {
           window.areas[7] = 1
           updateAreaLockState()
         },
-        "unlockedLevel:level8": () => {
+        "unlockedLevel:level9": () => {
           window.areas[8] = 1
           updateAreaLockState()
         },
-        "unlockedLevel:level9": () => {
+        "unlockedLevel:level10": () => {
           window.areas[9] = 1
           updateAreaLockState()
         },
-        "unlockedLevel:level10": () => {
+        "unlockedLevel:level11": () => {
           window.areas[10] = 1
           updateAreaLockState()
         },
@@ -208,12 +208,13 @@
         newItem("menu - char:marty")
       })
       function newWarpCheck(world, i) {
+        debugger
         var name =
           "level" +
           world +
           " - " +
           {
-            0: [
+            1: [
               "char:prudence",
               "char:taylor",
               "char:clover",
@@ -221,7 +222,7 @@
               "collectCheck:3 burgers",
               "collectCheck:100 coins",
             ],
-            1: [
+            2: [
               "char:big pauly",
               "char:mindy",
               "char:akari",
@@ -229,7 +230,7 @@
               "collectCheck:11 burgers",
               "collectCheck:100 coins",
             ],
-            2: [
+            3: [
               "char:boomer",
               "char:kahuna",
               "char:professor fitz",
@@ -237,7 +238,7 @@
               "collectCheck:11 burgers",
               "collectCheck:100 coins",
             ],
-            3: [
+            4: [
               "char:georgito",
               "char:foodini",
               "char:yippy",
@@ -245,7 +246,7 @@
               "collectCheck:6 burgers",
               "collectCheck:100 coins",
             ],
-            4: [
+            5: [
               "char:scooter",
               "char:kingsley",
               "char:connor",
@@ -253,7 +254,7 @@
               "collectCheck:8 burgers",
               "collectCheck:100 coins",
             ],
-            5: [
+            6: [
               "char:james",
               "char:greg",
               "char:captain cori",
@@ -261,7 +262,7 @@
               "collectCheck:10 burgers",
               "collectCheck:100 coins",
             ],
-            6: [
+            7: [
               "char:ninjoy",
               "char:peggy",
               "char:penny",
@@ -269,7 +270,7 @@
               "collectCheck:13 burgers",
               "collectCheck:100 coins",
             ],
-            7: [
+            8: [
               "char:sarge fan",
               "char:rico",
               "char:zoe",
@@ -277,7 +278,7 @@
               "collectCheck:12 burgers",
               "collectCheck:100 coins",
             ],
-            8: ["char:papa louie"],
+            9: ["char:papa louie"],
           }[world][i]
         newItem(name)
         log("asasdsadaazzz", world, i)

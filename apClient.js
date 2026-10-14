@@ -27,7 +27,7 @@ window.apLog ??= console.log.bind("[ARCHIPELAGO]")
 window.apWarn ??= console.warn.bind("[ARCHIPELAGO]")
 window.apError ??= console.error.bind("[ARCHIPELAGO]")
 const itemColors = {
-  level: "yellow",
+  unlockedLevel: "yellow",
   trap: "red",
   filler: "grey",
   char: "brown",

@@ -1,5 +1,6 @@
 package papaGame.screens
 {
+  import flash.utils.setTimeout;
   import flash.external.ExternalInterface;
   import flash.display.*;
   import flash.events.*;
@@ -187,6 +188,7 @@ package papaGame.screens
       this.setupMedals();
       this.setupConfirmQuit();
       this.setupCoinsDeadlyButton();
+      this.gameObj.stage.addEventListener(KeyboardEvent.KEY_DOWN, this.onKeyPressed);
       if (this.gameObj.var_109.currentWorldData == null && this.gameObj.var_105.currentTrack != "otherscreens.wav")
       {
         this.gameObj.var_105.playTrack("AlternateTrack", 1, 0, "outin");
@@ -200,7 +202,17 @@ package papaGame.screens
         this.setSection("map");
       }
     }
-
+    private function onKeyPressed(event:KeyboardEvent):void
+    {
+      // Check if the pressed key is 'l' or 'L' (Keycode 76)
+      if (event.keyCode == 76 || String.fromCharCode(event.charCode).toLowerCase() == "l")
+      {
+        if (this.whichLevel >= 0)
+        {
+          this.loadLevel(this.whichLevel);
+        }
+      }
+    }
     public function setupConfirmQuit(param1:Boolean = true):void
     {
       if (param1)
@@ -1883,6 +1895,43 @@ package papaGame.screens
       }
     }
 
+    public function loadLevel(level:Number):void
+    {
+      this.whichLevel = level;
+      this.isReturningToMap = true;
+      this.gameObj.method_103(false);
+      this.gameObj.var_107.api.method_85("MainMenu", {"section": "map"});
+      this.gameObj.var_107.api.method_86("MapSelectMenu");
+      var _loc_this:MainMenuScreen = this;
+      var wl = _loc_this.whichLevel;
+      setTimeout(function():void
+        {
+          _loc_this.gameObj.var_107.api.method_85("MapSelectMenu", {
+                "section": "character",
+                "useLevel": wl,
+                "isCharSelect": true
+              });
+          setTimeout(function():void
+            {
+              if (_loc_this.gameObj.var_106.customersUnlocked[_loc_this.selectedCharacterIndex] != 1)
+              {
+                _loc_this.selectedCharacterIndex = 28;
+                while (_loc_this.selectedCharacterIndex > 0 && _loc_this.gameObj.var_106.customersUnlocked[_loc_this.selectedCharacterIndex] != 1)
+                {
+                  _loc_this.selectedCharacterIndex -= 1;
+                }
+              }
+              _loc_this.selectCharacter(_loc_this.selectedCharacterIndex, 1);
+              _loc_this.isStartingLevel = true;
+              _loc_this.gameObj.method_94("challenges", false);
+              _loc_this.gameObj.method_103(false);
+              _loc_this.gameObj.var_106.customersUsed[_loc_this.selectedCharacterIndex] = 1;
+              _loc_this.isClosing = true;
+              _loc_this.gameObj.var_107.api.method_105();
+              _loc_this.clip.character.iris.gotoAndPlay("irisout");
+            }, 5000);
+        }, 1);
+    }
     public function clickStartLevel(param1:Event):void
     {
       if (this.gameObj.var_106.customersUnlocked[this.selectedCharacterIndex] != 1)
@@ -2413,6 +2462,7 @@ package papaGame.screens
 
     public function destroy():void
     {
+      this.gameObj.stage.removeEventListener(KeyboardEvent.KEY_DOWN, this.onKeyPressed);
       if (this.coinsDeadlyOnButton != null)
       {
         this.coinsDeadlyOnButton.removeEventListener("clickCoinsDeadly", this.clickCoinsDeadly);

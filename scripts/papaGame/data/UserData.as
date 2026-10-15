@@ -170,7 +170,7 @@ package papaGame.data
     {
       if (this.gameObj.var_109.currentLevel == 9 && param1 == 27)
       {
-        ExternalInterface.call("newItem", "level9 - char:xandra");
+        ExternalInterface.call("newItem", "level10 - char:xandra");
       }
       ExternalInterface.call("warn", this.gameObj.var_109.currentLevel, param1);
       // if (param1 < this.customersUnlocked.length)

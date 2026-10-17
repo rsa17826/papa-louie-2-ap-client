@@ -50,7 +50,7 @@ package papaGame.models.items
       var _loc2_:ItemManager = this.gameObj.var_120;
       if (this.gameObj.var_109.currentLevel == 1)
       {
-        ExternalInterface.call("newItem", "level1 - collectCheck:fizzocan");
+        ExternalInterface.call("newItem", "level2 - collectCheck:fizzocan");
       }
       this.gameObj.var_106.collectSpecialItem();
       this.gameObj.var_106.earnPoints(this.points);

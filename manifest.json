@@ -1,6 +1,6 @@
 {
-  "short_name": "Vex 2",
-  "name": "Vex 2 Archipelago Client",
+  "short_name": "pl2wbaap",
+  "name": "Papa Louie 2: When Burgers Attack! Archipelago Client",
   "icons": [
     {
       "src": "/icon-512.png",
@@ -12,6 +12,7 @@
   "screenshots": [
     {
       "src": "/a.png",
+      "sizes": "1280x670",
       "type": "image/png",
       "form_factor": "wide"
     }

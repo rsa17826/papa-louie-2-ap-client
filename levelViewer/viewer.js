@@ -754,6 +754,7 @@ function buildSheetList() {
 
   for (const f of SHEETS) {
     const im = images[f]
+    // if (worldPlace[f])
     s.add(
       new Option(
         `${f}  ${im ? im.width + "x" + im.height : "(not loaded)"}  ${worldPlace[f] ? "placed" : "unplaced"}`,

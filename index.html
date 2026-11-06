@@ -105,7 +105,50 @@
         newItem(`level${level + 1} - char:${charName}`)
         log("sendRescue", charName, level, idx)
       }
-
+      function killed(id) {
+        log(
+          "killed",
+          id,
+          {
+            1: "Onion",
+            2: "Brown Onion",
+            3: "Army Onion",
+            4: "helmet",
+            5: "Kaiser Onion",
+            6: "Red Tomato",
+            7: "Roma Tomato",
+            8: "Runt Tomato",
+            11: "Party Sub back",
+            11: "Party Sub middle",
+            11: "Party Sub head",
+            12: "Burger Slider",
+            13: "Brussel Lark",
+            14: "Lettuce Lark",
+            15: "Leafy Lark",
+            16: "Dill Wheel",
+            17: "Dill Worm",
+            18: "Dill Weed",
+            19: "Blue Shroom",
+            20: "Thorn Shroom",
+            21: "Bow Shroom",
+            22: "Bacobar",
+            23: "Bacoburn",
+            24: "Bacobites",
+            25: "Swiss Zack",
+            26: "Cheddar Mack",
+            27: "Pepper Jack",
+            28: "Radish",
+            29: "Laddish",
+            30: "Pararadish",
+            31: "Cheese Wheel",
+            32: "Jellyback",
+            33: "Awesome Saucer",
+            34: "Burgerzilla",
+            35: "Sarge",
+            37: "Radley Madish",
+          }[id],
+        )
+      }
       function debugModeEnabled() {
         return localStorage.debug == "true"
       }

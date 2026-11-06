@@ -1,1 +1,0 @@
-../Archipelago/worlds/vex2/_progression.py

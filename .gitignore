@@ -66,3 +66,4 @@ symbolClass/symbols.csv
 **/*.tmp
 !scripts/papaGame/screens/NewCustomerScreen.as
 temp*
+!scripts/papaGame/models/Enemy.as

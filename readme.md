@@ -30,7 +30,7 @@ ap world: https://github.com/rsa17826/papa-louie-2-ap-world
 
 ## misc additions
 
-- added fizzocan as a check to ootw location in lv 1/2 - TODO
+- added fizzocan as a check to ootw location in lv 2
 
 ## win conds
 
